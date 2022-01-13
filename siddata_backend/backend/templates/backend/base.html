@@ -1,0 +1,135 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      /* Show it is fixed to the top */
+        body {
+      min-height: 75rem;
+      padding-top: 4.5rem;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 1.5em;
+        line-height: 1.5em;
+        background-color: #f5f5f5;
+    }
+    main.container{
+        padding-bottom: 2em;
+    }
+    </style>
+    {% block head %}
+    {% endblock %}
+    <title>Siddata Backend{% block title %} {% endblock %}</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">Siddata</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+      </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_superuser %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
+            {% endif %}
+            {% if perms.auth.view_dashboard %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+            {% endif %}
+            <li class="nav-item">
+              {% if user.is_authenticated %}
+                <a class="nav-link" href="{% url 'logout' %}">Logout ({{user.get_username}})</a>
+              {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              {% endif %}
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+ <!--
+  <div class="jumbotron">
+    <h1>Aufbereitung von Studienzielen</h1>
+    <p class="lead">Dieses Interface dient dazu, die erfassten Studienziele auszuwerten und zu ordnen.
+   <a class="btn btn-lg btn-primary" href="/docs/4.2/components/navbar/" role="button">View navbar docs &raquo;</a>
+  </div>
+    -->
+  {% if messages %}
+    <ul class="list-unstyled messages">
+    {% for message in messages %}
+        <li class="alert alert-{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% block content %}
+  {% endblock %}
+</main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+      <footer class="footer">
+        <div class="container">
+          <a href="https://www.uni-osnabrueck.de/serviceseiten/impressum.html">Impressum</a>
+          <a href="https://www.uni-osnabrueck.de/serviceseiten/datenschutz.html" style="margin-left:20px">Datenschutz</a>
+        </div>
+      </footer>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+{% extends "backend/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <a href="{% url 'export_csv' %}">
+                <button>Plots als CSV exportieren</button>
+            </a>
+            <a href="{% url 'export_raw' %}">
+                <button>Raw Data als CSV exportieren</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for chart in charts_and_titles %}
+                <div class="col-md-{{chart.min_width}}">
+                    <div style="height: {{chart.min_height}}px">   <!-- class="mh-100"> class="card h-{{chart.min_height}} -->
+                        <div class="card-body" style="height: 100%">
+                            <h5 class="card-title">
+                                <br />
+                                {{ chart.title|safe }}  <span style="font-size: 10pt">{{ chart.downloadlink|safe }} </span>
+                            </h5>
+                            <div class="card-footer" style="height: 100%">
+                                <div class="chart-container" style="height: 100%">
+                                    {{ chart.html|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

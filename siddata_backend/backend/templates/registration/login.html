@@ -1,0 +1,10 @@
+  <!-- {% extends "backend/base.html" %} -->
+{% block content %} 
+<!-- templates/registration/login.html -->
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Anmelden</button>
+</form>
+<!--{% endblock %}

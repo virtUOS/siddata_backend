@@ -1,0 +1,52 @@
+    {
+      "study": [
+        {
+          "subject_id":"6b9ac09535885ca55e29dd011e377c0a",
+          "subject_name":"Geschichte",
+          "degree_id":"c7f569e815a35cf24a515a0e67928072",
+          "degree_name":"Master",
+          "semester":"5"
+        },{
+          "subject_id":"f981c9b42ca72788a09da4a45794a737",
+          "subject_name":"Informatik",
+          "degree_id":"228234544820cdf75db55b42d1ea3ecc",
+          "degree_name":"Bachelor",
+          "semester":"19"
+        }
+      ],
+      "courses":[
+        {
+          "course_name":"Test Studiengruppe",
+          "course_id":"7cb72dab1bf896a0b55c6aa7a70a3a86",
+          "start_semester_id":null,
+          "start_semester_name":null,
+          "end_semester_id":null,
+          "end_semester_name":null
+        },{
+          "course_name":"Test Lehrveranstaltung",
+          "course_id":"a07535cf2f8a72df33c12ddfa4b53dde",
+          "start_semester_id":"322f640f3f4643ebe514df65f1163eb1",
+          "start_semester_name":"SS 2019",
+          "end_semester_id":"322f640f3f4643ebe514df65f1163eb1",
+          "end_semester_name":"SS 2019"
+        }
+      ],
+      "gender":"3",
+      "institutes":[
+        {
+          "institute_id":"110ce78ffefaf1e5f167cd7019b728bf",
+          "institute_name":"externe Einrichtung B"
+        },{
+          "institute_id":"1535795b0d6ddecac6813f5f6ac47ef2",
+          "institute_name":"Test Fakult\u00e4t"
+        },{
+          "institute_id":"2560f7c7674942a7dce8eeb238e15d93",
+          "institute_name":"Test Einrichtung"
+        },{
+          "institute_id":"7a4f19a0a2c321ab2b8f7b798881af7c",
+          "institute_name":"externe Einrichtung A"
+        }
+      ]
+    }
+
+

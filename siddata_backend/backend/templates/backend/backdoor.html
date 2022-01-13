@@ -1,0 +1,129 @@
+{% extends "backend/base.html" %}
+
+{% block content %}
+
+    <div id="globalfilter" style="margin-bottom:1em;align:center;">
+        <form class="form-inline" method="GET" action=""{% url 'backdoor' %}>
+            {% csrf_token %}
+            <div class="form-group mb2">
+                <label for="form-user">User:</label> &nbsp;
+                <input class="form-control" name="user" type="text" value="{{ username }}"> &nbsp; &nbsp;
+            </div>
+            <div class="form-group mb2">
+                <label for="form-origin">Origin:</label>&nbsp;
+                <input class="form-control" name="origin" type="text" value="{{ originname }}"> &nbsp; &nbsp;
+            </div>
+                <button type="submit" class="btn btn-secondary">Switch user</button>
+        </form>
+    </div>
+
+    <div id="usernav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">{{ username}} ({{ originname }}) </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item {% if view == 'stats' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'backdoor_user' user.id %}">Stats</a>
+              </li>
+              <li class="nav-item {% if view == 'all' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'backdoor_user_view' user.id 'all' %}">All lists</a>
+              </li>
+              {% for l in lists %}
+                  <li class="nav-item {% if list == l %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'backdoor_user_list' user.id l %}">{{ l }}</a>
+                  </li>
+              {% endfor %}
+          </div>
+        </nav>
+    </div>
+
+    {% if view == 'stats' %}
+        <div id="stats">
+            <p>&nbsp;</p>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Siddata Backend ID</td><td>{{ siddata_user.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of active recommenders:</td><td>{{ num_recommenders }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of active goals:</td><td>{{ num_goals }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total number of activities:</td><td>{{ num_activities }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of "done" activities:</td><td>{{ num_done_activities }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="recommenders">
+            <h4>Active recommender modules</h4>
+            <ul>
+            {% for r in recommenders %}
+                <li>{{ r.get_name }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div>
+        <h4>Debug actions</h4>
+            <p><a href="{% url 'backdoor_interact' user.id %}?type=reset" class="btn btn-danger">Reset (delete user)</a></p>
+        </div>
+    {% else %}
+        <div id="results">
+            {% for item in result %}
+                {% if view == 'all' or list == item.name %}
+                    <h1 style="margin-top:1em;margin-bottom:1em;">Liste {{ item.name }}</h1>
+                    {% for k, i in item.goals.items %}
+                        <h4>{{ i.goal }}</h4>
+                        {% for kk, a in i.activities.items %}
+                            <div class="container border bg-light" style="{% if a.status == "done" %}opacity:0.35;{% endif %}margin-bottom:1em;padding:0.5em;">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <img width="100%" src='{{ a.image }}'>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <b>{{ a.title }} <span class="badge badge-secondary">{{ a.status }}</span></b><br>
+                                        {% if a.type == 'question' %}
+                                            <p>{{ a.question_text|safe }}</p>
+                                            {% if a.answer_type == 'selection' %}
+                                                <p>
+                                                {% for selans in a.selection_answers %}
+                                                    {% if a.status != "done" %}
+                                                        <a href="{% url 'backdoor_interact' user.id %}?type=question&activity_id={{ a.id }}&answers={{ selans|urlencode }}&next={{ request.path|urlencode }}" class="btn btn-primary">{{ selans }}</a>
+                                                    {% else %}
+                                                        <span href="#" class="btn btn-primary">{{ selans }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </p>
+                                            {% endif %}
+                                        {% elif a.type == 'resource' %}
+                                            <p>{{ a.description|safe }}</p>
+                                            <p>Link: <a href="{{ a.source }}">{{ a.source }}</a></p>
+                                            <p><a href="{{ a.source }}" class="btn btn-primary">Go there!</a></p>
+                                        {% elif a.type == 'todo' %}
+                                            <p>{{ a.description|safe }}</p>
+                                            <p><a href="{% url 'backdoor_interact' user.id %}?type=todo&activity_id={{ a.id }}" class="btn btn-primary">OK</a></p>
+                                        {% else %}
+                                            <p>UNKNOWN TYPE: {{ a.type }}</p>
+                                        {% endif %}
+                                        <div align="right"><button class="btn btn-secondary" onclick="alert('{{ a|escapejs }}');">JSON</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <p></p>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}
