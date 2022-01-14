@@ -9,8 +9,8 @@ from django.db.models import JSONField
 from languages.fields import LanguageField
 from model_utils import Choices
 
+import settings
 import recommenders
-from siddata_backend import settings
 
 
 class Origin(models.Model):
@@ -1328,7 +1328,8 @@ class Activity(models.Model):
                     "mkdate": self.mkdate,
                     "activation_time": self.activation_time,
                     "deactivation_time": self.deactivation_time,
-                    "image": self.image if (self.image == None) else (self.image if (self.image[:4] == "http") else "{}{}".format(settings.IMAGE_URL, self.image)),
+                    "image": self.image if (self.image == None) else (self.image if (self.image[:4] == "http") else "{}{}".format(
+                        settings.IMAGE_URL, self.image)),
                     "color_theme": self.color_theme,
                     "button_text": self.button_text,
                     "interactions": self.interactions,

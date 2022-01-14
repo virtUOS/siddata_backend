@@ -1,4 +1,3 @@
-import random
 import logging
 import re
 

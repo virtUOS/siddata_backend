@@ -2,7 +2,7 @@ import importlib.util
 from os.path import join, isdir, isfile, abspath, dirname, splitext
 import types
 
-base_path = join(dirname(__file__), "..", "..", "siddata_backend", "siddata_backend")
+base_path = join(dirname(dirname(dirname(__file__))))
 settings_file = join(base_path, "settings.py")
 settings_default_file = join(base_path, "settings_default.py")
 

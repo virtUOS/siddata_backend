@@ -1,6 +1,5 @@
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from recommenders import recommender_functions
 import pandas as pd
 import os
 

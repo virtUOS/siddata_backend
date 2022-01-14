@@ -17,11 +17,9 @@ Including another URLconf
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import permission_required
 from django.urls import path, include
-from django.conf.urls.static import static
 
 from . import api_views
 from . import views
-from siddata_backend import settings
 
 urlpatterns = [
     # Authentication

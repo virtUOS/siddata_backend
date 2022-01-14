@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import logging
-import siddata_backend.config as config
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +24,7 @@ BASE_URL = "http://localhost:8000"
 # Django serves static files from each app's static directory
 # In STATICFILES_DIRS you can configure where to look for static files.
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "siddata_backend/static"),
 ]
 
 # URL for static files (will be handled by apache in production)
@@ -35,7 +34,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = 'media/'
 
 # Path where media is stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'siddata_backend/media')
 
 IMAGE_FILE_DIR = os.path.join(BASE_DIR, '/backend/images')
 IMAGE_URL = "{}/static/images/".format(BASE_URL)
@@ -133,12 +132,17 @@ WSGI_APPLICATION = 'siddata_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-try:
-    DATABASES = config.DATABASES
-except:
-    logging.error("Import fails: Are you sure that you have a config.py file with a "
-          "database configuration? If not, please edit config_default.py")
+DATABASES = {
+    'default': {
+        #postgressql
+        'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'siddata', # or custom database name
+         'USER': 'siddata', # or custom user name
+         'PASSWORD': 'enter password here',
+         'HOST': 'localhost',
+         #'PORT': '',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

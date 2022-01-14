@@ -28,7 +28,7 @@ class BackendConfig(AppConfig):
                 if not "--noreload" in sys.argv:
                     self.logger.warning("It seems like you're running the backend non-productively and are not using `--noreload`. The backend will load twice as fast if you include that as command-line-argument!")
                 #warn if there are settings in the settings_default that you don't have in your settings
-                sys.path.append(os.path.join(settings.BASE_DIR, "..", "scripts", "deployment"))
+                sys.path.append(os.path.join(settings.BASE_DIR, "scripts/deployment"))
                 import compare_settings
                 compare_settings.compare_settings(print_fn=self.logger.warning, ignore_diffs={"ALLOWED_HOSTS", "STATIC_ROOT", "LOGLEVEL_WARN", "DEFAULT_LOG_LEVEL", "QUIET_SCHEDULER"})
                 import check_requirements

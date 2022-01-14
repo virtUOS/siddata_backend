@@ -9,7 +9,7 @@ from os.path import isfile, join
 import pandas as pd
 
 from backend import models
-from siddata_backend import settings
+import settings
 from recommenders.RM_start import RM_start
 
 RMMODULE = "recommenders"
@@ -377,8 +377,8 @@ def generate_p2_user_info(user):
     """
     try:
         p2_users = pd.read_csv(filepath_or_buffer="{}/p2_data/p2_origin_ids.csv".format(settings.BASE_DIR),
-                           sep=";",
-                           )
+                               sep=";",
+                               )
         if str(user.user_origin_id) in set(p2_users["user_origin_id"]):
             rm_start = RM_start()
             goal = rm_start.get_default_goal(user)

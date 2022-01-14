@@ -4,6 +4,8 @@ import sys
 import logging
 import importlib
 import traceback
+from django.conf import settings
+
 
 import django.db.utils
 
@@ -83,8 +85,10 @@ def setup_logging(loglevel=None, logfile=None):
 
 
 if __name__ == '__main__':
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'siddata_backend.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
     setup_logging(*parse_command_line_args())
+    sys.path.append(os.path.join(settings.BASE_DIR, "apps"))
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
