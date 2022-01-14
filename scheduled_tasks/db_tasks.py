@@ -29,13 +29,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import inspect
 
-from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 import backend.models
 from backend.models import WebResource
-from siddata_backend.settings import BASE_DIR
-from backend import utils
+from settings import BASE_DIR
 
 from bert_app import recommender_backbone
 from recommenders import recommender_functions

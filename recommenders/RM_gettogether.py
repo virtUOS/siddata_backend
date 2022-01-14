@@ -9,13 +9,12 @@ import json
 import random
 import re
 import string
-import copy
 
 from recommenders import recommender_functions
 from backend import models
 from recommenders.RM_BASE import RM_BASE
 from bert_app.recommender_backbone import ProfessionsRecommenderBackbone as SidBERT
-from siddata_backend import settings
+import settings
 from django.http import HttpResponse
 
 import logging

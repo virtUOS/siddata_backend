@@ -1,9 +1,6 @@
-from os.path import join, isdir, isfile, abspath, dirname, splitext, basename, split
+from os.path import join, isfile, abspath, basename
 import importlib
 import pkg_resources
-import packaging.version
-import logging
-import os
 
 from manage import setup_django_dry
 

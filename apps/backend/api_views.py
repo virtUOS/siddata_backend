@@ -7,7 +7,6 @@ import logging
 import datetime
 import json
 import hashlib
-import os
 import io
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -18,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from recommenders import recommender_functions
 from recommenders.RM_start import RM_start
 from . import models
-from siddata_backend import settings
+import settings
 
 
 # Flag for debugging features, if true, origin will not be checked and siddata runs on localhost stud.ip versions
@@ -212,7 +211,7 @@ def recommender(request, recommender_id=None):
             data_response['data'] = []
             data_response['included'] = []
             recommenders = models.SiddataUserRecommender.objects.filter(user=user,
-                                                                        recommender__active=True,).order_by("recommender__order")
+                                                                        recommender__active=True, ).order_by("recommender__order")
             for rec in recommenders:
                 r_ser = rec.serialize()
                 data_response['data'] += r_ser['data']

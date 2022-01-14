@@ -2,7 +2,7 @@ data_export/
 data/
 siddata_backend/collected_apache_static/
 images
-p2_data
+data/p2_data
 
 # Created by https://www.gitignore.io/api/pycharm,python,django
 # Edit at https://www.gitignore.io/?templates=pycharm,python,django
@@ -21,8 +21,7 @@ media
 # <django-project-name>/staticfiles/
 
 # Configuration file
-siddata_backend/siddata_backend/config.py
-siddata_backend/siddata_backend/settings.py
+settings.py
 
 ### Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
@@ -276,7 +275,7 @@ fabric.properties
 # not django
 .idea/
 siddata_backend/.idea/
-/doc/build/
+/docs/build/
 .vscode/settings.json
 .vscode/launch.json
 siddata_backend/dask-worker-space

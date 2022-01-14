@@ -1,11 +1,10 @@
 import json
 import datetime
 import logging
-import re
 
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from siddata_backend.settings import DEBUG
+from settings import DEBUG
 
 STAGES = ["Vor der Bewerbung",
           "Während der Bewerbung",

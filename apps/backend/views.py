@@ -292,7 +292,7 @@ def export_single(request):
 
 
 def export_raw(request):
-    save_dir = os.path.join(settings.BASE_DIR, "..", "data_export")
+    save_dir = os.path.join(settings.BASE_DIR, "../../siddata_backend", "data_export")
     if os.path.isdir(save_dir) and os.path.isfile(os.path.join(save_dir, "activities_full.csv")):
         if os.path.isfile(os.path.join(save_dir, "last_export")):
             with open(os.path.join(save_dir, "last_export"), "r") as rfile:

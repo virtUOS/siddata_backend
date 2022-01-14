@@ -38,7 +38,7 @@ class BertPredictor:
         """
 
         #load models
-        self.base_path = abspath(join(dirname(__file__),'..','..'))
+        self.base_path = abspath(join(dirname(__file__), '../../siddata_backend', '..'))
         self.file_path = join(self.base_path,'data','Sidbert')
 
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -49,7 +49,7 @@ class BertPredictor:
             # model_downloader_logger.setLevel(logging.INFO)
 
         # TODO: remove these lines once everbody savely moved to the new structure
-        localpath = abspath(join(settings.BASE_DIR, "..", "data"))
+        localpath = abspath(join(settings.BASE_DIR, "../../siddata_backend", "data"))
         if isdir(join(localpath, "bert_files")) and isdir(join(localpath, "csv_files")) and not isdir(join(localpath, "Other")) and not isdir(join(localpath, "Sidbert")):
             if input("It seems like you just moved from the old modelsyncer to the new one. Do you want to automatically change the data-directory to the new structure? [y/n]").lower() == "y":
                 os.rename(join(localpath, "bert_files"), join(localpath, "Sidbert"))

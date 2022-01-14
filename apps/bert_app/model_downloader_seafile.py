@@ -1,6 +1,6 @@
 from os import listdir
 import os
-from os.path import join, isdir, isfile, abspath, dirname, splitext, getmtime, basename
+from os.path import join, isdir, isfile, abspath, dirname, getmtime, basename
 import time
 from datetime import datetime, timezone
 from functools import partial, partialmethod
@@ -21,7 +21,7 @@ except ModuleNotFoundError:
 #on pypi seafileapi is broken (v0.1.0), and even the original repo has an error with binary files -> take git+https://github.com/cstenkamp/python-seafile.git@v0.1.2#egg=python_seafile
 #docs @ https://github.com/haiwen/python-seafile/blob/master/doc.md
 
-from siddata_backend import settings
+import settings
 
 DOCUMENTATIONLINK = 'https://git.siddata.de/uos/siddata_backend/src/branch/develop/doc/model_updownloader.md'
 
@@ -110,7 +110,7 @@ class SeafileModelSyncer():
         with those last-modified-dates on the remote server. All those files that are newer than their remote correspondance
         (or all files, if you are uploading a new version of a model) are then uploaded. Files that exist only on the remote
         and not locally (by name) are untouched, those of the same name will be overwritten. For more info, take a look at the
-        `doc/model_updownloader.md` file.
+        `docs/model_updownloader.md` file.
     Download:
         It compares the last-modified-dates for the remote correspondances of the version of the models as requested in your
         settings, downloading those ones that are updated compared to your local data-files. Note that locally you can always

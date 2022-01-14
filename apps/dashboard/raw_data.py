@@ -7,7 +7,7 @@ from django.conf import settings
 import backend.models as models
 
 def get_raw_data():
-    save_dir = os.path.join(settings.BASE_DIR, "..", "data_export")
+    save_dir = os.path.join(settings.BASE_DIR, "../../siddata_backend", "data_export")
     os.makedirs(save_dir, exist_ok=True)
 
     activities = models.Activity.objects.filter(goal__userrecommender__user__data_donation=True)
