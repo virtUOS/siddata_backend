@@ -1,34 +1,15 @@
 import logging
-
 import tensorflow as tf
 import transformers
 import pandas as pd
 from os.path import abspath, join, dirname, isfile, isdir
 import os
-import contextlib
-
-from django.conf import settings
-from bert_app.model_downloader_seafile import get_read_account_data, SeafileModelSyncer, model_downloader_logger
 
 
-@contextlib.contextmanager
-def urllib_shutup():
-    level_bkp = logging.getLogger("requests").level
-    prop_bkp = logging.getLogger("urllib3").propagate
-    logging.getLogger("urllib3").propagate = False
-    logging.getLogger("requests").setLevel(logging.WARNING)
-    logging.getLogger("urllib3").setLevel(logging.WARNING)
-    yield
-    logging.getLogger("requests").setLevel(level_bkp)
-    logging.getLogger("urllib3").setLevel(level_bkp)
-    logging.getLogger("urllib3").propagate = prop_bkp
-
-
-class BertPredictor:
+class SidBERT:
     """
-    this class loads the trained BERT model, and provide api to call the model to get relevant ddc codes.
-    All interactions related to database lookup operations for course retrieval are handeled in
-    recommender_backbone.py
+    This class is an interface class between the trained tf.keras SidBERT neural network
+    and other backend functionalities
     """
 
     def __init__(self):
@@ -38,55 +19,34 @@ class BertPredictor:
         """
 
         #load models
-        self.base_path = abspath(join(dirname(__file__), '../../siddata_backend', '..'))
+        self.base_path = abspath(join(dirname(__file__),'..','..'))
         self.file_path = join(self.base_path,'data','Sidbert')
 
         self.logger = logging.getLogger(self.__class__.__name__)
         if "LOG_LEVEL" in os.environ:
             self.logger.setLevel(int(os.environ["LOG_LEVEL"]))
-            model_downloader_logger.setLevel(int(os.environ["LOG_LEVEL"])) #this sets the model_downloader-log-level to what you requested as argument/in the settings.
-            # if you want to disable messages from the module, set to logging.WARNING. If you want it to be more verbose, set to logging.INFO
-            # model_downloader_logger.setLevel(logging.INFO)
-
-        # TODO: remove these lines once everbody savely moved to the new structure
-        localpath = abspath(join(settings.BASE_DIR, "../../siddata_backend", "data"))
-        if isdir(join(localpath, "bert_files")) and isdir(join(localpath, "csv_files")) and not isdir(join(localpath, "Other")) and not isdir(join(localpath, "Sidbert")):
-            if input("It seems like you just moved from the old modelsyncer to the new one. Do you want to automatically change the data-directory to the new structure? [y/n]").lower() == "y":
-                os.rename(join(localpath, "bert_files"), join(localpath, "Sidbert"))
-                os.mkdir(join(localpath, "Other"))
-                os.rename(join(localpath, "csv_files"), join(localpath, "Other", "csv_files"))
-
-        try:
-            account, password, server, repoid, repopath, modelversions = get_read_account_data()
-            if any([i is not None for i in modelversions.values()]):
-                modelsyncer = SeafileModelSyncer(server, account, password, repoid, repopath)
-                modelsyncer.warn_newfiles(localpath, modelversions)
-        except Exception as e:
-            if settings.SERVERSTART_IGNORE_MODELUPDOWN_ERRORS:
-                logging.error(f"Seafile-Syncer Exception: {e.args[0]}")
-            else:
-                raise e
 
         # locate checkpoint files and class files for label lookup
         self.checkpoint_path = join(self.file_path,'bert_models','new_training_latest_architecture')
-        if not isfile(self.checkpoint_path+".index"):
-            raise FileNotFoundError(f"There is no checkpoint at {self.checkpoint_path}")
-        self.classes = self.__load_classes_from_tsv(join(self.file_path,'bert_data','classes.tsv'))
-
-        #create tokenizer and set sequence length:
-        with urllib_shutup():
+        if not os.path.exists(self.checkpoint_path+'.data-00000-of-00001') and os.path.exists(self.checkpoint_path+'.index'):
+            raise FileNotFoundError(f"There is no checkpoint at {self.checkpoint_path}, please download the appropriate"
+                                    f" checkpoint file and reload or deactivate the bert_app in"
+                                    f" settings -> installed_apps .")
+        # if checkpoint file is not present, do not construct model any further and raise exception
+        else:
+            # load list of labels for classification
+            self.classes = self.__load_classes_from_tsv(join(self.file_path,'bert_data','classes.tsv'))
+            # create tokenizer and set sequence length:
             self.tokenizer = self.tokenizer = transformers.BertTokenizer.from_pretrained('bert-base-multilingual-cased')
-        self.max_length = 300
-
-        # load trained model
-        self.logger.debug("loading model")
-        if "LOG_LEVEL" in os.environ:
-            if int(os.environ["LOG_LEVEL"]) == logging.WARNING: transformers.logging.set_verbosity_warning()
-            elif int(os.environ["LOG_LEVEL"]) == logging.ERROR: transformers.logging.set_verbosity_error()
-        self.model = self.__load_model()
-
-        # create label lookup table for label assignment from last classification layer
-        self.sparse_label_codes = self.__create_sparse_label_lookup()
+            self.max_length = 300
+            # load trained model
+            self.logger.debug("loading model")
+            if "LOG_LEVEL" in os.environ:
+                if int(os.environ["LOG_LEVEL"]) == logging.WARNING: transformers.logging.set_verbosity_warning()
+                elif int(os.environ["LOG_LEVEL"]) == logging.ERROR: transformers.logging.set_verbosity_error()
+            self.model = self.__load_model()
+            # create label lookup table for label assignment from last classification layer
+            self.sparse_label_codes = self.__create_sparse_label_lookup()
 
     def __load_classes_from_tsv(self, class_path):
         """
@@ -123,8 +83,7 @@ class BertPredictor:
         input_ids = tf.keras.layers.Input(shape=(300,), name='input_token', dtype='int32')
         input_masks_ids = tf.keras.layers.Input(shape=(300,), name='attention_mask', dtype='int32')
         input_type_ids = tf.keras.layers.Input(shape=(300,), name='token_type_ids',dtype='int32')
-        with urllib_shutup():
-            bert_model = transformers.TFBertModel.from_pretrained('bert-base-multilingual-cased')
+        bert_model = transformers.TFBertModel.from_pretrained('bert-base-multilingual-cased')
         sequence_output, pooled_output = bert_model(input_ids, attention_mask=input_masks_ids, token_type_ids=input_type_ids)
         concat = tf.keras.layers.Dense(3000,activation='relu')(sequence_output)
         concat = tf.keras.layers.GlobalAveragePooling1D()(concat)
@@ -135,7 +94,6 @@ class BertPredictor:
         model = tf.keras.models.Model(
             inputs=[input_ids, input_masks_ids, input_type_ids], outputs=output
         )
-
         #restore model weights from checkpoint file
         self._load_weights(model)
         return model
@@ -168,7 +126,6 @@ class BertPredictor:
                 if self.sparse_label_codes[key] == entry:
                     computed_label = key
                     break
-            #TODO computed_label possibly doesn't exist here
             label_probability_assoc[str(computed_label)] = str(prediction_result[entry])
         return label_probability_assoc
 
