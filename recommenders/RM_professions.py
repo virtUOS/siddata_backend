@@ -3,9 +3,9 @@ import re
 
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from bert_app.recommender_backbone import ProfessionsRecommenderBackbone
+from apps.bert_app.recommender_backbone import ProfessionsRecommenderBackbone
 
-COURSE_MAX = 15
+COURSE_MAX = 15 # maximum number of resources to be generated as recommendations
 
 RESOURCE_TYPES = {
     'local_course': 'Stud.IP-Veranstaltungen meiner Universität',
@@ -13,12 +13,12 @@ RESOURCE_TYPES = {
     'Event': 'Einzelnes Event in einer Veranstaltung',
     'MOOC': 'Massive Open Online Courses (MOOCs)',
     'OER': 'Open Educational Resources (OERs)',
-     # Initially removed due to political reasons >:(
 }
 
 
 class RM_professions(RM_BASE):
-    """ Generates DDC-codes for strings and recommends courses and sessions with similar DDC-codes
+    """ This recommender generates matching educational resources based on an input string in natural langauge.
+    It also provides functions to reflect upon one's own professional interests.
     """
 
     def __init__(self, functional_only = False):
@@ -60,9 +60,10 @@ class RM_professions(RM_BASE):
             logging.info("instantiation of Recommender Object in RM_professions failed.")
         try:
             self.backbone = ProfessionsRecommenderBackbone(max_courses = COURSE_MAX)
-        except (ChildProcessError, AttributeError):
+        except (ModuleNotFoundError, AttributeError):
             logging.info("Error when loading RM_professions recommender backbone! "
-                         "Ignore this Error when it occurs immediately at start.")
+                         "Bert App may not be loaded yet. Ignore this error when it occurs immediately at start")
+            self.initialize_templates()
 
     def initialize_templates(self):
         """
@@ -316,6 +317,14 @@ class RM_professions(RM_BASE):
         )
 
 
+    ### Questionaire for how fitting resource recommendations are for a given query ###
+        models.ActivityTemplate.objects.update_or_create(
+            template_id=self.get_template_id("recommendation_fit_questionaire"),
+            defaults={
+                "type":'question'
+            }
+        )
+
     def build_resource_description(self, resource, type):
         if type == 'mooc':
             images = [re.split('image_', key)[1] for key in resource.creator[0].keys() if key.startswith('image_')]
@@ -391,6 +400,12 @@ class RM_professions(RM_BASE):
         :param user: SiddataUser object
         :return: True if successful
         """
+        try:
+            self.backbone
+        except AttributeError:
+            logging.error('RM_professions was initialized without a running SidBERT model from apps.BertAppConfig. '
+                          'This occurs when model files are not present in their corresponding directory. '
+                          'Please deactivate RM_professions or download model files.')
 
         ### Initalization for a searching for educational resources
         ur, _ = models.SiddataUserRecommender.objects.get_or_create(
