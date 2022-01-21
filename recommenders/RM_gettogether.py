@@ -97,333 +97,6 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in initialize_templates()")
 
-    def generate_example_data(self):
-        """
-        For testing purposes: Generates some other users who wish to get in contact.
-        :return: True if everything goes right
-        """
-
-        try:
-            origin = models.Origin.objects.all()[0]
-
-            names = ["c83zn9jBCKCZiWSn1+742Ukxq4aankBbhTaoFGXEQ9U=",
-                     "pR7ANUr/2lehLe2Igj0XvyB4cw9DvPiHJuCV0R5LbLs=",
-                     "gtMlA9o0xRbEb55N+QewJ1BffcxX69NxQ7iRerNeDWU=",
-                     "UB1gvZSHl3ndyyCrLye1AVBhF/A0GOm5ReHE2VtKRNE=",
-                     ]
-
-            surnames = ["vUvYBj/f8mN2R0WLUKh2scIb2i8w61vfRSvXlDT4pC8=",
-                        "Lcoyx1pt+aUnz4hM8YzulQwBJer+AO4nNIrdiRp8JOE=",
-                        "N35HB2gnPZvplhQJxSfRMj6fAij92lSL+lWF6LQgER7YXo3eaYzb9FcYegNXCHsp",
-                        "JgS3H16LdCyOPJGyp+MESgXfjnj0K40odP29ihv4VUI=",
-                        ]
-
-            emails = ["NrsH38BHZXcrnxh4JOWSRkmSTb+VhowK4yk26du/FaI=",
-                      "yWnk4AHUGJONbD26Nf21/tPMjHz0sTG+b+Eoi3CY8tc=",
-                      "2IUj9hzJogpu6oZ25gM1svzzW0ybOFUz+jm35liJ1cA=",
-                      "w5PC9zrZYVTKXOsfkgRQNcoVPm2lyAG3D7OTcTeM2YRpqGIMZSOUtDXgXc1lKqqa",
-                      ]
-
-            images = ["7a92c8c3d92174796be571e8edd01cd502209e8de1798d83d067c2ddc4e954d4.png",
-                      "30d48c36840a0e6beaf8354a3e235105f734f8910631de0f9b6eeb8319b85751.png",
-                      "5906210ab6bf92a32c304fa28e26895a2ae6298924c18489a937e9bb7bec4e6a_TeelhKT.png",
-                      "a7262115bc94bc0c979cd1813bdfdb08d5b61d8913dbf06ef1d610dbe23ffbec.png",
-                      ]
-
-            subjects = ["Ägyptologie",
-                        "Kognitionswissenschaften",
-                        "Wirtschaftswissenschaften"]
-
-            descriptions = ["Ich denke also bin ich",
-                            "A universe of atoms - an atom in the universe.",
-                            "Ich teile heimlich durch null."]
-
-            degrees = ["Bachelor of Science",
-                       "Master of Desaster",
-                       "Doppeldiplom"]
-
-            courses = ["Einführung in die Meta-Häkelei",
-                       "Frühstücken für Sozialwissenschaftler",
-                       "Einführung in die frühe Geschichte des späten Mittelalters",
-                       "Der Gouda und seine Auswirkungen auf Raclett mit und ohne Kirschwasser", ]
-
-            semesters = list(range(1, 15))
-
-            interests = ["Kochen und Backen",
-                         "Deep Learning",
-                         "Papierchromatografie mit Cellophan und selbst gebastelten Pigmenten"]
-
-            abroad_phases = RM_abroad.STAGES
-
-            for i in range(1, 10):
-                user = models.SiddataUser.objects.create(
-                    origin=origin,
-                    user_origin_id=''.join(random.choices(string.ascii_letters + string.digits, k=15)),
-                    gender_brain=True,
-                    gender_social=True,
-                    data_donation=True,
-                )
-                user.save()
-
-                recommender_functions.create_initial_data_for_user(user)
-
-                recommenders = recommender_functions.get_active_recommenders()
-
-                for rm in recommenders:
-                    if rm.NAME == self.get_name():
-                        rm.initialize(user)
-
-                userrecommender = models.SiddataUserRecommender.objects.get(user=user,
-                                                                            recommender__name=self.get_name())
-
-                form_goal = models.Goal.objects.get_or_create(userrecommender=userrecommender,
-                                                              title=self.get_name())[0]
-
-                form = form_goal.get_max_form() + 1
-                order = form_goal.get_max_order() + 1
-
-                name = random.choice(names)
-                surname = random.choice(surnames)
-                email = random.choice(emails)
-                image = random.choice(images)
-                role_description = random.choice(descriptions)
-
-                form_name = "{} {}".format(name, surname)
-
-                person = models.Person.objects.create(
-                    image="images/{}".format(image),
-                    editable=True,
-                    first_name=name,
-                    surname=surname,
-                    email=email,
-                    user=user,
-                    role_description=role_description,
-                )
-                person.save()
-
-                person_activity = models.Activity.objects.create(
-                    title=form_name,
-                    description="person",
-                    image="sid.png",
-                    type="person",
-                    status="immortal",
-                    person=person,
-                    feedback_size=0,
-                    order=order,
-                    form=form,
-                    goal=form_goal,
-                )
-                person_activity.save()
-
-                order += 1
-
-                subject = random.choice(subjects)
-                degree = random.choice(degrees)
-                semester = random.choice(semesters)
-
-                sus_attributes = ["Fach: {}".format(subject),
-                                  "Abschluss: {}".format(degree),
-                                  "Semester: {}".format(semester), ]
-
-                studies_question = models.Question.objects.get_or_create(
-                    question_text='Welche Daten zu deinem Studium sollen für Kontaktvorschläge berücksichtigt werden?',
-                    answer_type='checkbox',
-                    selection_answers=sus_attributes,
-                )[0]
-
-                sus_answers = [sus for sus in sus_attributes if random.choice([True, False])]
-
-                studies_activity = models.Activity.objects.create(
-                    title=form_name,
-                    description="sus",
-                    goal=form_goal,
-                    form=form,
-                    type="question",
-                    status="immortal",
-                    question=studies_question,
-                    feedback_size=0,
-                    order=order,
-                    answers=sus_answers,
-                )
-                studies_activity.save()
-
-                order += 1
-
-                ###  COURSES  ###
-
-                my_courses = []
-                for c in courses:
-                    if random.choice([True, False]):
-                        my_courses.append((c))
-                if len(my_courses) == 0:
-                    question_text = "Zu welchen Kursen würdest du dich gerne austauschen? (Keine Freigabeeinstellung)"
-                else:
-                    question_text = "Zu welchen Kursen würdest du dich gerne austauschen?"
-
-                courses_question = models.Question.objects.create(
-                    answer_type='checkbox',
-                    question_text=question_text,
-                    selection_answers=courses,
-                )
-                courses_question.save()
-
-                courses_activity = models.Activity.objects.create(
-                    title=FORM_TITLE,
-                    description="courses",
-                    type="question",
-                    status="immortal",
-                    feedback_size=0,
-                    form=form,
-                    order=order,
-                    goal=form_goal,
-                    question=courses_question,
-                )
-                courses_activity.save()
-
-                order += 1
-
-                question_text = "Empfehlungen auf Basis deiner fachlichen Interessen."
-
-                professions_question = models.Question.objects.get_or_create(
-                    question_text=question_text,
-                    answer_type='checkbox',
-                    selection_answers=interests,
-                )[0]
-
-                professions_question.save()
-
-                interests_answers = [interest for interest in interests if random.choice([True, False])]
-
-                professions_activity = models.Activity.objects.create(
-                    title=form_name,
-                    description="professions",
-                    type="question",
-                    status="immortal",
-                    feedback_size=0,
-                    form=form,
-                    question=professions_question,
-                    order=order,
-                    goal=form_goal,
-                    answers=interests_answers,
-                )
-                professions_activity.save()
-
-                order += 1
-
-                if random.choice([True, False]):
-                    for rm in recommenders:
-                        # initialize abroad recommender and induce random stage
-                        if rm.NAME == "Auslandsaufenthalt":
-                            rm.initialize(user)
-
-                            selection_answers = RM_abroad.STAGE_DESCRIPTIONS
-
-                            initial_activity = models.Activity.objects.get(
-                                title="In welcher Phase befindest du dich?",
-                                description="Initiale Fragen",
-                                type="question",
-                                goal__userrecommender__user=user,
-                            )
-
-                            initial_activity.answers = [random.choice(selection_answers)]
-
-                            initial_activity.save()
-                            rm.process_activity(initial_activity)
-
-                if recommender_functions.recommender_activated(user, "RM_abroad") == False:
-                    question_text = "{} (Aktuell nutzt du diese Funktion nicht.)".format(ABROAD_QUESTION_TEXT)
-                    abroad_categories = []
-                else:
-                    question_text = ABROAD_QUESTION_TEXT
-                    abroad_categories = [
-                        "Ich möchte Kontaktvorschläge zu anderen Studis, die sich in der gleichen Bewerbungsphase befinden.",
-                        "Ich möchte Kontaktvorschläge zu anderen Studis, die sich bereits erfolgreich beworben haben.",
-                    ]
-
-                abroad_question = models.Question.objects.create(
-                    question_text=question_text,
-                    answer_type="checkbox",
-                    selection_answers=abroad_categories,
-                )
-                abroad_question.save()
-
-                if len(abroad_categories) == 0:
-                    answers = []
-                else:
-                    answers = [random.choice(abroad_categories)]
-
-                abroad_activity = models.Activity.objects.create(
-                    title=form_name,
-                    description="abroad",
-                    type="question",
-                    status="immortal",
-                    feedback_size=0,
-                    form=form,
-                    question=abroad_question,
-                    order=order,
-                    goal=form_goal,
-                    answers=answers,
-                )
-                abroad_activity.save()
-
-                order += 1
-
-                visibility_question = models.Question.objects.get_or_create(
-                    question_text='Sichtbarkeit',
-                    answer_type='checkbox',
-                    selection_answers=[
-                        "Ich möchte, dass meine Visitenkarte auch für Studis ohne konkrete Übereinstimmungen "
-                        "sichtbar ist."],
-                )[0]
-
-                visibility_activity = models.Activity.objects.create(
-                    title=form_name,
-                    description="visible",
-                    type="question",
-                    status="immortal",
-                    feedback_size=0,
-                    form=form,
-                    question=visibility_question,
-                    order=order,
-                    goal=form_goal,
-                    answers=random.choice([[], [
-                        "Ich möchte, dass meine Visitenkarte auch für Studis ohne konkrete Übereinstimmungen "
-                        "sichtbar ist."]])
-                )
-                visibility_activity.save()
-
-                order += 1
-
-                notification_question = models.Question.objects.get(
-                    question_text='Benachrichtigungen',
-                    answer_type='checkbox',
-                    selection_answers=[NOTIFICATION_TEXT],
-                )
-
-                notification_activity = models.Activity.objects.create(
-                    title=form_name,
-                    description="notification",
-                    type="question",
-                    status="immortal",
-                    feedback_size=0,
-                    form=form,
-                    question=notification_question,
-                    order=order,
-                    button_text=FORM_SUBMIT_BUTTON_TEXT,
-                    goal=form_goal,
-                    answers=random.choice([
-                        [],
-                        [
-                            "Ich möchte per E-Mail benachrichtigt werden Siddata neue Kontaktvorschläge für mich gefunden hat."]
-                    ]),
-                )
-                notification_activity.save()
-
-                order += 1
-        except Exception:
-            logging.exception("Error in generate_example_data()")
-
-        return True
 
     def initialize(self, user):
         """
@@ -452,20 +125,6 @@ class RM_gettogether(RM_BASE):
             )
             available_contacts_goal.save()
 
-            # todo: remove before release
-            if settings.DEBUG:
-                testdata_activity = models.Activity.objects.create(
-                    title="Testdaten generieren",
-                    description="Generiert im Testbetrieb 50 Nutzende.",
-                    type="todo",
-                    status="immortal",
-                    feedback_size=0,
-                    order=99,
-                    button_text="Abracadabra!",
-                    goal=goal,
-                )
-                testdata_activity.save()
-
             self.update_profile_form(goal)
 
             return True
@@ -488,32 +147,57 @@ class RM_gettogether(RM_BASE):
                     all_form_goals = models.Goal.objects.filter(title=self.get_name()).exclude(
                         userrecommender=goal.userrecommender)
 
-                    print(len(all_form_goals))
                     all_contacts_goal = models.Goal.objects.get(userrecommender=goal.userrecommender,
                                                                 title=ALL_CONTACTS_TITLE)
 
                     personal_matches_goal = models.Goal.objects.get(userrecommender=goal.userrecommender,
                                                                     title=MY_CONTACTS_TITLE)
-
                     i = 1
                     for form_goal in all_form_goals:
+                        if not self.filled_out(form_goal):
+                            continue
                         my_data = self.extract_data_from_form(activity.goal)
                         your_data = self.extract_data_from_form(form_goal)
+
+                        your_all_contacts_goal = models.Goal.objects.get(userrecommender=form_goal.userrecommender,
+                                                                    title=ALL_CONTACTS_TITLE)
+
+                        your_personal_matches_goal = models.Goal.objects.get(userrecommender=form_goal.userrecommender,
+                                                                        title=MY_CONTACTS_TITLE)
                         self.update_contactcard(data=your_data, target_goal=all_contacts_goal, public_only=True)
+                        self.update_contactcard(data=my_data, target_goal=your_all_contacts_goal, public_only=True)
+
                         match, my_highlighted_data, your_highlighted_data = self.match_and_highlight(my_data=my_data,
                                                                                   your_data=your_data)
                         if match:
                             self.update_contactcard(data=your_highlighted_data, target_goal=personal_matches_goal, public_only=False)
+                            self.update_contactcard(data=my_highlighted_data, target_goal=your_personal_matches_goal,
+                                                    public_only=False)
                             i += 1
+                            self.send_email(your_data)
+
                     self.update_profile_form(goal)
 
                     return HttpResponse(FEEDBACK_TEXT)
 
-                elif activity.title == "Testdaten generieren":
-                    self.generate_example_data()
-
         except Exception:
             logging.exception("Error in process_activity()")
+
+
+    def filled_out(self, form_goal):
+        """Checks if a form_goal has been edited or if it is blank.
+        :param form_goal: Goal containing the form to be checked.
+        :return: Boolean
+        """
+
+        person_act = models.Activity.objects.get(goal=form_goal,
+                                           type="person",
+                                                 )
+        if person_act.person.email == None:
+            return False
+        else:
+            return True
+
 
     def is_email(self, some_string):
         """
@@ -798,28 +482,26 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in update_profile_form()")
 
-    def send_email(self, goal):
+
+    def send_email(self, data):
         """"
         Is called to send an email notification when the cronjob finds new matches.
         """
         try:
-            data = json.loads(goal.get_property(key="data"))
-            try:
-                address = data["email"]
-            except Exception:
+            if not data["notification"]:
                 return
+            address = data["email"]
 
-            name = data["name"]
-
-            url = goal.userrecommender.user.origin.api_endpoint
+            name = "{} {}".format(data["first_name"],data["surname"])
 
             title = "Neuer Kontaktvorschlag im Siddata Studienassistenten"
-            content = "Guten Tag {},<br>" \
-                      "der Siddata Studienassistent hat einen neuen Kontaktvorschlag mit Übereinstimmungen für dich gefunden!<br>" \
+            content = "Guten Tag. \n" \
+                      "Der Siddata Studienassistent hat einen neuen Kontaktvorschlag mit Übereinstimmungen für dich gefunden! \n" \
                       "Besuche das Recommender Modul 'Get Together' im Stud.IP Siddata" \
-                      " Studierendenassistenten um diese Kontaktvorschläge anzusehen.{}".format(name, url)
+                      " Studierendenassistenten um deine Kontaktvorschläge anzusehen."
 
             self.send_push_email(address, title, content)
+
         except Exception:
             logging.exception("Error in Gettogether.send_email()")
 
@@ -878,12 +560,13 @@ class RM_gettogether(RM_BASE):
                     "professions": professions_activity.answers,
                     "abroad": abroad_stages,
                     "visible": True if VISIBILITY_TEXT in visible_activity.answers else False,
-                    "notification": True if NOTIFICATION_TEXT in visible_activity.answers else False,
+                    "notification": True if NOTIFICATION_TEXT in notification_activity.answers else False,
                     }
             return data
 
         except Exception:
             logging.exception("Error in Gettogether.extract_data_from_form()")
+
 
     def match_and_highlight(self, my_data, your_data):
         """
@@ -1115,6 +798,7 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in create_public_contact_card()")
 
+
     def get_users_courses(self, user):
         """Retrieves all courses within the current semester, for which a user is enrolled."""
         coursememberships = models.CourseMembership.filter(
@@ -1125,3 +809,42 @@ class RM_gettogether(RM_BASE):
             course__endtime__lte=SEMESTER_END,
         )
         return [c.course for c in coursememberships]
+
+
+    def on_activation_change(self, user, activation):
+        """
+        This method is called when a recommender is deactivated or activated by user settings.
+        All business cards visibility attribute is changed accordingly.
+        @param activation: Boolean specifying activation (=True) or deactivation (=False).
+        @return True if operation successful
+        """
+
+        self.hide_my_data(user, not activation)
+        return True
+
+
+    def hide_my_data(self, user, hide):
+        """
+        This methods sets all activities related to the current user in other users' data invisible.
+        """
+
+        person, created = models.Person.objects.get_or_create(
+            editable=False,
+            user=user,
+        )
+        person.save()
+
+        person_activities = models.Activity.objects.filter(type="person",
+                                                           person=person,
+                                                           goal__userrecommender__recommender__name=self.NAME,
+                                                 )
+        for person_activity in person_activities:
+            form_id=person_activity.form
+            goal=person_activity.goal
+            form_activities=models.Activity.objects.filter(form=form_id,
+                                                           goal=goal,
+                                                )
+            for form_activity in form_activities:
+                form_activity.visible = not hide
+                form_activity.save()
+
