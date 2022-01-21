@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from recommenders import recommender_functions
 from recommenders.RM_start import RM_start
-from . import models
+from backend import models
 import settings
 
 

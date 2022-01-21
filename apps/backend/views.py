@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 
 import requests
 
-from .models import Goal, SiddataUser, SiddataUserStudy, Degree, Subject, Activity
+from backend.models import Goal, SiddataUser, SiddataUserStudy, Degree, Subject, Activity
 from recommenders.recommender_functions import get_active_recommenders
 # from dashboard.create_chart import build_eval_df
 from dashboard import create_plots
