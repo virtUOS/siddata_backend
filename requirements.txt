@@ -34,3 +34,8 @@ django-pandas
 
 #search function
 #haystack
+
+#documentation
+sphinx
+sphinx_pdj_theme
+django-sphinxdoc

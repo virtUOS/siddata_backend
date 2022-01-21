@@ -74,6 +74,7 @@ urlpatterns = [
     path('backend/api/institute', api_views.institute),
     path('backend/api/person', api_views.person),
 
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+
 ]
 
