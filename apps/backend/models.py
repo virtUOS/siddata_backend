@@ -472,7 +472,7 @@ class Goal(models.Model):
         included = []
 
         activity_dicts = []
-        activityset = Activity.objects.filter(goal=self).order_by("order")
+        activityset = Activity.objects.filter(goal=self,visible=True).order_by("order")
 
         for activity in activityset:
             activity_dicts.append({"id": activity.id, "type": "Activity"})
@@ -1178,6 +1178,7 @@ class Activity(models.Model):
     button_text = models.CharField(max_length=128, null=True)
     interactions = models.IntegerField(null=True, default=0)
     template_ref = models.ForeignKey("ActivityTemplate", on_delete=models.CASCADE, null=True)
+    visible = models.BooleanField(default=True, null=False)
 
     class Meta:
         constraints = [

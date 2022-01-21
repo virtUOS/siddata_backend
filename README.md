@@ -1,21 +1,13 @@
-# siddata_backend
-Dokumentation zum Aufsetzen einer Entwicklungsumgebung unter Windows oder Ubuntu Linux findet sich im Repository "documentation".
-https://git.siddata.de/siddata/documentation
+# SIDDATA Backend Server
 
-Das Backend nimmt ueber eine REST-Schnittstelle Daten entgegen und erlaubt 
-grafische Darstellungen der Daten.
+The joint project for Individualization of Studies through Digital, Data-Driven Assistants (SIDDATA, www.siddata.de)
+aims to encourage students to define their own study goals and to follow them consistently. The data-driven environment
+will be able to give hints, reminders and recommendations appropriate to the situation, as well as regarding local and
+remote courses and Open Educational Resources (OER). This repository contains the code for the backend server which
+collects, refines and analyses data to generate personalized recommendation.
 
-1. Python Environment aufsetzen mit Python 3.7.
-2. Django installieren.
-3. python manage.py migrate
-4. python manage.py createsuperuser
-5. python manage.py runserver
 
-Regeln zur Nutzung:
-- Aussagekraeftige Kommentare
-- Alle Commits werden Issues zugeordnet (#issue) mit folgenden Keywords:
-  - close ,closes, closed (schließt Issue)
-  - fix, fixes, fixed (schließt Issue)
-  - resolve, resolves, resolved (schließt Issue)
-  - refs (schließt Issue nicht)
- -Bei jedem Pull-Request auf den Server wird ein Tag (z.B. UOS_Server-Installation_2019_04_01) vergeben.
+# Documentation
+Sphinx is used to generate the documentation based on docstrings in the code and .rst files under docs/source. Syntax of
+the reST syntax used by Sphinx can be found here: https://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
+Sphinx documentation: https://sphinx-rtd-tutorial.readthedocs.io/en/latest/index.html

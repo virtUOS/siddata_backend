@@ -33,3 +33,8 @@ matplotlib
 pydot
 sickle
 vobject
+
+#documentation
+sphinx
+sphinx_pdj_theme
+django-sphinxdoc
