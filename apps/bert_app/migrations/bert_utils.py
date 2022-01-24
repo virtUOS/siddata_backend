@@ -1,15 +1,16 @@
 import logging
+
 import tensorflow as tf
 import transformers
 import pandas as pd
 from os.path import abspath, join, dirname, isfile, isdir
 import os
+from django.conf import settings
 
 
 class SidBERT:
     """
-    This class is an interface class between the trained tf.keras SidBERT neural network
-    and other backend functionalities
+    This class handels trained SidBERT weights and provides a keras model API for analysis.
     """
 
     def __init__(self):
@@ -32,11 +33,11 @@ class SidBERT:
             raise FileNotFoundError(f"There is no checkpoint at {self.checkpoint_path}, please download the appropriate"
                                     f" checkpoint file and reload or deactivate the bert_app in"
                                     f" settings -> installed_apps .")
-        # if checkpoint file is not present, do not construct model any further and raise exception
         else:
-            # load list of labels for classification
+            # if checkpoint file is not present, do not construct model any further and instead deactivate recommender
             self.classes = self.__load_classes_from_tsv(join(self.file_path,'bert_data','classes.tsv'))
-            # create tokenizer and set sequence length:
+
+            #create tokenizer and set sequence length:
             self.tokenizer = self.tokenizer = transformers.BertTokenizer.from_pretrained('bert-base-multilingual-cased')
             self.max_length = 300
             # load trained model
@@ -45,6 +46,7 @@ class SidBERT:
                 if int(os.environ["LOG_LEVEL"]) == logging.WARNING: transformers.logging.set_verbosity_warning()
                 elif int(os.environ["LOG_LEVEL"]) == logging.ERROR: transformers.logging.set_verbosity_error()
             self.model = self.__load_model()
+
             # create label lookup table for label assignment from last classification layer
             self.sparse_label_codes = self.__create_sparse_label_lookup()
 
@@ -94,6 +96,7 @@ class SidBERT:
         model = tf.keras.models.Model(
             inputs=[input_ids, input_masks_ids, input_type_ids], outputs=output
         )
+
         #restore model weights from checkpoint file
         self._load_weights(model)
         return model

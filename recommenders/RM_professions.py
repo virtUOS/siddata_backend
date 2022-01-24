@@ -3,9 +3,9 @@ import re
 
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from bert_app.recommender_backbone import ProfessionsRecommenderBackbone
+from apps.bert_app.recommender_backbone import ProfessionsRecommenderBackbone
 
-COURSE_MAX = 15
+COURSE_MAX = 15 # maximum number of resources to be generated as recommendations
 
 RESOURCE_TYPES = {
     'local_course': 'Stud.IP-Veranstaltungen meiner Universität',
@@ -13,12 +13,12 @@ RESOURCE_TYPES = {
     'Event': 'Einzelnes Event in einer Veranstaltung',
     'MOOC': 'Massive Open Online Courses (MOOCs)',
     'OER': 'Open Educational Resources (OERs)',
-     # Initially removed due to political reasons >:(
 }
 
 
 class RM_professions(RM_BASE):
-    """ Generates DDC-codes for strings and recommends courses and sessions with similar DDC-codes
+    """ This recommender generates matching educational resources based on an input string in natural langauge.
+    It also provides functions to reflect upon one's own professional interests.
     """
 
     def __init__(self, functional_only = False):
@@ -60,9 +60,10 @@ class RM_professions(RM_BASE):
             logging.info("instantiation of Recommender Object in RM_professions failed.")
         try:
             self.backbone = ProfessionsRecommenderBackbone(max_courses = COURSE_MAX)
-        except (ChildProcessError, AttributeError):
+        except (ModuleNotFoundError, AttributeError):
             logging.info("Error when loading RM_professions recommender backbone! "
-                         "Ignore this Error when it occurs immediately at start.")
+                         "Bert App may not be loaded yet. Ignore this error when it occurs immediately at start")
+            self.initialize_templates()
 
     def initialize_templates(self):
         """
@@ -317,6 +318,9 @@ class RM_professions(RM_BASE):
 
 
     def build_resource_description(self, resource, type):
+        """
+        Creates resource description depending on resource type
+        """
         if type == 'mooc':
             images = [re.split('image_', key)[1] for key in resource.creator[0].keys() if key.startswith('image_')]
             if len(images) == 0:
@@ -391,6 +395,12 @@ class RM_professions(RM_BASE):
         :param user: SiddataUser object
         :return: True if successful
         """
+        try:
+            self.backbone
+        except AttributeError:
+            logging.error('RM_professions was initialized without a running SidBERT model from apps.BertAppConfig. '
+                          'This occurs when model files are not present in their corresponding directory. '
+                          'Please deactivate RM_professions or download model files.')
 
         ### Initalization for a searching for educational resources
         ur, _ = models.SiddataUserRecommender.objects.get_or_create(
@@ -435,16 +445,17 @@ class RM_professions(RM_BASE):
 
     def process_activity(self, activity):
         """
-        :param activity:  activity
-        :return: True if successful
+        Umbrella function that is called every time the recommender is queried via API.
+        based on the type of incoming activity object, the function calls seperate sub-functions that handel
+        different functionalities.
         """
         standard_answer = 'Hier kann eine Antwort eingetragen werden (Zum Beispiel: Chemie)'
-        if activity.has_template(self.get_template_id("new_input_text")):
+        if activity.has_template(self.get_template_id("new_input_text")): # executes when new prof. interest is entered
             if activity.answers[0] == standard_answer or activity.answers[0] == '' or activity.answers[0].isspace():
                 # if no interest is entered or the standard query is entered, no resources are generated
                 return True
             else:
-                activity.goal.set_property(key='input_text',value=activity.answers[0])
+                activity.goal.set_property(key='input_text',value=activity.answers[0]) # store interest in goal property
             if activity.goal.get_property(key='filters') is not None:
                 self.handle_type_filter(activity, re_filter=False, call_from_input_text=True)
             activity.answers = [standard_answer]
@@ -454,17 +465,19 @@ class RM_professions(RM_BASE):
             # activity to generate new recommendations, slaves input_text activities. Always stays active.
             get_input_text = activity.goal.get_property(key='input_text')
             if get_input_text is not None:
-                # If input text was None either the User tried to delete the interest activity or the front end did not send an input_text yet.
+                # If input text was None either the User tried to delete the interest activity
+                # or the plugin did not send an input_text yet and will do so with the next
+                # activity sent to the recommender.
                 if get_input_text == standard_answer or get_input_text == '':
                     # This case occurs if the user tries to delete an empty activity
                     return True
                 else:
                     self.handle_type_filter(activity)
-                    activity.goal.set_property(key='input_text', value=None)
+                    activity.goal.set_property(key='input_text', value=None) # reset value to receive new request
             elif activity.answers == []:
                 return True
             else:
-                activity.goal.set_property(key='filters',value=activity.answers)
+                activity.goal.set_property(key='filters',value=activity.answers) # store filter setting for next query
             activity.save()
         elif activity.has_template(self.get_template_id('my_topic_filter')):
             # activity to change filters for interests already submitted.
@@ -489,7 +502,7 @@ class RM_professions(RM_BASE):
             activity.answers = []
             activity.save()
 
-    ### filter and new interests preprocessing
+    ### Filter and new interests preprocessing
 
     def handle_type_filter(self, activity, re_filter=False, call_from_input_text = False):
         if re_filter:
@@ -545,7 +558,6 @@ class RM_professions(RM_BASE):
             self.generate_e_mail_request(my_topic_activity)
         self.generate_new_recommendations(activity=my_topic_activity, filtered_tags=self.get_filter_tags(
             frontend_feedback=activity.answers))
-        #self.generate_e_mail_request(my_topic_activity)
         activity.goal.set_property(key='filters', value=None)
         activity.goal.set_property(key='input_text', value=None)
         return new_goal
@@ -691,6 +703,10 @@ class RM_professions(RM_BASE):
 
 
     def generate_empty_feedback(self, activity):
+        """
+        This function generates a notification activity informing the user about resources in the requested knowledge
+        domain not being available at the moment.
+        """
         models.Activity.create_activity_from_template(
             template_id=self.get_template_id("no_recommendations"),
             title='Momentan sind keine Empfehlungen verfügbar für ' + activity.answers[0],
@@ -704,6 +720,9 @@ class RM_professions(RM_BASE):
 
     ### Cron functions
     def check_for_new(self, activity):
+        """
+        This activity checks if there are new resources that match to requests that previously yielded no results.
+        """
         successfully_generated = False
         if self.generate_new_recommendations(activity=activity):
             successfully_generated = True
@@ -711,6 +730,7 @@ class RM_professions(RM_BASE):
             # Sends mail if users provided their address for this interest.
             if models.Activity.objects.filter(goal=goal, title__startswith='E-mail gespeichert!')\
                     .exclude(status='done').exists():
+                # if the user has left an e-mail address, they are notified about new resources being available
                 requested_interest = activity.answers[0]
 
                 mail_text = 'SIDDATA hat neue Bildungsressourcen für dein Interesse '+str(requested_interest)+\
