@@ -239,17 +239,21 @@ class RM_start(RM_BASE):
     def get_or_create_announcements(self, user):
         """
         In this function announcements can be fed into the start recommender.
+        Deactivation or deletion after announcements are not relevant anymore, can also happen here.
         :return:
         """
+        pass
         goal = self.get_default_goal(user)
-        evaluation_activity, created = models.Activity.objects.get_or_create(
-            goal=goal,
-            title="Evaluation-Workshop: Du bist herzlich eingeladen!",
-            description="Aktuell sucht das Siddata-Team Teilnehmende für einen virtuellen Evaluations-Workshop. Dort lernst du am Beispiel von Siddata verschiedene Evaluationsperspektiven und Methoden kennen, probierst diese selber aus und hilfst, mit deinen Ideen Siddata weiterzuentwickeln und zu verbessern. Melde dich bei Interesse bitte bei Funda Seyfeli (seyfeli@his-he.de) für unsere Evaluationsreihe an, lerne andere Studierende auch von anderen Hochschulen kennen und erlebe einen dreistündigen, anregenden und abwechslungsreichen Online-Workshop im Januar 2022 (KW 02-04).",
-            color_theme="green",
-            type="todo",
-            image="sid.png",
-            feedback_size=0,
-        )
-        evaluation_activity.order = goal.get_max_order() + 1
-        evaluation_activity.save()
+        try:
+            evaluation_activity = models.Activity.objects.get(
+                goal=goal,
+                title="Evaluation-Workshop: Du bist herzlich eingeladen!",
+                description="Aktuell sucht das Siddata-Team Teilnehmende für einen virtuellen Evaluations-Workshop. Dort lernst du am Beispiel von Siddata verschiedene Evaluationsperspektiven und Methoden kennen, probierst diese selber aus und hilfst, mit deinen Ideen Siddata weiterzuentwickeln und zu verbessern. Melde dich bei Interesse bitte bei Funda Seyfeli (seyfeli@his-he.de) für unsere Evaluationsreihe an, lerne andere Studierende auch von anderen Hochschulen kennen und erlebe einen dreistündigen, anregenden und abwechslungsreichen Online-Workshop im Januar 2022 (KW 02-04).",
+                color_theme="green",
+                type="todo",
+                image="sid.png",
+                feedback_size=0,
+            )
+            evaluation_activity.delete()
+        except:
+            pass
