@@ -271,7 +271,7 @@ def goal(request, goal_id=None):
         else:
             data_response['data'] = []
             data_response['included'] = []
-            goals = models.Goal.objects.filter(user=user).order_by("order")
+            goals = models.Goal.objects.filter(userrecommender__user=user).order_by("order")
             for g in goals:
                 g_ser = g.serialize()
                 data_response['data'] += g_ser['data']
