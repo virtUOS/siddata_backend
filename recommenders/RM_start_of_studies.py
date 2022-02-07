@@ -43,9 +43,9 @@ class RM_start_of_studies(RM_BASE):
 
         self.dirname = os.path.dirname(__file__)
 
-        self.filename = os.path.join(self.dirname, 'recommender_data/start_of_studies_data.xlsx')
+        self.filename = os.path.join(self.dirname, 'recommender_data/start_of_studies_data.csv')
 
-        self.course_df = pd.read_excel(self.filename, index_col=0)
+        self.course_df = pd.read_csv(self.filename, delimiter=',')
 
     def initialize_templates(self):
         """
