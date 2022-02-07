@@ -1,10 +1,12 @@
 import sys
-import os, logging
+import os
+import logging
 from django.apps import AppConfig
 from django.conf import settings
 
 is_manage_py = any(arg.casefold().endswith("manage.py") for arg in sys.argv)
 is_runserver = any(arg.casefold() == "runserver" for arg in sys.argv)
+
 
 class BackendConfig(AppConfig):
     name = 'backend'
