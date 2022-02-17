@@ -306,7 +306,7 @@ def export_raw(request):
         res.to_csv(path_or_buf=response, index=True, sep=',', decimal='.', float_format='%.2f')
     else:
         from django.http import HttpResponseNotFound
-        response = HttpResponseNotFound("Currently, there is no raw data to export! Check again in a few minutes, and if the problem remains, let a SIDDATA Admin know!")
+        response = HttpResponseNotFound("Currently, there is no raw data to export! Check again in a few minutes, and if the problem remains, let a Siddata Admin know!")
     return response
 
 

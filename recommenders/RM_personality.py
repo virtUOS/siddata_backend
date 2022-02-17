@@ -226,11 +226,10 @@ class RM_personality(RM_BASE):
         )
 
         # show suggestions (before official learning)
-        description = "1. Ich formuliere fachliche Fragen zu dem Thema und suche aktiv nach Antworten. " + \
-                      "<br><br>2. Ich überlege mir, was ich schon über das Thema weiß und schreibe " \
-                                        "dies in Stichworten auf oder mache mir dazu eine Skizze." + "<br>" + \
-                      "<br>" + "3. Ich frage mich, was mich " \
-                               "persönlich an dem Thema interessiert oder interessieren könnte. "
+        description = "1. Formuliere fachliche Fragen zu dem Thema und suche aktiv nach Antworten. " + \
+                      "<br><br>2. Überlege dir, was du schon über das Thema weißt und schreibe " \
+                      "dies in Stichworten auf oder mach dir dazu eine Skizze." + "<br>" + \
+                      "<br>" + "3. Was interessiert dich persönlich an dem Thema oder was könnte dich interessieren?"
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_before_learning_1"),
@@ -245,7 +244,7 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich formuliere fachliche Fragen zu dem Thema und suche aktiv nach Antworten. "
+        description = "1. Formuliere fachliche Fragen zu dem Thema und suche aktiv nach Antworten. "
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_before_learning_2"),
@@ -260,9 +259,9 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich überlege mir, was ich schon über das Thema weiß und schreibe dies in " \
-                      "Stichworten auf oder mache mir dazu eine Skizze. " + "<br>" + "<br>" + \
-                      "2. Ich frage mich, was mich persönlich an dem Thema interessiert oder " \
+        description = "1. Überlege dir, was du schon über das Thema weißt und schreibe dies in " \
+                      "Stichworten auf oder mach dir dazu eine Skizze. " + "<br>" + "<br>" + \
+                      "2. Frage dich, was dich persönlich an dem Thema interessiert oder " \
                       "interessieren könnte. "
 
         models.ActivityTemplate.objects.update_or_create(
@@ -279,12 +278,12 @@ class RM_personality(RM_BASE):
         )
 
         # show suggestions (during official learning)
-        description = "1. Ich suche nach dem roten Faden: Was sind die Verbindungen zwischen den " \
+        description = "1. Suche nach dem roten Faden: Was sind die Verbindungen zwischen den " \
                       "wichtigen Gedanken und Fakten?" + "<br>" + "<br>" + \
-                      "2. Ich denke intensiv über den Stoff nach und prüfe, " \
-                      "ob ich alles gut verstanden habe. Ich verschaffe mir einen Überblick, um von " \
+                      "2. Denke intensiv über den Stoff nach und prüfe, " \
+                      "ob du alles gut verstanden hast. Verschaffe dir einen Überblick, um von " \
                       "einem allgemeinen Verständnis aus die Details besser zu verstehen." + "<br>" + \
-                      "<br>" + "3. Ich schreibe den Stoff in meinen eigenen Worten auf (Paraphrasieren). "
+                      "<br>" + "3. Schreibe den Stoff in deinen eigenen Worten auf (Paraphrasieren). "
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_during_learning_1"),
@@ -299,11 +298,11 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich suche nach dem roten Faden: Was sind die Verbindungen zwischen den " \
+        description = "1. Suche nach dem roten Faden: Was sind die Verbindungen zwischen den " \
                       "wichtigen " \
                       "Gedanken und Fakten?" + "<br>" + "<br>" + \
-                      "2. Ich denke intensiv über den Stoff nach und prüfe, ob ich " \
-                      "alles gut verstanden habe. "
+                      "2. Denke intensiv über den Stoff nach und prüfe, ob du " \
+                      "alles gut verstanden hast. "
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_during_learning_2"),
@@ -318,12 +317,12 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich suche nach dem roten Faden: Was sind die Verbindungen zwischen den " \
+        description = "1. Suche nach dem roten Faden: Was sind die Verbindungen zwischen den " \
                       "wichtigen Gedanken und Fakten?" + "<br>" + "<br>" + \
-                      "2. Ich denke intensiv über den Stoff nach und prüfe, " \
-                      "ob ich alles gut verstanden habe." + "<br>" + "<br>" + \
-                      "3. Ich gliedere den Stoff anhand vorhandener Strukturen." + "<br>" + "<br>" + \
-                      "4. Ich achte darauf, sowohl Details zu verstehen als auch einen " \
+                      "2. Denke intensiv über den Stoff nach und prüfe, " \
+                      "ob du alles gut verstanden hast." + "<br>" + "<br>" + \
+                      "3. Gliedere den Stoff anhand vorhandener Strukturen." + "<br>" + "<br>" + \
+                      "4. Achte darauf, sowohl Details zu verstehen als auch einen " \
                       "Überblick zu erlangen."
 
         models.ActivityTemplate.objects.update_or_create(
@@ -339,12 +338,12 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich stelle den Lernstoff regelmäßig in Bezug mit meinem Vorwissen." + "<br>" + \
-                      "<br>" + "2. Ich suche nach dem roten Faden: Was sind die Verbindungen zwischen " \
+        description = "1. Stelle den Lernstoff regelmäßig in Bezug mit deinem Vorwissen." + "<br>" + \
+                      "<br>" + "2. Suche nach dem roten Faden: Was sind die Verbindungen zwischen " \
                                "den wichtigen " \
                                "Gedanken und Fakten?" + "<br>" + "<br>" + \
-                      "3. Ich suche nach konkreten Beispielen und Anwendungen" + "<br>" + "<br>" + \
-                      "4. Ich schreibe den Stoff in meinen eigenen Worten auf (Paraphrasieren)."
+                      "3. Suche nach konkreten Beispielen und Anwendungen" + "<br>" + "<br>" + \
+                      "4. Schreibe den Stoff in meinen eigenen Worten auf (Paraphrasieren)."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_during_learning_4"),
@@ -359,13 +358,13 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich stelle den Lernstoff regelmäßig in Bezug mit meinem Vorwissen." + "<br>" + \
-                      "<br>" + "2. Ich suche nach dem roten Faden: Was sind die Verbindungen " \
+        description = "1. Stelle den Lernstoff regelmäßig in Bezug mit deinem Vorwissen." + "<br>" + \
+                      "<br>" + "2. Suche nach dem roten Faden: Was sind die Verbindungen " \
                                "zwischen den wichtigen " \
                                "Gedanken und Fakten?" + "<br>" + "<br>" + \
-                      "3. Ich verschaffe mir einen Überblick, um von einem allgemeinen Verständnis aus die " \
+                      "3. Verschaffe mir einen Überblick, um von einem allgemeinen Verständnis aus die " \
                       "Details besser zu verstehen." + "<br>" + "<br>" + \
-                      "4. Ich schreibe den Stoff in meinen eigenen Worten auf (Paraphrasieren)."
+                      "4. Schreibe den Stoff in deinen eigenen Worten auf (Paraphrasieren)."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_during_learning_5"),
@@ -380,13 +379,13 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich stelle den Lernstoff regelmäßig in Bezug mit meinem Vorwissen." + "<br>" + \
+        description = "1. Stelle den Lernstoff regelmäßig in Bezug mit deinem Vorwissen." + "<br>" + \
                       "<br>" + \
-                      "2. Ich suche nach dem roten Faden: Was sind die Verbindungen zwischen " \
+                      "2. Suche nach dem roten Faden: Was sind die Verbindungen zwischen " \
                       "den wichtigen " \
                       "Gedanken und Fakten?" + "<br>" + "<br>" + \
-                      "3. Ich gliedere den Stoff anhand vorhandener Strukturen." + "<br>" + "<br>" + \
-                      "4. Ich achte darauf, sowohl Details zu verstehen als auch einen " \
+                      "3. Gliedere den Stoff anhand vorhandener Strukturen." + "<br>" + "<br>" + \
+                      "4. Achte darauf, sowohl Details zu verstehen als auch einen " \
                       "Überblick zu erlangen."
 
         models.ActivityTemplate.objects.update_or_create(
@@ -402,9 +401,9 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich frage mich, was mich persönlich an dem Thema interessiert oder " \
+        description = "1. Frage dich, was dich persönlich an dem Thema interessiert oder " \
                       "interessieren könnte. " + "<br>" + "<br>" + \
-                      "2. Ich schreibe den Stoff in meinen eigenen Worten auf (Paraphrasieren)."
+                      "2. Schreibe den Stoff in deinen eigenen Worten auf (Paraphrasieren)."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_during_learning_7"),
@@ -419,9 +418,9 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich verschaffe mir einen Überblick, um von einem allgemeinen Verständnis " \
+        description = "1. Verschaffe dir einen Überblick, um von einem allgemeinen Verständnis " \
                       "aus die Details besser zu verstehen." + "<br>" + "<br>" + \
-                      "2. Ich schreibe den Stoff in meinen eigenen Worten auf (Paraphrasieren)."
+                      "2. Schreibe den Stoff in deinen eigenen Worten auf (Paraphrasieren)."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_during_learning_8"),
@@ -436,8 +435,8 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich gliedere den Stoff anhand vorhandener Strukturen." + "<br>" + "<br>" + \
-                      "2. Ich achte darauf, sowohl Details zu verstehen als auch einen " \
+        description = "1. Gliedere den Stoff anhand vorhandener Strukturen." + "<br>" + "<br>" + \
+                      "2. Achte darauf, sowohl Details zu verstehen als auch einen " \
                       "Überblick zu erlangen."
 
         models.ActivityTemplate.objects.update_or_create(
@@ -454,13 +453,12 @@ class RM_personality(RM_BASE):
         )
 
         # show suggestions (after official learning)
-        description = "1. Ich schreibe mir in meinen eigenen Worten eine kurze Zusammenfassung der " \
-                      "wichtigsten Inhalte, ohne dabei in meine Aufzeichnungen oder in Bücher zu schauen." \
-                      + "<br>" + "<br>" + "2. Ich erkläre Kommiliton*innen den Stoff. " + "<br>" + "<br>" \
-                      + "3. Während ich den Stoff einer anderen " \
-                        "Person erkläre, identifiziere ich Verständnis- und Erinnerungslücken und " \
-                        "arbeite diese auf." + "<br>" + "<br>" + "4. Ich stelle mir vor, wie ich einem " \
-                                                                 "Freund oder einer Freundin den Stoff erklären würde. "
+        description = "1. Schreibe dir in deinen eigenen Worten eine kurze Zusammenfassung der " \
+                      "wichtigsten Inhalte, ohne dabei in deine Aufzeichnungen oder in Bücher zu schauen." \
+                      + "<br>" + "<br>" + "2. Erkläre Mitstudierenden den Stoff. " + "<br>" + "<br>" \
+                      + "3. Während du den Stoff einer anderen " \
+                        "Person erklärst, identifizierst du Verständnis- und Erinnerungslücken und " \
+                        "arbeitest diese auf." + "<br>" + "<br>"
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_after_learning_1"),
@@ -475,11 +473,11 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich schreibe mir in meinen eigenen Worten eine kurze Zusammenfassung der " \
-                      "wichtigsten Inhalte, ohne dabei in meine Aufzeichnungen oder in Bücher zu schauen." \
-                      + "<br>" + "<br>" + "2. Ich erkläre Kommiliton*innen den Stoff." + "<br>" + "<br>" + \
-                      "3. Während ich den Stoff einer anderen Person erkläre, identifiziere ich " \
-                      "Verständnis- und Erinnerungslücken und arbeite diese auf."
+        description = "1. Schreibe dir in deinen eigenen Worten eine kurze Zusammenfassung der " \
+                      "wichtigsten Inhalte, ohne dabei in deine Aufzeichnungen oder in Bücher zu schauen." \
+                      + "<br>" + "<br>" + "2. Erkläre Mitstudierenden den Stoff." + "<br>" + "<br>" + \
+                      "3. Während du den Stoff einer anderen Person erklärst, identifizierst du " \
+                      "Verständnis- und Erinnerungslücken und arbeitest diese auf."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_after_learning_2"),
@@ -494,13 +492,12 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich formuliere wichtige Gedanken in Merksätzen und rufe mir diese regelmäßig " \
-                      "in Erinnerung - ohne dabei in meine Unterlagen zu schauen." \
-                      + "<br>" + "<br>" + "2. Ich erkläre Kommiliton*innen den Stoff." + "<br>" + "<br>" + \
-                      "3. Während ich den Stoff einer anderen Person erkläre, identifiziere ich " \
-                      "Verständnis- und Erinnerungslücken und arbeite diese auf." + "<br>" + "<br>" + \
-                      "4. Ich stelle mir vor, wie ich einem Freund oder einer Freundin den " \
-                      "Stoff erklären würde."
+        description = "1. Formuliere wichtige Gedanken in Merksätzen und rufe dir diese regelmäßig " \
+                      "in Erinnerung - ohne dabei in deine Unterlagen zu schauen." \
+                      + "<br>" + "<br>" + "2. Erkläre Mitstudierenden den Stoff." + "<br>" + "<br>" + \
+                      "3. Während du den Stoff einer anderen Person erklärst, identifizierst du " \
+                      "Verständnis- und Erinnerungslücken und arbeitest diese auf."
+
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_after_learning_3"),
@@ -515,11 +512,11 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich formuliere wichtige Gedanken in Merksätzen und rufe mir diese regelmäßig " \
-                      "in Erinnerung - ohne dabei in meine Unterlagen zu schauen." \
-                      + "<br>" + "<br>" + "2. Ich erkläre Kommiliton*innen den Stoff." + "<br>" + "<br>" + \
-                      "3. Während ich den Stoff einer anderen Person erkläre, identifiziere ich " \
-                      "Verständnis- und Erinnerungslücken und arbeite diese auf."
+        description = "1. Formuliere wichtige Gedanken in Merksätzen und rufe dir diese regelmäßig " \
+                      "in Erinnerung - ohne dabei in deine Unterlagen zu schauen." \
+                      + "<br>" + "<br>" + "2. Erkläre Mitstudierenden den Stoff." + "<br>" + "<br>" + \
+                      "3. Während du den Stoff einer anderen Person erklärst, identifizierst du " \
+                      "Verständnis- und Erinnerungslücken und arbeitest diese auf."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_after_learning_4"),
@@ -534,12 +531,10 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich versuche nachzuvollziehen, auf welchem Wege das Wissen zustande gekommen " \
+        description = "1. Versuche nachzuvollziehen, auf welchem Wege das Wissen zustande gekommen " \
                       "ist (beispielsweise durch mathematische Beweise, philosophische Argumentationen " \
                       "oder durch naturwissenschaftliche Experimente)." + "<br>" + "<br>" + \
-                      "2. Ich denke mir Prüfungsfragen zum Stoff aus und versuche diese zu beantworten." + \
-                      "<br>" + "<br>" + "3. Ich stelle mir vor, wie ich einem Freund oder " \
-                                        "einer Freundin den Stoff erklären würde."
+                      "2. Denke dir Prüfungsfragen zum Stoff aus und versuche diese zu beantworten."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_after_learning_5"),
@@ -554,10 +549,10 @@ class RM_personality(RM_BASE):
             }
         )
 
-        description = "1. Ich versuche nachzuvollziehen, auf welchem Wege das Wissen zustande gekommen " \
+        description = "1. Versuche nachzuvollziehen, auf welchem Wege das Wissen zustande gekommen " \
                       "ist (beispielsweise durch mathematische Beweise, philosophische Argumentationen " \
                       "oder durch naturwissenschaftliche Experimente)." + "<br>" + "<br>" \
-                      + "2. Ich denke mir Prüfungsfragen zum Stoff aus und versuche diese zu beantworten."
+                      + "2. Denke dir Prüfungsfragen zum Stoff aus und versuche diese zu beantworten."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("strategies_after_learning_6"),
@@ -771,7 +766,7 @@ class RM_personality(RM_BASE):
 
         self_assessment_goal = models.Goal.objects.get_or_create(
             title="Selbsteinschätzung",
-            description="Hier kannst Du durch die Beantwortung einer Reihe von Fragen dein Langzeitgedächtnis, "
+            description="Hier kannstdudurch die Beantwortung einer Reihe von Fragen dein Langzeitgedächtnis, "
                         "dein Kurzzeitgedächnis und deine Multitaskingfähigkeit einschätzen.",
             userrecommender=goal.userrecommender,
             order=2,
@@ -785,7 +780,7 @@ class RM_personality(RM_BASE):
 
         labvanced_goal = models.Goal.objects.get_or_create(
             title="Technische Messung",
-            description="Hier kannst Du über die Teilnahme an eine Online-Experiment dein Langzeitgedächtnis, "
+            description="Hier kannstduüber die Teilnahme an eine Online-Experiment dein Langzeitgedächtnis, "
                         "dein Kurzzeitgedächnis und deine Multitaskingfähigkeit einschätzen.",
             userrecommender=goal.userrecommender,
             order=3,
@@ -1291,7 +1286,7 @@ class RM_personality(RM_BASE):
 
         questionnaire_goal = models.Goal.objects.get(
             title="Selbsteinschätzung",
-            description="Hier kannst Du durch die Beantwortung einer Reihe von Fragen dein Langzeitgedächtnis, "
+            description="Hier kannstdudurch die Beantwortung einer Reihe von Fragen dein Langzeitgedächtnis, "
                         "dein Kurzzeitgedächnis und deine Multitaskingfähigkeit einschätzen.",
             userrecommender=goal.userrecommender,
         )
@@ -1310,7 +1305,7 @@ class RM_personality(RM_BASE):
 
         labvanced_goal = models.Goal.objects.get(
             title="Technische Messung",
-            description="Hier kannst Du über die Teilnahme an eine Online-Experiment dein Langzeitgedächtnis, "
+            description="Hier kannstduüber die Teilnahme an eine Online-Experiment dein Langzeitgedächtnis, "
                         "dein Kurzzeitgedächnis und deine Multitaskingfähigkeit einschätzen.",
             userrecommender=goal.userrecommender,
             order=3,

@@ -49,7 +49,7 @@ class RM_collaborative_filtering(RM_BASE):
         e_mail_request_text = 'Möchtest du E-mail Benachrichtigungen erhalten,' \
                               ' wenn ich neue Resourcen basierend auf deiner Belegungshistorie gefunden habe? <br> ' \
                               'WARNUNG: Wenn du deine E-mail Adresse angibst,' \
-                              ' bist du für SIDDATA nicht mehr annonym!<br>' \
+                              ' bist du für Siddata nicht mehr annonym!<br>' \
                               'Du kannst deine E-mail Adresse jederzeit wieder löschen.'
 
         e_mail_request_question = models.Question.objects.get_or_create(
@@ -137,7 +137,7 @@ class RM_collaborative_filtering(RM_BASE):
     def generate_new_recommendations(self,activity):
         goal_order = models.Goal.objects.filter(goal = activity.goal).order_by('order')[0].order + 1
         recommendations_goal = models.Goal.objects.create(
-            title='Empfehlungen basierend auf Belegungen ähnlicher Nutzer*innen',
+            title='Empfehlungen basierend auf Belegungen ähnlicher Nutzenden',
             userrecommender=activity.goal.userrecommender,
             order=goal_order
         )
