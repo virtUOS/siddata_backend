@@ -1,6 +1,6 @@
 """
 Using this command, you can manually run the scheduler, as specified in https://github.com/jcass77/django-apscheduler#quick-start.
-Note that when running the SIDDATA-Backend either productivly or using manage.py, you DONT NEED TO RUN THIS, as the `backend.apps.BackendConfig`
+Note that when running the Siddata-Backend either productivly or using manage.py, you DONT NEED TO RUN THIS, as the `backend.apps.BackendConfig`
 (backend.apps.BackendConfig) ensures that a Background-Scheduler is run whenever the main backend is run.
 """
 

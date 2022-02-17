@@ -108,15 +108,15 @@ class RM_abroad(RM_BASE):
                     },
                     {
                         "type": "todo",
-                        "description": "Schaue Dir die Partneruniversitäten an und wähle zunächst 2-3 Angebote aus, die für Dich in Frage kommen würden.",
+                        "description": "Schaue dir die Partneruniversitäten an und wähle zunächst 2-3 Angebote aus, die für Dich in Frage kommen würden.",
                     },
                     {
                         "type": "todo",
-                        "description": "Vergleiche die Kursangebote der Gastuniversitäten und suche Dir nun ein Favorit aus.",
+                        "description": "Vergleiche die Kursangebote der Gastuniversitäten und suche dir nun ein Favorit aus.",
                     },
                     {
                         "type": "resource",
-                        "description": "Erstelle eine Liste der benötigten Unterlagen in Absprache mit dem Erasmus-Koordinator "
+                        "description": "Erstelle eine Liste der benötigten Unterlagen in Absprache mit der Erasmus-Koordination "
                                         "deiner Fakultät. (Du kannst dich an dieser Liste orientieren, beachte aber dass jede "
                                         "Fakultät unterschiedliche Kriterien hat)",
                         "source": "https://www.uni-bremen.de/fileadmin/user_upload/sites/international/"
@@ -136,7 +136,7 @@ class RM_abroad(RM_BASE):
                     },
                     {
                         "type": "resource",
-                        "description": "Lass Dir die Sprachkenntnisse nachweisen, bzw. besuche einen Kurs am Sprachenzentrum.",
+                        "description": "Lass dir die Sprachkenntnisse nachweisen, bzw. besuche einen Kurs am Sprachenzentrum.",
                         "source": "https://www.fremdsprachenzentrum-bremen.de/?L=0",
                     },
                     {
@@ -155,8 +155,8 @@ class RM_abroad(RM_BASE):
                                  "Vor der Abreise": [
                                      {
                                          "type": "todo",
-                                         "description": "Suche Dir passende Kurse an der Gastuniversität. Fülle das Online Learning Agreement "
-                                                        "aus und leite es an deinen Erasmuskoordinator. Bei Mobilität im WiSe: Abgabe bis 30. "
+                                         "description": "Suche dir passende Kurse an der Gastuniversität. Fülle das Online Learning Agreement "
+                                                        "aus und leite es an deine Erasmus-Koordination. Bei Mobilität im WiSe: Abgabe bis 30. "
                                                         "April. Bei Mobilität im SoSe: Abgabe bis 30. September.",
                                      },
                                      {
@@ -173,13 +173,13 @@ class RM_abroad(RM_BASE):
                                      },
                                      {
                                          "type": "resource",
-                                         "description": "Gleich nach der Zusage: Informiere Dich, ob Dir AuslandsBAföG zusteht.",
+                                         "description": "Gleich nach der Zusage: Informiere dich, ob dir AuslandsBAföG zusteht.",
                                          "source": "https://www.uni-hannover.de/fileadmin/Internationales/pdf/Wege_ins_Ausland/"
                                                    "Finanzierung/Zustaendigkeiten-Auslands-BAfoeG.pdf",
                                      },
                                      {
                                          "type": "todo",
-                                         "description": "Finde heraus, ob du ein Visum oder Aufenthaltsberechtigung für das Gastland brauchst.",
+                                         "description": "Finde heraus, ob du ein Visum oder eine Aufenthaltsberechtigung für das Gastland brauchst.",
                                      },
                                      {
                                          "type": "todo",
@@ -189,7 +189,7 @@ class RM_abroad(RM_BASE):
                                      {
                                          "type": "todo",
                                          "description": "Manche Gastuniversitäten bieten kostenlose Sprachkurse bei Ankunft an. Diese sind "
-                                                        "wertvoll, um direkt Kontakte zu anderen Erasmus-Teilnehmern zu knüpfen. Dafür muss "
+                                                        "wertvoll, um direkt Kontakte zu anderen Erasmus-Teilnehmenden zu knüpfen. Dafür muss "
                                                         "allerdings von zu Hause aus ein Einstufungstest durchgeführt werden. Suche solch "
                                                         "einen Test auf der Webseite der Gastuniversität.",
                                      },
@@ -199,12 +199,12 @@ class RM_abroad(RM_BASE):
                                      },
                                      {
                                          "type": "todo",
-                                         "description": "Suche Dir eine passende Unterkunft. Damit kann Dir die Gastuniversität ggf. "
+                                         "description": "Suche dir eine passende Unterkunft. Damit kann dir die Gastuniversität ggf. "
                                                         "weiterhelfen.",
                                      },
                                      {
                                          "type": "todo",
-                                         "description": "Buche einen Flug und freu Dich auf die Reise. Wir wünschen Dir ein unvergessliches "
+                                         "description": "Buche einen Flug und freu Dich auf die Reise. Wir wünschen dir ein unvergessliches "
                                                         "Abenteuer.",
                                      },
                                  ],
@@ -219,7 +219,7 @@ class RM_abroad(RM_BASE):
                         },
                         {
                             "type": "todo",
-                            "description": "Vergleiche die Kursangebote der Gastuniversitäten und suche Dir nun einen Favoriten aus.",
+                            "description": "Vergleiche die Kursangebote der Gastuniversitäten und suche dir nun einen Favoriten aus.",
                         },
                          {
                              "type": "resource",
@@ -239,7 +239,7 @@ class RM_abroad(RM_BASE):
                          },
                          {
                              "type": "resource",
-                             "description": "Nimm Kontakt zum Erasmus Student Network (ESN) auf, dort lernst du andere Erasmusbegeisterte kennen und erfährst aus erster Hand wie ein Auslandsaufenthalt zu organisieren ist.",
+                             "description": "Nimm Kontakt zum Erasmus Student Network (ESN) auf, dort lernst du andere Erasmusbegeisterte kennen und erfährst aus erster Hand, wie ein Auslandsaufenthalt zu organisieren ist.",
                              "source": "https://hannover.esn-germany.de/",
                          },
                          {
@@ -266,7 +266,7 @@ class RM_abroad(RM_BASE):
                         },
                         {
                             "type": "resource",
-                            "description": "Erstelle eine Liste der benötigten Unterlagen in Absprache mit dem Erasmus-Koordinator deiner Fakultät.",
+                            "description": "Erstelle eine Liste der benötigten Unterlagen in Absprache mit der Erasmus-Koordination deiner Fakultät.",
                             "source": "https://www.uni-hannover.de/de/studium/im-studium/international/outgoing/auslandsprogramme/austauschprogramme-und-ansprechpartner/erasmus-plus/bewerbungsverfahren/",
                         },
                         {
@@ -283,7 +283,7 @@ class RM_abroad(RM_BASE):
                         },
                         {
                             "type": "resource",
-                            "description": "Lass Dir die Sprachkenntnisse nachweisen, bzw. besuche einen Kurs am Sprachenzentrum.",
+                            "description": "Lass dir die Sprachkenntnisse nachweisen, bzw. besuche einen Kurs am Sprachenzentrum.",
                             "source": "https://www.llc.uni-hannover.de/",
                         },
                         {
@@ -307,7 +307,7 @@ class RM_abroad(RM_BASE):
                         },
                         {
                             "type": "resource",
-                            "description": "Suche Dir passende Kurse an der Gastuniversität aus. Fülle das Online Learning Agreement aus und leite es an dne/n Fachbereichskoordinator:in mit der Bitte um Unterzeichnung. Dieses Dokument ist für die Anrechnung der Ausland bestandenen Module notwendig.",
+                            "description": "Suche dir passende Kurse an der Gastuniversität aus. Fülle das Online Learning Agreement aus und leite es an dne/n Fachbereichs-Koordination mit der Bitte um Unterzeichnung. Dieses Dokument ist für die Anrechnung der im Ausland bestandenen Module notwendig.",
                             "source": "https://www.uni-hannover.de/de/studium/im-studium/international/outgoing/auslandsprogramme/austauschprogramme-und-ansprechpartner/erasmus-plus/bewerbungsverfahren/",
                         },
                         {
@@ -321,12 +321,12 @@ class RM_abroad(RM_BASE):
                         },
                         {
                             "type": "resource",
-                            "description": "Informiere Dich mindestens sechs Monate im Voraus, ob Dir Auslands-BAföG zusteht.",
+                            "description": "Informiere Dich mindestens sechs Monate im Voraus, ob dir Auslands-BAföG zusteht.",
                             "source": "https://www.uni-hannover.de/de/studium/im-studium/international/outgoing/finanzierung-auslandsaufenthalt/auslands-bafoeg-bildungskredit/",
                         },
                         {
                             "type": "todo",
-                            "description": "Finde heraus, ob du ein Visum oder Aufenthaltsberechtigung für das Gastland benötigst.",
+                            "description": "Finde heraus, ob du ein Visum oder eine Aufenthaltsberechtigung für das Gastland benötigst.",
                         },
                         {
                             "type": "todo",
@@ -335,7 +335,7 @@ class RM_abroad(RM_BASE):
                         {
                             "type": "todo",
                             "description": "Manche Gastuniversitäten bieten kostenlose Sprachkurse bei Ankunft an. Diese sind wertvoll, um "
-                                            "direkt Kontakte zu anderen Erasmus-Teilnehmern zu knüpfen. Dafür muss allerdings von zu Hause "
+                                            "direkt Kontakte zu anderen Erasmus-Teilnehmenden zu knüpfen. Dafür muss allerdings von zu Hause "
                                             "aus ein Einstufungstest durchgeführt werden. Suche solch einen Test auf der Webseite der "
                                             "Gastuniversität."
                         },
@@ -345,11 +345,11 @@ class RM_abroad(RM_BASE):
                         },
                         {
                             "type": "todo",
-                            "description": "Suche Dir eine passende Unterkunft. Damit kann Dir die Gastuniversität ggf. weiterhelfen."
+                            "description": "Suche dir eine passende Unterkunft. Damit kanndir die Gastuniversität ggf. weiterhelfen."
                         },
                         {
                             "type": "todo",
-                            "description": "Buche einen Flug und freu Dich auf die Reise. Wir wünschen Dir ein unvergessliches Abenteuer.",
+                            "description": "Buche einen Flug und freu Dich auf die Reise. Wir wünschendir ein unvergessliches Abenteuer.",
                         },
                     ],
                 },
@@ -363,11 +363,11 @@ class RM_abroad(RM_BASE):
                 },
                 {
                     "type": "todo",
-                    "description": "Vergleiche die Kursangebote der Gastuniversitäten und suche Dir nun einen Favoriten aus.",
+                    "description": "Vergleiche die Kursangebote der Gastuniversitäten und suchedir nun einen Favoriten aus.",
                 },
                 {
                     "type": "resource",
-                    "description": "Lies einige Erfahrungsberichte von Studierenden, die bereits im Ausland waren. deine Uni arbeitet "
+                    "description": "Lies einige Erfahrungsberichte von Studierenden, die bereits im Ausland waren. Deine Uni arbeitet "
                                    "noch an einer Sammlung von Erfahrungsberichten. Auf der Internetseite deines Fachbereichs findest "
                                    "du Erfahrungsberichte von anderen Studierenden. Eine gute Übersicht findest du auf der "
                                    "Internetseite unseres Verbundpartners, der Leibniz Universität Hannover.",
@@ -387,7 +387,7 @@ class RM_abroad(RM_BASE):
                 {
                     "type": "resource",
                     "description": "Nimm Kontakt zum Erasmus Student Network (ESN) auf, dort lernst du andere Erasmusbegeisterte "
-                                   "kennen und erfährst aus erster Hand wie ein Auslandsaufenthalt zu organisieren ist. ",
+                                   "kennen und erfährst aus erster Hand, wie ein Auslandsaufenthalt zu organisieren ist. ",
                     "source": "https://esn-germany.de/",
                 },
             ],
@@ -412,7 +412,7 @@ class RM_abroad(RM_BASE):
                 },
                 {
                     "type": "resource",
-                    "description": "Erstelle eine Liste der benötigten Unterlagen in Absprache mit dem Erasmus-Koordinator deiner "
+                    "description": "Erstelle eine Liste der benötigten Unterlagen in Absprache mit der Erasmus-Koordination deiner "
                                    "Fakultät.",
                     "source": "https://www.uni-osnabrueck.de/studium/studium_und_praktikum_im_ausland/downloads.html",
                 },
@@ -459,14 +459,14 @@ class RM_abroad(RM_BASE):
                 {
                     "type": "resource",
                     "description": "Suche dir passende Kurse an der Gastuniversität. Fülle das Online Learning Agreement aus und "
-                                   "leite es an deine/n Fachbereichskoordinator:in mit der Bitte um Unterzeichnung. Dieses Dokument "
-                                   "ist für die Anrechnung der Ausland bestandenen Module notwendig.",
+                                   "leite es an deine/n Fachbereichs-Koordination mit der Bitte um Unterzeichnung. Dieses Dokument "
+                                   "ist für die Anrechnung der im Ausland bestandenen Module notwendig.",
                     "source": "https://www.uni-osnabrueck.de/studium/studium_und_praktikum_im_ausland/downloads.html",
                 },
                 {
                     "type": "resource",
-                    "description": "Leite das vorläufige Learning Agreement an die Erasmuskoordination deines International Office "
-                                   "weiter, sobald dein vorläufiges Learning Agreement mit deiner/m Fachbereichskoordinator:in "
+                    "description": "Leite das vorläufige Learning Agreement an die Erasmus-Koordination deines International Office "
+                                   "weiter, sobald dein vorläufiges Learning Agreement mit deiner/m Fachbereichs-Koordination "
                                    "abgestimmt ist. Änderungen kannst du noch zu Beginn deines Auslandsstudiums mit dem Learning "
                                    "Agreement - During the Mobility vornehmen.",
                     "source": "https://www.uni-osnabrueck.de/studium/studium_und_praktikum_im_ausland/downloads.html",
@@ -477,12 +477,12 @@ class RM_abroad(RM_BASE):
                 },
                 {
                     "type": "resource",
-                    "description": "Informiere Dich mindestens sechs Monate im Voraus, ob Dir Auslands-BAföG zusteht.",
+                    "description": "Informiere Dich mindestens sechs Monate im Voraus, obdir Auslands-BAföG zusteht.",
                     "source": "https://www.uni-osnabrueck.de/studium/studium-und-praktikum-im-ausland/foerderungen/auslands-bafoeg/",
                 },
                 {
                     "type": "todo",
-                    "description": "Finde heraus, ob du ein Visum oder Aufenthaltsberechtigung für das Gastland benötigst.",
+                    "description": "Finde heraus, ob du ein Visum oder eine Aufenthaltsberechtigung für das Gastland benötigst.",
                 },
                 {
                     "type": "todo",
@@ -491,7 +491,7 @@ class RM_abroad(RM_BASE):
                 {
                     "type": "todo",
                     "description": "Manche Gastuniversitäten bieten kostenlose Sprachkurse bei Ankunft an. Diese sind wertvoll, "
-                                   "um direkt Kontakte zu anderen Erasmus-Teilnehmern zu knüpfen. Dafür muss vorher allerdings ein "
+                                   "um direkt Kontakte zu anderen Erasmus-Teilnehmenden zu knüpfen. Dafür muss vorher allerdings ein "
                                    "Einstufungstest durchgeführt werden. Suche solch einen Test auf der Webseite der Gastuniversität.",
                 },
                 {
@@ -500,11 +500,11 @@ class RM_abroad(RM_BASE):
                 },
                 {
                     "type": "todo",
-                    "description": "Suche Dir eine passende Unterkunft. Damit kann Dir die Gastuniversität ggf. weiterhelfen.",
+                    "description": "Suche dir eine passende Unterkunft. Damit kanndir die Gastuniversität ggf. weiterhelfen.",
                 },
                 {
                     "type": "todo",
-                    "description": "Buche einen Flug und freu Dich auf die Reise. Wir wünschen Dir ein unvergessliches Abenteuer.",
+                    "description": "Buche einen Flug und freu Dich auf die Reise. Wir wünschendir ein unvergessliches Abenteuer.",
                 },
             ],
             }
@@ -540,7 +540,7 @@ class RM_abroad(RM_BASE):
             }
         )
 
-        email_text = "Hier kannst du eine E-Mail Adresse hinterlegen um einmal wöchentlich an die Planung deines " \
+        email_text = "Hier kannst du eine E-Mail-Adresse hinterlegen um einmal wöchentlich an die Planung deines " \
                      "Auslandsaufenthaltes erinnert zu werden."
 
         email_question = models.Question.objects.get_or_create(
@@ -551,7 +551,7 @@ class RM_abroad(RM_BASE):
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("abroad_email"),
             defaults={
-                'title': "Email-Benachrichtigung",
+                'title': "E-Mail-Benachrichtigung",
                 'type': 'question',
                 'status': 'template',
                 'order': 1,
@@ -736,7 +736,7 @@ class RM_abroad(RM_BASE):
 
         stage = goal.title
 
-        title = "SIDDATA Studienassistent : Erinnerung an deinen Auslandsaufenthalt"
+        title = "Siddata Studienassistent : Erinnerung an deinen Auslandsaufenthalt"
         content = "Guten Tag," \
                 "du befindest dich in der Phase '{}'<br>".format(stage)
         content += "Die nächsten Schritte sind:<br>"
@@ -746,7 +746,7 @@ class RM_abroad(RM_BASE):
                 content += "* {}<br>".format(activity.description)
         content += "<br>"
         content += "Eine große Reise beginnt mit kleinen Schritten. Just do it!"
-        content += "Dein SIDDATA Studienassistent"
+        content += "Dein Siddata Studienassistent"
 
         self.send_push_email(address, title, content)
 

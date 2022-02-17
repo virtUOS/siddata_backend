@@ -90,14 +90,16 @@ class RM_start(RM_BASE):
 
         order += 1
 
-        instruction_text_1 = "Informationen und Empfehlungen werden dir in Siddata in Boxen wie dieser dargestellt.<br>" \
-                             "Du kannst diese entweder abschließen, pausieren oder verwerfen.<br>" \
-                             "Über die entsprechenden Ansichten (links unter der Navigation) kannst du die Boxen " \
-                             "bei Bedarf wieder aufnehmen.<br>" \
-                             "So lange eine Box nicht von dir bearbeitet wurde, ist sie offen.<br>" \
-                             "Über die Buttons unten in jeder Box kannst du diese als abgeschlossen markieren.<br>" \
-                             'Möchtest du eine Box später bearbeiten, kannst du sie über das Icon "Pausieren" zurückstellen.<br>' \
-                             "Wenn du den Inhalt einer Box nicht sinnvoll findest, kannst du sie über das Icon Verwerfen aussortieren."
+        instruction_text_1 = "Informationen und Empfehlungen werden dir in Siddata in Boxen wie "\
+                             "dieser dargestellt. Du kannst diese entweder "\
+                             "abschließen, pausieren oder verwerfen. Über die "\
+                             "entsprechenden Ansichten (links unter der Navigation) kannst du die "\
+                             "Boxen bei Bedarf wieder aufnehmen.<br>"\
+                             "So lange eine Box nicht von dir bearbeitet wurde, ist sie offen.<br>"\
+                             "Über die Buttons unten in jeder Box kannst du diese als abgeschlossen "\
+                             "markieren. Möchtest du eine Box später bearbeiten, kannst du sie über das "\
+                             "Icon \"Pausieren\" zurückstellen. Wenn du den Inhalt einer Box nicht sinnvoll "\
+                             "findest, kannst du sie über das Icon \"Verwerfen\" aussortieren."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("instructions_1"),
@@ -114,12 +116,14 @@ class RM_start(RM_BASE):
 
         order += 1
 
-        instruction_text_2 = "Mit Siddata kannst du dich zum Beispiel mit anderen Studierenden vernetzen, mehr über " \
-                             "dein Lernverhalten erfahren und Veranstaltungen an anderen Universitäten besuchen. " \
-                             "Dazu kannst du verschiedene Funktionen/Tools aktivieren.<br><br>Im Folgenden werden " \
-                             "dir alle Funktionen kurz beschrieben. Bitte entscheide dich zunächst, welche " \
-                             "Funktionen du ausprobieren möchtest. Wenn du deine Meinung änderst, kannst du in " \
-                             "den Einstellungen jederzeit Funktionen aktivieren oder deaktivieren."
+        instruction_text_2 = "Mit Siddata kannst du dich zum Beispiel mit anderen Studierenden "\
+                             "vernetzen, mehr über dein Lernverhalten erfahren und Veranstaltungen "\
+                             "an anderen Universitäten besuchen. Dazu kannst du verschiedene "\
+                             "Funktionen aktivieren.<br><br>"\
+                             "Im Folgenden werden dir alle Funktionen kurz beschrieben. Bitte "\
+                             "entscheide dich zunächst, welche Funktionen du ausprobieren "\
+                             "möchtest. Wenn du deine Meinung änderst, kannst du in den "\
+                             "Einstellungen jederzeit Funktionen aktivieren oder deaktivieren."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("instructions_2"),

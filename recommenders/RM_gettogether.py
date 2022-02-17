@@ -20,7 +20,7 @@ from django.http import HttpResponse
 import logging
 import recommenders.RM_abroad as RM_abroad
 
-FORM_TITLE = "Meine Visitenkarte"
+FORM_TITLE = "Deine Visitenkarte"
 ALL_CONTACTS_TITLE = "Öffentliche Visitenkarten"
 MY_CONTACTS_TITLE = "Persönliche Kontaktvorschläge des Matching Algorithmus"
 FORM_SUBMIT_BUTTON_TEXT = "Profil und Kontaktvorschläge aktualisieren"
@@ -31,9 +31,8 @@ ABROAD_OPTIONS = ["Ich möchte Kontaktvorschläge zu anderen Studis, die sich in
 VISIBILITY_TEXT = "Ich möchte, dass meine Visitenkarte auch für Studis ohne konkrete Übereinstimmungen sichtbar ist."
 NOTIFICATION_TEXT = "Ich möchte per E-Mail benachrichtigt werden Siddata neue Kontaktvorschläge für mich gefunden hat."
 FEEDBACK_TEXT = "Kontaktvorschläge wurden aktualisiert."
-SUBMIT_TEXT = "Ein Klick auf den Button löst eine Aktualisierung anhand der aktuellen Daten aus. Dies " \
-                          "aktualisiert sowohl die Empfehlungen als auf das Formular selbst, beispielweise wenn du neue " \
-                          "Funktionen genutzt oder neue Eingaben vorgenommen hast."
+SUBMIT_TEXT = "Ein Klick auf den Button aktualisiert deine persönlichen Angaben und es werden neue Kontaktvorschläge " \
+              "generiert."
 
 
 SEMESTER_START = datetime.datetime(year=2021, month=10, day=1)
@@ -814,10 +813,10 @@ class RM_gettogether(RM_BASE):
 
             url = goal.userrecommender.user.origin.api_endpoint
 
-            title = "Neuer Kontaktvorschlag im SIDDATA Studienassistenten"
+            title = "Neuer Kontaktvorschlag im Siddata Studienassistenten"
             content = "Guten Tag {},<br>" \
                       "der Siddata Studienassistent hat einen neuen Kontaktvorschlag mit Übereinstimmungen für dich gefunden!<br>" \
-                      "Besuche das Recommender Modul 'Get Together' im Stud.IP SIDDATA" \
+                      "Besuche das Recommender Modul 'Get Together' im Stud.IP Siddata" \
                       " Studierendenassistenten um diese Kontaktvorschläge anzusehen.{}".format(name, url)
 
             self.send_push_email(address, title, content)

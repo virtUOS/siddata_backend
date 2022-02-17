@@ -18,8 +18,10 @@ class RM_evaluation(RM_BASE):
         # The description text summarizes the functionality. It is shown in teaser activity and tile view,
         self.DESCRIPTION = "Evaluation - hier kannst du Feedback zum Siddata-Prototypen geben."
         # This text is displayed in Teaser Activities
-        self.TEASER_TEXT = "Danke, dass du dir die Zeit nimmst, den Siddata-Prototypen vorab zu testen. Bitte teile "\
-                            "deine Eindrücke und Erfahrungen mit uns.<br>Möchtest du den <b>Fragebogen</b> beantworten?"
+        self.TEASER_TEXT = "Danke, dass du dir die Zeit nimmst, den Siddata-Prototypen zu testen. Wir "\
+                           "freuen uns, wenn du deine Erfahrungen und Eindrücke "\
+                           "mit uns teilst. Dazu haben wir einen Evaluations-Fragebogen vorbereitet.<br><br>"\
+                           "Möchtest du die Funktion Evaluation nutzen?"
         # If set to False, the recommender will not appear in the GUI or the DB
         self.ACTIVE = True
         # Image is shown in teaser activity
@@ -104,9 +106,9 @@ class RM_evaluation(RM_BASE):
 
     ### Start Survey activity
 
-        instruction_text_3 = ' Im Zuge einer wissenschaftlichen Arbeit wird gerade eine Begleitumfrage zu SIDDATA durchgeführt.' \
-                             ' Dort wollen wir untersuchen, wie deine Wahrnehmung der Nutzung von SIDDATA ist.' \
-                             ' Um an der Studie teilzunehmen klicke bitte hier: ' \
+        instruction_text_3 = ' Im Zuge einer wissenschaftlichen Arbeit wird gerade eine Begleitumfrage zu Siddata durchgeführt.' \
+                             ' Dort wollen wir untersuchen, wie deine Wahrnehmung der Nutzung von Siddata ist.' \
+                             ' Um an der Studie teilzunehmen, klicke bitte hier: ' \
                              '<a href="https://www.survey.uni-osnabrueck.de/limesurvey/index.php/286649?lang=de">Zur Studie</a>'
 
         models.ActivityTemplate.objects.update_or_create(
