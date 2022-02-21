@@ -99,6 +99,8 @@ INSTALLED_APPS = [
     'sphinxdoc',
 ]
 
+MIGRATION_MODULES = {'bert_app':None}
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
