@@ -17,8 +17,8 @@ class BertAppConfig(AppConfig):
     #see https://stackoverflow.com/a/65072601/5122790
     def ready(self, *args, **kwargs):
         if 'bert_app.apps.BertAppConfig' in settings.INSTALLED_APPS:
-            from .bert_utils import BertPredictor
-            self.predictor = BertPredictor()
+            from .bert_utils import SidBERT
+            self.predictor = SidBERT()
             logger.info('BERT model was successfully initialized')
         else:
             self.predictor = None
