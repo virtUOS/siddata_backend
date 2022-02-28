@@ -24,4 +24,4 @@
 There are 2 types of models, Hugging face bert model which is tensorflow 2 and Legacy bert model which is 
 tensorflow 1 (converted into tensorflow 2 using [conversion](https://github.com/tensorflow/models/blob/master/official/nlp/bert/tf2_encoder_checkpoint_converter.py)) 
 Use settings.py for changing path of model according to your local path, by default settings are for legacy bert so give path
-of legacy_bert_tf2_model. 
+of legacy_bert_tf2_model.
