@@ -6,6 +6,7 @@ import pandas as pd
 from django.conf import settings
 import backend.models as models
 
+
 def get_raw_data():
     save_dir = os.path.join(settings.BASE_DIR, "../../siddata_backend", "data_export")
     os.makedirs(save_dir, exist_ok=True)
@@ -75,8 +76,7 @@ def get_raw_data():
     for column_name in new_columns.keys():
         data[column_name] = new_columns[column_name]
 
-
-    data.to_csv(path_or_buf=os.path.join(save_dir, "activities_full.csv"), sep=',')
+    data.to_csv(path_or_buf=os.path.join(save_dir, "activities_full.csv"), sep=';')
     with open(os.path.join(save_dir, "last_export"), "w") as wfile:
         wfile.write(datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
 

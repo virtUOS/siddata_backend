@@ -385,11 +385,10 @@ def generate_p2_user_info(user):
 
             activity_data_info = models.Activity.objects.get_or_create(
                 type="todo",
-                title="Neue Version 3.0 - neuer Start",
-                description="Der Siddata Studienassistent in der Version 3.0 wurde grundlegend erneuert. "
-                        "Daher wurden alle Einstellungen und Daten alter Versionen archiviert. Die Rohdaten können "
-                        "bei Bedarf angefragt und in maschinenlesbarer Form erhalten werden.<br><br>"
-                        "Viel Spaß beim Erkunden der neuen Funktionen!",
+                title="Neue Version, neuer Start!",
+                description="Siddata wurde grundlegend erneuert. Daher wurden alle Einstellungen und Daten alter "
+                            "Versionen archiviert. Du kannst deine Rohdaten bei Bedarf bei uns anfragen und in "
+                            "maschinenlesbarer Form erhalten. <br><br>Viel Spaß beim Erkunden der neuen Funktionen!",
                 goal=goal,
                 order=1,
                 status="new",

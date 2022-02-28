@@ -20,7 +20,7 @@ MERGE_OVERTEN= True
 def main():
     # quick & dirty way to setup Django without the forever-loading BERT module. Have this before getting backend-models
     import os
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siddata_backend.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
     import django
     from django.core.wsgi import get_wsgi_application
     django.conf.settings.INSTALLED_APPS = [i for i in django.conf.settings.INSTALLED_APPS if not 'BertAppConfig' in i]
