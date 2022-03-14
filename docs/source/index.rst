@@ -17,7 +17,7 @@ Welcome to SIDDATA Backend Server's documentation!
    bert_documentation
    rollout
    modules/recommenders
-   modules/models
+   modules/apps
 
 
 Indices and tables

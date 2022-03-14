@@ -1,109 +1,109 @@
-siddata\_backend.recommenders package
+recommenders package
 =====================================
 
 Submodules
 ----------
 
-siddata\_backend.recommenders.RM\_BASE module
+recommenders.RM\_BASE module
 ---------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_BASE
+.. automodule:: recommenders.RM_BASE
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_abroad module
+recommenders.RM\_abroad module
 -----------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_abroad
+.. automodule:: recommenders.RM_abroad
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_collaborative\_filtering module
+recommenders.RM\_collaborative\_filtering module
 -----------------------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_collaborative_filtering
+.. automodule:: recommenders.RM_collaborative_filtering
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_data\_ethics module
+recommenders.RM\_data\_ethics module
 -----------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_data_ethics
+.. automodule:: recommenders.RM_data_ethics
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_evaluation module
+recommenders.RM\_evaluation module
 ---------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_evaluation
+.. automodule:: recommenders.RM_evaluation
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_gettogether module
+recommenders.RM\_gettogether module
 ----------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_gettogether
+.. automodule:: recommenders.RM_gettogether
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_learning\_orga module
+recommenders.RM\_learning\_orga module
 -------------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_learning_orga
+.. automodule:: recommenders.RM_learning_orga
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_personality module
+recommenders.RM\_personality module
 ----------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_personality
+.. automodule:: recommenders.RM_personality
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_professions module
+recommenders.RM\_professions module
 ----------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_professions
+.. automodule:: recommenders.RM_professions
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_start module
+recommenders.RM\_start module
 ----------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_start
+.. automodule:: recommenders.RM_start
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_start\_of\_studies module
+recommenders.RM\_start\_of\_studies module
 -----------------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_start_of_studies
+.. automodule:: recommenders.RM_start_of_studies
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.RM\_study\_goals module
+recommenders.RM\_study\_goals module
 -----------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.RM_study_goals
+.. automodule:: recommenders.RM_study_goals
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.recommenders.recommender\_functions module
+recommenders.recommender\_functions module
 -----------------------------------------------------------
 
-.. automodule:: siddata_backend.recommenders.recommender_functions
+.. automodule:: recommenders.recommender_functions
    :members:
    :undoc-members:
    :show-inheritance:
@@ -111,7 +111,7 @@ siddata\_backend.recommenders.recommender\_functions module
 Module contents
 ---------------
 
-.. automodule:: siddata_backend.recommenders
+.. automodule:: recommenders
    :members:
    :undoc-members:
    :show-inheritance:

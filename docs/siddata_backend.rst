@@ -1,5 +1,5 @@
 siddata\_backend package
-=========================================
+========================
 
 Subpackages
 -----------
@@ -13,7 +13,7 @@ Submodules
 ----------
 
 siddata\_backend.urls module
----------------------------------------------
+----------------------------
 
 .. automodule:: siddata_backend.urls
    :members:
@@ -21,7 +21,7 @@ siddata\_backend.urls module
    :show-inheritance:
 
 siddata\_backend.wsgi module
----------------------------------------------
+----------------------------
 
 .. automodule:: siddata_backend.wsgi
    :members:
