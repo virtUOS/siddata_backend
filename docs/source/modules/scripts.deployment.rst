@@ -1,37 +1,37 @@
-siddata\_backend.scripts.deployment package
+scripts.deployment package
 ===========================================
 
 Submodules
 ----------
 
-siddata\_backend.scripts.deployment.check\_permissions module
+scripts.deployment.check\_permissions module
 -------------------------------------------------------------
 
-.. automodule:: siddata_backend.scripts.deployment.check_permissions
+.. automodule:: scripts.deployment.check_permissions
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.scripts.deployment.check\_requirements module
+scripts.deployment.check\_requirements module
 --------------------------------------------------------------
 
-.. automodule:: siddata_backend.scripts.deployment.check_requirements
+.. automodule:: scripts.deployment.check_requirements
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.scripts.deployment.compare\_settings module
+scripts.deployment.compare\_settings module
 ------------------------------------------------------------
 
-.. automodule:: siddata_backend.scripts.deployment.compare_settings
+.. automodule:: scripts.deployment.compare_settings
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.scripts.deployment.server\_set\_permissions module
+scripts.deployment.server\_set\_permissions module
 -------------------------------------------------------------------
 
-.. automodule:: siddata_backend.scripts.deployment.server_set_permissions
+.. automodule:: scripts.deployment.server_set_permissions
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ siddata\_backend.scripts.deployment.server\_set\_permissions module
 Module contents
 ---------------
 
-.. automodule:: siddata_backend.scripts.deployment
+.. automodule:: scripts.deployment
    :members:
    :undoc-members:
    :show-inheritance:

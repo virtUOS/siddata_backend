@@ -1,5 +1,5 @@
-siddata\_backend.scripts package
-================================
+scripts package
+===============
 
 Subpackages
 -----------
@@ -7,12 +7,12 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   siddata_backend.scripts.deployment
+   scripts.deployment
 
 Module contents
 ---------------
 
-.. automodule:: siddata_backend.scripts
+.. automodule:: scripts
    :members:
    :undoc-members:
    :show-inheritance:

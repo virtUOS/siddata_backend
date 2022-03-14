@@ -1,78 +1,83 @@
-siddata\_backend.apps.backend package
+apps.backend package
 =====================================
 
 Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+    :maxdepth: 4
 
-   siddata_backend.apps.backend.management
-   siddata_backend.apps.backend.migrations
+    apps.backend.management
+    apps.backend.migrations
+
 
 Submodules
 ----------
 
-siddata\_backend.apps.backend.admin module
+apps.backend.admin module
 ------------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.admin
+.. automodule:: apps.backend.admin
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.api\_views module
+apps.backend.api\_views module
 -----------------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.api_views
+.. automodule:: apps.backend.api_views
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.apps module
+apps.backend.apps module
 -----------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.apps
+.. automodule:: apps.backend.apps
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.models module
+apps.backend.models module
 -------------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.models
+.. image:: db.png
+   :align: center
+   :width: 100%
+
+.. automodule:: apps.backend.models
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.tests module
+apps.backend.tests module
 ------------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.tests
+.. automodule:: apps.backend.tests
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.urls module
+apps.backend.urls module
 -----------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.urls
+.. automodule:: apps.backend.urls
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.utils module
+apps.backend.utils module
 ------------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.utils
+.. automodule:: apps.backend.utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-siddata\_backend.apps.backend.views module
+apps.backend.views module
 ------------------------------------------
 
-.. automodule:: siddata_backend.apps.backend.views
+.. automodule:: apps.backend.views
    :members:
    :undoc-members:
    :show-inheritance:
@@ -80,7 +85,7 @@ siddata\_backend.apps.backend.views module
 Module contents
 ---------------
 
-.. automodule:: siddata_backend.apps.backend
+.. automodule:: apps.backend
    :members:
    :undoc-members:
    :show-inheritance:
