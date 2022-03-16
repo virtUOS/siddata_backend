@@ -40,6 +40,10 @@ backend.apps module
 backend.models module
 ---------------------
 
+.. image:: ../db.png
+   :width: 800
+   :alt: Graph Models output
+
 .. automodule:: backend.models
    :members:
    :undoc-members:
