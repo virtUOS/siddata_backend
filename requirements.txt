@@ -29,7 +29,9 @@ sickle
 vobject
 
 #documentation
-#sphinx
+sphinx
+m2r2
+django-sphinx-autodoc
 
 #search function
 #haystack

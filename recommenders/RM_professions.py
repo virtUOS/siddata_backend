@@ -3,7 +3,7 @@ import re
 
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from apps.bert_app.recommender_backbone import ProfessionsRecommenderBackbone
+from bert_app.recommender_backbone import ProfessionsRecommenderBackbone
 
 COURSE_MAX = 15 # maximum number of resources to be generated as recommendations
 

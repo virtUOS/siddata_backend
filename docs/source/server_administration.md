@@ -281,4 +281,3 @@ The directories are configured in settings.py
 systemctl -xe
 less /var/log/apache2/siddata_backend_error.log
 less /var/log/apache2/error.log
-

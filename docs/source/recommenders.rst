@@ -20,14 +20,6 @@ recommenders.RM\_abroad module
    :undoc-members:
    :show-inheritance:
 
-recommenders.RM\_collaborative\_filtering module
-------------------------------------------------
-
-.. automodule:: recommenders.RM_collaborative_filtering
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 recommenders.RM\_data\_ethics module
 ------------------------------------
 
