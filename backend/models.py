@@ -14,12 +14,21 @@ import recommenders
 
 
 class Origin(models.Model):
-    """Represents a Stud.IP instance from which requests originate."""
+    """
+    Represents a Stud.IP instance from which requests originate.
+    """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Name.
     name = models.CharField(max_length=128, default="default")
+    #: The physical location of the origin, e.g. "Osnabrück".
     location = models.CharField(max_length=32, default="planet earth")
+    #: Type.
     type = models.CharField(max_length=32, default="tests")
+    #: Functional identifier.
     api_endpoint = models.CharField(max_length=128)
+    #: A secret API key used for authentication.
     api_key = models.CharField(max_length=128, default='')
 
     def __str__(self):
@@ -29,10 +38,16 @@ class Origin(models.Model):
 
 class Degree(models.Model):
     """Represents various degrees, such as Bachelor, Master, ..."""
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Name.
     name = models.CharField(max_length=128)
+    #: Textual description.
     description = models.CharField(max_length=256, null=True)
+    #: The origin providing this degree.
     origin = models.ForeignKey(Origin, on_delete=models.CASCADE)
+    #: The ID of the degree in the origin's database.
     degree_origin_id = models.CharField(max_length=256)
 
     class Meta:
@@ -62,6 +77,11 @@ class Degree(models.Model):
             return False
 
     def serialize(self):
+        """
+        Serializes a Degree object to a json string ready for JSON-API-conform submission.
+        :param include: If true, related objects will be included.
+        :return: json-ready dict
+        """
         response_data = {
             "data": [{
                 "type": "Degree",
@@ -79,16 +99,26 @@ class Degree(models.Model):
 
 
 class Subject(models.Model):
-    """Represents a course of study (subject), like 'Informatik', 'Cognitive Science'.
-       The name field uses the local name at student's origin institution.
-       Subjects are linked via references to official ids from Destatis
-       (https://www.destatis.de/DE/Methoden/Klassifikationen/BildungKultur/StudentenPruefungsstatistik.html)."""
+    """
+    Represents a course of study (subject), like 'Informatik', 'Cognitive Science'.
+   The name field uses the local name at student's origin institution.
+   Subjects are linked via references to official ids from Destatis
+   (https://www.destatis.de/DE/Methoden/Klassifikationen/BildungKultur/StudentenPruefungsstatistik.html).
+   """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Name.
     name = models.CharField(max_length=128)
+    #: Textual description.
     description = models.CharField(max_length=1024, null=True)
+    #: Keywords for categorizing this subject.
     keywords = models.CharField(max_length=256, null=True)
+    #: The origin providing this subject.
     origin = models.ForeignKey(Origin, on_delete=models.CASCADE)
+    #: The ID of the subject in the origin's database.
     subject_origin_id = models.CharField(max_length=128)
+    #: Subject ID from the German Federal Office of Statistics (Statistisches Bundesamt).
     destatis_subject_id = models.IntegerField(default=0)
 
     class Meta:
@@ -119,18 +149,23 @@ class Subject(models.Model):
 
 
 class SiddataUser(models.Model):
-    """A user of the Siddata Study Assistant (not a user for the django app frontend)
-        attributes:
-        user_origin_id:  User ID in the origin system (e.g. Stud.IP Uni OS)
-        gender: Gender
+    """
+    A user of the Siddata Study Assistant (not a user for the django app frontend)
+    """
 
-        """
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The origin from which this user accesses Siddata.
     origin = models.ForeignKey(Origin, on_delete=models.CASCADE)
+    #: The pseudonymized ID of the user in the origin's database.
     user_origin_id = models.CharField(max_length=128)
+    #: The gender shared for analysis purposes.
     gender_brain = models.CharField(max_length=256, null=True)
+    #: The gender shared with other users.
     gender_social = models.CharField(max_length=256, null=True)
+    #: If true, the user agreed that usage data can be retrieved and used for analysis purposes.
     data_donation = models.BooleanField(default=False)
+    #: TODO
     data_regulations = models.BooleanField(default=False)
 
     class Meta:
@@ -146,6 +181,7 @@ class SiddataUser(models.Model):
         """
         Converts SiddataUser instance to nested structure that can be transformed to JSON. Follows REST API standards at
         https://jsonapi.org.
+        :param include: List of fields to include in the response.
         :return: data Dictionary with nested data.
         """
 
@@ -240,10 +276,11 @@ class SiddataUser(models.Model):
         return response_data
 
     def get_property(self, key):
-        """Get a users's property identified by key.
+        """
+        Get a user's property identified by key.
 
         This encapsulates the user property handling with UserProperty objects.
-        :return:The key's value is a string or None if key is not set."""
+        :return: The key's value is a string or None if key is not set."""
         UPs = UserProperty.objects.filter(user=self, key=key)
         if len(UPs) == 0:
             return None
@@ -284,17 +321,30 @@ class SiddataUserStudy(models.Model):
         - 2-Fächer-Bachelor Latein, 14. Semester
         - Juristisches Staatsexamen Jura, 1. Semester
     """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The ID of the study course in the origin system.
     studycourse_origin_id = models.CharField(max_length=512, null=True)
+    #: The user which is applied to this study course.
     user = models.ForeignKey(SiddataUser, on_delete=models.CASCADE)  # references entry in SiddataUser table
+    #: The degree the study course results in.
     degree = models.ForeignKey(Degree, on_delete=models.CASCADE, null=True)  # the prospective degree
+    #: The major subject of this study course.
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)  # the subject
+    #: The current semester of the user in this study course.
     semester = models.IntegerField(null=True)  # the semester for this subject
+    #: True, if the user agrees to share the subject for analysis purposes.
     share_subject_brain = models.BooleanField(default=False)
+    #: True, if the user agrees to share the subject with other users.
     share_subject_social = models.BooleanField(default=False)
+    #: True, if the user agrees to share the degree for analysis purposes.
     share_degree_brain = models.BooleanField(default=False)
+    #: True, if the user agrees to share the degree with other users.
     share_degree_social = models.BooleanField(default=False)
+    #: True, if the user agrees to share the semester for analysis purposes.
     share_semester_brain = models.BooleanField(default=False)
+    #: True, if the user agrees to share the semester with other users.
     share_semester_social = models.BooleanField(default=False)
 
     def __str__(self):
@@ -306,6 +356,10 @@ class SiddataUserStudy(models.Model):
             return "SiddataUserStudy {} {}".format(self.user.id, self.semester)
 
     def serialize(self):
+        """
+        Serializes a Degree object to a json string ready for JSON-API-conform submission.
+        :return: json-ready dict
+        """
         response_data = {
             "data": [{
                 "type": "SiddataUserStudy",
@@ -331,13 +385,21 @@ class Recommender(models.Model):
     """
     Represents a recommender
     """
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The name of the recommender.
     name = models.CharField(max_length=56)
+    #: If true, the recommender is active system-wide and will be accessible for all users.
     active = models.BooleanField(default=True)
+    #: The name of the class which defines the recommender's behavior.
     classname = models.CharField(max_length=56)
+    #: Textual description of the recommender.
     description = models.CharField(max_length=2048, null=True)
+    #: Path to the recommender's iconic image.
     image = models.CharField(max_length=128, null=True)
+    #: Defines the order in which the recommender is displayed.
     order = models.IntegerField(null=True, unique=True)
+    #: Information about how the user's data is used by the recommender.
     data_info = models.CharField(max_length=256, default="Die bei der Nutzung enstehenden Daten werden auf dem \
                Siddata Server gespeichert.")
 
@@ -348,11 +410,16 @@ class Recommender(models.Model):
 
 class SiddataUserRecommender(models.Model):
     """
-    Represents the usage of a recommender by a student
+    Represents the usage of a recommender by a user.
     """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The user who uses the recommender.
     user = models.ForeignKey(SiddataUser, on_delete=models.CASCADE)
+    #: The recommender used by the user.
     recommender = models.ForeignKey(Recommender, on_delete=models.CASCADE)
+    #: If true, the user has enabled the recommender and wants to use it.
     enabled = models.BooleanField(default=False)
 
     class Meta:
@@ -364,7 +431,6 @@ class SiddataUserRecommender(models.Model):
         """String representation of a Category object."""
         return "User {} uses recommender {}".format(self.user.id, self.recommender.name)
 
-
     def get_max_order(self):
         """returns maximum order value og goals"""
         goals = Goal.objects.filter(userrecommender=self).order_by('-order')
@@ -373,12 +439,12 @@ class SiddataUserRecommender(models.Model):
         else:
             return goals[0].order
 
-
     def serialize(self, include=True):
         """
         Converts a Recommender instance related to a certain user to nested structure that can be transformed to JSON.
         Follows REST API standards at
         https://jsonapi.org.
+        :param include: If true, related objects are included in the response.
         :return: data Dictionary with nested data.
         """
 
@@ -439,19 +505,26 @@ class SiddataUserRecommender(models.Model):
 
 class Goal(models.Model):
     """
-    Structure that represents some interest of a student. Has Activities as children.
-        attributes:
-        type: if type is set to "form" all children will be displayed in the frontend with one submit button.
+    Structure that represents some interest or work topic of a student. A goal holds a collection of activities.
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=1024, null=True)
-    description = models.TextField(null=True)
-    makedate = models.DateTimeField(auto_now_add=True)
-    userrecommender = models.ForeignKey(SiddataUserRecommender, on_delete=models.CASCADE)
-    order = models.IntegerField(default=1)
-    type = models.CharField(max_length=128, null=True)
-    visible = models.BooleanField(default=True)
 
+    #: Unique ID.
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Title of the goal.
+    title = models.CharField(max_length=1024, null=True)
+    #: Textual description of the goal.
+    description = models.TextField(null=True)
+    #: Make date of the goal object.
+    makedate = models.DateTimeField(auto_now_add=True)
+    #: The associated user-recommender-usage-relation.
+    userrecommender = models.ForeignKey(SiddataUserRecommender, on_delete=models.CASCADE)
+    #: Display order of the goal.
+    order = models.IntegerField(default=1)
+    #: Type of the goal.
+    type = models.CharField(max_length=128, null=True)
+    #: If true, the goal will be displayed, else it will be hidden, and its activities will be displayed without a
+    #: goal wrapped around them.
+    visible = models.BooleanField(default=True)
 
     class Meta:
          constraints = [
@@ -466,6 +539,7 @@ class Goal(models.Model):
         """
         Converts Goal instance to nested structure that can be transformed to JSON. Follows REST API standards at
         https://jsonapi.org.
+        :param include: If true, related objects are included in the response.
         :return: data Dictionary with nested data.
         """
 
@@ -546,7 +620,6 @@ class Goal(models.Model):
             # must not happen: The key is not unique
             logging.warning("GoalProperty not unique! Goal: {} Key: {}".format(self.id, key))
 
-
     def get_max_form(self):
         """returns maximum form value of activities in the goal"""
         try:
@@ -557,7 +630,6 @@ class Goal(models.Model):
                 return acts[0].form
         except:
             logging.exception("Error in Goal.get_max_form()")
-
 
     def get_max_order(self):
         """returns maximum order value of activities in the goal"""
@@ -578,9 +650,13 @@ class Goal(models.Model):
 
 class GoalProperty(models.Model):
     """A GoalProperty specifies a goal. For example: key=country, value=england"""
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The goal this property belongs to.
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE, default=None)
+    #: The key string of the property.
     key = models.CharField(max_length=128)
+    #: The value of the property.
     value = JSONField(null=True)
 
     def __str__(self):
@@ -608,7 +684,8 @@ class GoalProperty(models.Model):
 
 
 class Category(models.Model):
-    """A category of goals, for instance DDC-codes but also the categories from our goal tagset.
+    """
+    A category of goals, for instance DDC-codes but also the categories from our goal tagset.
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=1024)
@@ -652,31 +729,42 @@ class EducationalResource(models.Model):
         ('OER', 'Open Educational Resource'),
         ('WEB', 'Website')
     ]
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Dewey decimal classification number assigned by SidBERT.
     ddc_code = models.JSONField(null=True)
+    #: The origin providing the resource.
     origin = models.ForeignKey(Origin, on_delete=models.CASCADE, related_name="educational_resource_origin", null=True)
-    # resource's ID in it's origin system
+    #: The resource's ID in its origin system.
     identifier = models.CharField(max_length=1024, unique=True, null=True)
-    # dublin core fields
+    #: Contributor after dublin core scheme.
     contributor = models.JSONField(null=True)
-    # time and place string if present
+    #: Time and place string, if present, after dublin core scheme.
     coverage = models.CharField(max_length=1024, null=True)
-    # lom creator or visible instructors
+    #: lom creator or visible instructors after dublin core scheme.
     creator = models.JSONField(null=True)
+    #: Date if the resource has a date of happening.
     date = models.DateTimeField(max_length=128, null=True)
+    #: Textual description of the resource.
     description = models.TextField(null=True)
-    # pdf/video/mooc/etc.
+    #: pdf/video/mooc/etc.
     format = models.JSONField(max_length=1024, null=True, choices=FORMAT_CHOICES)
+    #: The language of the resource.
     language = LanguageField(max_length=1024, null=True)
+    #: Publisher of the resource.
     publisher = models.CharField(max_length=1024, null=True)  # keep it None for now, later maybe alias with origin
+    #: Relation after dublin core scheme.
     relation = models.CharField(max_length=1024, null=True)
+    #: Rights after dublin core scheme.
     rights = models.CharField(max_length=1024, null=True)
-    # URL to original resource
+    #: URL to the original resource.
     source = models.TextField(null=True)
-    # list of content-related keywords
+    #: List of content-related keywords.
     subject = models.JSONField(null=True)
+    #: Title of the resource.
     title = models.CharField(max_length=1024)
-    # list of type-related keywords
+    #: List of type-related keywords.
     type = models.JSONField(max_length=1024, null=True, choices=TYPE_CHOICES)
 
     def serialize(self):
@@ -709,6 +797,9 @@ class EducationalResource(models.Model):
         return response_data
 
     def get_format_translate(self):
+        """
+        Translates format abbreviations to full names.
+        """
         format_translation_dict = {
         'IMG': 'Bilddatei',
         'CRS': 'Kurs',
@@ -732,8 +823,12 @@ class EducationalResource(models.Model):
         return None
 
 
-
 class InheritingCourse(EducationalResource):
+    """
+    Course model inheriting from EducationalResource.
+    """
+
+    #: The course's ID in its origin system.
     course_origin_id = models.CharField(max_length=512, default=None)
 
     def __str__(self):
@@ -765,10 +860,16 @@ class InheritingCourse(EducationalResource):
 
 class Institute(models.Model):
     """ Represents University Institutes. """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Name of the institute.
     name = models.CharField(max_length=512)
+    #: URL to the institute's homepage.
     url = models.CharField(max_length=512, null=True)
+    #: The origin where the institute is located.
     origin = models.ForeignKey(Origin, on_delete=models.CASCADE)
+    #: ID of the institute in its origin system.
     institute_origin_id = models.CharField(max_length=512)
 
     class Meta:
@@ -795,11 +896,21 @@ class Institute(models.Model):
 
 
 class StudipCourse(InheritingCourse):
+    """
+    Siddata's representation of Stud.IP courses.
+    """
+
+    #: The place where the course is held.
     place = models.CharField(max_length=1024, null=True)
+    #: The course's start time.
     start_time = models.DateTimeField(null=True)
+    #: The course's end time.
     end_time = models.DateTimeField(null=True)
+    #: The semester in which the course is held first time.
     start_semester = models.CharField(max_length=128)
+    #: The semester in which the course is held last time.
     end_semester = models.CharField(max_length=128)
+    #: The institute providing the course.
     institute = models.ForeignKey(Institute, on_delete=models.DO_NOTHING, null=True, default=None)
 
     @staticmethod
@@ -850,7 +961,13 @@ class StudipCourse(InheritingCourse):
 
 
 class InheritingEvent(EducationalResource):
+    """
+    Event model class inheriting from EducationalResource.
+    """
+
+    #: The course the event belongs to.
     course = models.ForeignKey(InheritingCourse, on_delete=models.CASCADE, null=True)
+    #: The event's ID in its origin system.
     event_origin_id = models.CharField(max_length=128)
 
     def __str__(self):
@@ -885,8 +1002,15 @@ class InheritingEvent(EducationalResource):
 
 
 class StudipEvent(InheritingEvent):
+    """
+    Siddata's representation of events in Stud.IP systems.
+    """
+
+    #: The event's start time.
     start_time = models.DateTimeField(null=True)
+    #: The event's end time.
     end_time = models.DateTimeField(null=True)
+    #: The location where the event is happening.
     place = models.CharField(max_length=1024)
 
     @staticmethod
@@ -940,8 +1064,10 @@ class StudipEvent(InheritingEvent):
         return response_data
 
 
-
 class WebResource(EducationalResource):
+    """
+    A web resource that can be recommended to users.
+    """
 
     def __str__(self):
         """String representation of a Resource object."""
@@ -970,6 +1096,9 @@ class WebResource(EducationalResource):
 
 
 class Question(models.Model):
+    """
+    A question that can be asked to users wrapped in activities.
+    """
 
     TYPE_CHOICES = [
         ('checkbox', 'Checkboxes'),
@@ -982,14 +1111,17 @@ class Question(models.Model):
         ('datetime', 'Timestamps (frontend converts dates into timestamps)')
     ]
 
-    """Represents a question"""
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The actual question.
     question_text = models.TextField()
-    # checkbox = Mehrfachauswahl
-    # text = Freitext
-    # likert = Likertskala
-    # selection = einfache Auswahl
+    #: The typ of how the question is answered. Options are:
+    #: checkbox = multiple choice
+    #: text = free natural text
+    #: likert = likert scale
+    #: selection = single choice
     answer_type = models.CharField(max_length=1024, choices=TYPE_CHOICES)
+    #: The answer options for the question.
     selection_answers = ArrayField(models.CharField(max_length=256), null=True)
 
     def __str__(self):
@@ -1018,16 +1150,30 @@ class Question(models.Model):
 
 
 class Person(models.Model):
-    """Represents a person"""
+    """
+    Represents a person. This can either be a lecturer which might not use Siddata by themselves, or a social business
+    card created by a user mainly used by the Get Together recommender.
+    """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The image the person wants to appear with.
     image = models.ImageField(upload_to='images/', default="images/default.png", null=True)
+    #: The first name of the person.
     first_name = models.CharField(max_length=256, null=True)
+    #: The last name of the person.
     surname = models.CharField(max_length=256, null=True)
+    #: The academic title of the person.
     title = models.CharField(max_length=256, null=True)
+    #: The email of the person.
     email = models.CharField(max_length=256, null=True)
+    #: Description of the person's role or their interests.
     role_description = models.TextField(null=True)
+    #: URL e.g. to the person's homepage.
     url = models.CharField(max_length=256, null=True)
+    #: If true, this object will be used for data submission by users.
     editable = models.BooleanField(default=False)
+    #: The user which created this person object.
     user = models.ForeignKey(SiddataUser, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -1077,7 +1223,13 @@ class Person(models.Model):
 
 
 class Lecturer(Person):
+    """
+    Lecturer model class.
+    """
+
+    #: The origin where the lecturer works.
     origin = models.ForeignKey(Origin, on_delete=models.CASCADE)
+    #: The ID of the lecturer their the origin system.
     person_origin_id = models.CharField(max_length=256)
 
     class Meta:
@@ -1085,10 +1237,12 @@ class Lecturer(Person):
             models.UniqueConstraint(fields=["person_origin_id", "origin"], name="unique_origin_lecturer"),
         ]
 
-    class Meta:
-        unique_together = ('person_origin_id', 'origin')
-
     def serialize(self):
+        """
+        Converts Question instance to nested structure that can be transformed to JSON. Follows REST API standards at
+        https://jsonapi.org.
+        :return: data Dictionary with nested data.
+        """
         response_data = super().serialize()
         response_data['data'][0]['attributes']['origin_id'] = self.origin.id
         return response_data
@@ -1107,77 +1261,96 @@ class Lecturer(Person):
 
 
 class CourseLecturer(models.Model):
+    """
+    Relation between a lecturer and a course.
+    """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The course.
     course = models.ForeignKey(InheritingCourse, null=False, on_delete=models.CASCADE)
+    #: The lecturer.
     lecturer = models.ForeignKey(Person, null=False, on_delete=models.CASCADE)
 
 
 class LecturerInstitute(models.Model):
+    """
+    Relation between a lecturer and an institute.
+    """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The lecturer.
     lecturer = models.ForeignKey(Person, null=False, on_delete=models.CASCADE)
+    #: The institute.
     institute = models.ForeignKey(Institute, null=False, on_delete=models.CASCADE)
 
 
 class Activity(models.Model):
-    """Represents an activity
-    attributes:
-        order:  According to this integer the frontend will order the activities in a goal.
-                structure: 1xxxyyyzzz
-                            xxx high
-                            yyy medium
-                            zzz fine
-        status: new(freshly created)
-                active(active (again?)
-                snoozed(student wants to postpone it)
-                discarded(student has disabled it)
-                done(whohooo!)
-                immortal(will allway appear as active)
-        type:   todo (standalone activity),
-                resource(displays a Resource object, reference in resource attribute required)
-                course(displays a Course object, reference in course attribute required) ,
-                event(displays an Event object, reference in event attribute required)
-                question(displays a Question object, reference in question attribute required)
-                person(dispalys a Person object, reference in person attribute required)
-                iframe(displays a Webresource object, reference in resource attribute required)
-        rebirth: whether the activity should be re-activatable or not, once it has been discarded or processed.
-        activation_time: activity will only be shown after this date (f.i. reminder)
-        deactivation_time: activity will only be shown until this date (f.i. event recommendation)
-        color_theme: defines a color (red, green, yellow, grey)
-        button_text: defines a text which is displayed on the submit button in the frontend
-        interactions: defines a counter which is used for educational resources to count the number of views
-        template_ref: template to which the activity refers
+    """
+    Represents an activity, the key interaction object in the system.
     """
 
     STATUSES = Choices("new", "active", "snoozed", "discarded", "done", "immortal")
     TYPES = Choices("resource",  "question", "person", "todo", "course", "event")
+
+    #: If true, the activity can be re-activated by the user.
     rebirth = models.BooleanField(default=True, null=False)
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Related goal object.
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE, null=True)
+    #: Title of the activity.
     title = models.CharField(max_length=256, null=True)
+    #: Textual description of the activity.
     description = models.TextField(null=True)
+    #: Type of the activity. Options are: resource, question, person, todo, course, event, iframe.
     type = models.CharField(max_length=64)
+    #: Status of the activity. Options are: new, active, snoozed, discarded, done, immortal
     status = models.CharField(max_length=64, default="new")
+    #: Related EducationalResource object.
     resource = models.ForeignKey(EducationalResource, on_delete=models.CASCADE, null=True)
+    #: Related Question object.
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+    #: Related Person object.
     person = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
+    #: Given answers, if this is a question activity.
     answers = ArrayField(models.CharField(max_length=256), null=True, default=list)
+    #: Defines the size of the feedback scale for this activity.
     feedback_size = models.IntegerField(default=2)
+    #: Numerical feedback given by the user.
     feedback_value = models.IntegerField(null=True)
+    #: Textual feedback given by the user.
     feedback_text = models.CharField(max_length=1024, null=True)
+    #: Date when the feedback was given.
     feedback_chdate = models.DateTimeField(null=True)
+    #: User notes regarding this activity.
     notes = models.CharField(max_length=1024, null=True)
+    #: Date when the activity should be resolved.
     duedate = models.DateTimeField(null=True)
+    #: Display order of the activity.
     order = models.IntegerField(null=True)
+    #: ID of the activity batch this activity belongs to.
     form = models.IntegerField(null=True)
+    #: Change date of the activity.
     chdate = models.DateTimeField(null=True)
+    #: Creation date of the activity.
     mkdate = models.DateTimeField(auto_now_add=True)
+    #: Activation date of the activity.
     activation_time = models.DateTimeField(null=True)
+    #: Deactivation date of the activity.
     deactivation_time = models.DateTimeField(null=True)
+    #: Iconic image of the activity.
     image = models.CharField(max_length=256, null=True)
+    #: Color theme of the activity.
     color_theme = models.CharField(max_length=64, null=True)
+    #: Text displayed in the submit button of the activity. Note: "~static" hides the submit button.
     button_text = models.CharField(max_length=128, null=True)
+    #: Number of the interactions the user made with this activity.
     interactions = models.IntegerField(null=True, default=0)
+    #: ActivityTemplate this activity is based on.
     template_ref = models.ForeignKey("ActivityTemplate", on_delete=models.CASCADE, null=True)
+    #: If true, the activity is displayed to the user.
     visible = models.BooleanField(default=True, null=False)
 
     class Meta:
@@ -1235,7 +1408,8 @@ class Activity(models.Model):
     def __getattribute__(self, item):
         """
         Implements prioritize mechanism for ActivityTemplate attributes.
-        Return Activity attribute if corresponding TemplateActivity attribute is not set (empty|null).
+        Return Activity attribute if corresponding ActivityTemplate attribute is not set (empty|null).
+        :param item: The attribute.
         """
         # Prioritize template attribute only if it is a dynamic attribute
         if item in object.__getattribute__(self, "get_dynamic_attributes")():
@@ -1257,7 +1431,11 @@ class Activity(models.Model):
     @staticmethod
     def create_activity_from_template(template_id, goal, status="new", **kwargs):
         """
-        Creates an activity instance from a specific template
+        Creates an activity instance from a specific template.
+        :param template_id: The template id.
+        :param goal: The related goal of the activity.
+        :param status: The status the activity will be initialized with.
+        :param kwargs: Additional attributes which will be set on the activity.
         """
         template = ActivityTemplate.objects.get(template_id=template_id)
         attributes = {}
@@ -1288,7 +1466,8 @@ class Activity(models.Model):
 
     def has_template(self, template_id):
         """
-        Returns true if the passed template_id matches the containing template reference
+        Returns true if the passed template_id matches the containing template reference.
+        :param template_id: The template id to be tested.
         """
         return self.template_ref_id == template_id
 
@@ -1296,6 +1475,7 @@ class Activity(models.Model):
         """
         Converts an Activity instance to nested structure that can be transformed to JSON. Follows REST API standards at
         https://jsonapi.org.
+        :param include: If true, related objects will be included.
         :return: data Dictionary with nested data.
         """
 
@@ -1459,7 +1639,9 @@ class ActivityTemplate(Activity):
                     # do something with this activity
     """
 
+    #: Textual template ID.
     template_id = models.CharField(max_length=256, primary_key=True)
+    #: Related activity object.
     activity_ptr = models.OneToOneField(
         Activity, on_delete=models.CASCADE,
         parent_link=True,
@@ -1469,34 +1651,54 @@ class ActivityTemplate(Activity):
 class RequestLog(models.Model):
     """Represents a Request. For evaluation purposes"""
 
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Recommender included in the request.
     recommender = models.ForeignKey(Recommender, on_delete=models.CASCADE, null=True)
+    #: User included in the request.
     user = models.ForeignKey(SiddataUser, on_delete=models.CASCADE, null=True)
+    #: Request time.
     timestamp = models.DateTimeField(auto_now_add=True)
+    #: Route of the request.
     route = models.CharField(max_length=1024)
 
 
 class CourseMembership(models.Model):
     """ Course Enrollment"""
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The user who is enrolled in the course.
     user = models.ForeignKey(SiddataUser, on_delete=models.CASCADE, null=True)
+    #: The course.
     course = models.ForeignKey(StudipCourse, on_delete=models.CASCADE, null=True)
+    #: If true, the user agreed to share this course enrollment for analysis purposes.
     share_brain = models.BooleanField(default=False)
+    #: If true, the user agreed to share this course enrollment with other users.
     share_social = models.BooleanField(default=False)
 
 
 class InstituteMembership(models.Model):
     """ Institute affiliation"""
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: The user who is affiliated to the institute.
     user = models.ForeignKey(SiddataUser, on_delete=models.CASCADE, null=True)
+    #: The institute.
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, null=True)
+    #: If true, the user agreed to share this institute affiliation for analysis purposes.
     share_brain = models.BooleanField(default=False)
+    #: If true, the user agreed to share this institute affiliation with other users.
     share_social = models.BooleanField(default=False)
 
 
 class AdminReport(models.Model):
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    send_date = models.DateTimeField(default=None, null=True)  # will be set when this report is being sent
+    #: The date when the report was sent. This will only be set when the report has already been sent.
+    send_date = models.DateTimeField(default=None, null=True)
+    #: If true, the report has not been sent yet.
     pending = models.BooleanField(default=True)
 
     @staticmethod
@@ -1521,6 +1723,9 @@ class AdminReport(models.Model):
         return report
 
     def send_to_admins(self):
+        """
+        Send the report to all admins.
+        """
         messages = ReportMessage.objects.filter(report=self)
 
         if messages.count() == 0:
@@ -1556,12 +1761,20 @@ class AdminReport(models.Model):
 
 class ReportMessage(models.Model):
     """ Report to be sent via mail to the admins on a regular basis """
+
+    #: Unique ID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #: Creation date of the message.
     mkdate = models.DateTimeField(auto_now_add=True)
+    #: Change date of the message.
     chdate = models.DateTimeField(auto_now=True)
+    #: The actual message.
     message = models.TextField(max_length=2048)
+    #: The title of the message.
     title = models.CharField(max_length=512)
+    #: The report this message belongs to.
     report = models.ForeignKey(AdminReport, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
+        """String representation of the message."""
         return self.title + "\n" + self.message + "\n"
