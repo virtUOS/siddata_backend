@@ -165,7 +165,7 @@ class SiddataUser(models.Model):
     gender_social = models.CharField(max_length=256, null=True)
     #: If true, the user agreed that usage data can be retrieved and used for analysis purposes.
     data_donation = models.BooleanField(default=False)
-    #: TODO
+    #: Specific settings for data usage configured by the user.
     data_regulations = models.BooleanField(default=False)
 
     class Meta:
