@@ -3,8 +3,9 @@ from django.core.mail import send_mail
 
 
 class RM_BASE():
-    """ Recommender base class.
-        Methods and attributes can be inherited from here.
+    """
+    Recommender base class.
+    Methods and attributes can be inherited from here.
     """
 
     def __init__(self):
@@ -67,6 +68,12 @@ class RM_BASE():
         )
 
     def create_teaser_activity(self, goal):
+        """
+        Creates an activity instance, related to the given goal (indirect user association),
+        that teases the user about the recommender.
+        :param goal: Goal instance.
+        :return: True
+        """
         models.Activity.create_activity_from_template(
             template_id=self.get_class_name() + "_AC_teaser",
             goal=goal,
@@ -74,12 +81,22 @@ class RM_BASE():
         return True
 
     def get_teaser_activity(self, goal):
+        """
+        Get the teaser activity for the given goal.
+        :param goal: Goal instance.
+        :return: Activity instance.
+        """
         return models.Activity.objects.get(
             template_ref_id=self.get_class_name() + "_AC_teaser",
             goal=goal,
         )
 
     def activate_recommender_for_user_and_create_first_goal(self, user):
+        """
+        Sets the recommender active for the given user and creates a first goal for the user.
+        :param user: SiddataUser instance.
+        :return: Created Goal instance.
+        """
         # Relate recommender to user
         userrecommender = models.SiddataUserRecommender.objects.get_or_create(
             recommender=self.recommender,
@@ -100,7 +117,9 @@ class RM_BASE():
 
     def get_next_goal_order(self, userrecommender):
         """
-        Calculates next goal order number for dynamically creating goals within the recommender
+        Calculates next goal order number for dynamically creating goals within the recommender.
+        :param userrecommender: UserRecommender instance.
+        :return: Next goal order number.
         """
         new_goal_order = models.Goal.objects.filter(userrecommender=userrecommender).order_by('-order')[0].order
         if new_goal_order is None:
@@ -111,7 +130,9 @@ class RM_BASE():
 
     def get_next_activity_order(self, goal):
         """
-        Calculates next activity order number for dynamically creating activities within a goal
+        Calculates next activity order number for dynamically creating activities within a goal.
+        :param goal: Goal instance.
+        :return: Next activity order number.
         """
         new_activity_order = models.Activity.objects.filter(goal=goal).order_by('-order')[0].order
         if new_activity_order is None:
@@ -136,11 +157,10 @@ class RM_BASE():
         """
         return send_mail(f"{self.get_name()}: {title}", content, None, [address])
 
-
     def refresh(self):
         """
         Allows recommenders to adapt to changes caused in other contexts.
         Is called on all recommenders when changes occur.
-        :return:
+        :return: True
         """
         return True
