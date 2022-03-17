@@ -16,15 +16,17 @@ FORMAT_CHOICES = []
 for format_choice_index in EducationalResource.FORMAT_CHOICES:
     FORMAT_CHOICES += [format_choice_index[0].casefold()]
 
+
 def get_corresponding_format_tag(tag):
     tags = FORMAT_CHOICES
     for index in tags:
         target = index[1].casefold()
         if ' ' in target:
-            target = re.split(' ',target)[0]
+            target = re.split(' ', target)[0]
         if tag == target:
             return index[0]
     return None
+
 
 def process_format_tag(dc):
     format_split = re.split('/', dc['format'])
@@ -38,6 +40,7 @@ def process_format_tag(dc):
             if tag is not None:
                 break
         return tag
+
 
 def collect_educational_resources():
     collect_oers()
