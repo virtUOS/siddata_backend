@@ -17,7 +17,7 @@ class RM_BASE():
         self.IMAGE = "logo.png"
         self.ORDER = "Order has to be a unique integer not used by other recommenders."
         self.recommender = None
-        self.DATA_INFO = "Die bei der Nutzung enstehenden Daten werden auf dem  Siddata Server gespeichert."
+        self.DATA_INFO = "Die bei der Nutzung entstehenden Daten werden auf dem  Siddata Server gespeichert."
 
     def get_name(self):
         return self.NAME
@@ -31,8 +31,8 @@ class RM_BASE():
     def get_template_id(self, template_name, origin=None):
         """
         Returns a template id which is built from recommender name, template_name and origin name (if passed).
-        In a recommender each template must have an unique template name or an unique pair of template name and origin.
-        Otherwise a template couldn't clearly identified in the activity_create_from_template method.
+        In a recommender each template must have a unique template name or a unique pair of template name and origin.
+        Otherwise, a template couldn't clearly be identified in the activity_create_from_template method.
         """
         template_id = self.get_class_name() + "_AC_" + template_name
         if origin:
@@ -41,7 +41,7 @@ class RM_BASE():
 
     def initialize_templates(self):
         """
-        Initializes and updates teaser templates
+        Initializes and updates teaser templates.
         """
         teaser_question = models.Question.objects.get_or_create(
             question_text="{} <br><br><p>Möchtest du die Funktion <strong>{}</strong> nutzen?</p>".format(

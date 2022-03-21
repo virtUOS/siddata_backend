@@ -12,6 +12,7 @@ Welcome to Siddata Backend's documentation!
 
    api_documenation
    bert_documentation
+   recommender_documentation
    server_administration
    modules
 
