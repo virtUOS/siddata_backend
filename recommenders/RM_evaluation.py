@@ -7,7 +7,7 @@ from backend import models
 
 class RM_evaluation(RM_BASE):
     """
-        Generates different questionnaires.
+    Generates different questionnaires.
     """
 
     def __init__(self):
@@ -104,7 +104,7 @@ class RM_evaluation(RM_BASE):
             }
         )
 
-    ### Start Survey activity
+        ### Start Survey activity
 
         instruction_text_3 = ' Im Zuge einer wissenschaftlichen Arbeit wird gerade eine Begleitumfrage zu Siddata durchgeführt.' \
                              ' Dort wollen wir untersuchen, wie deine Wahrnehmung der Nutzung von Siddata ist.' \
@@ -168,8 +168,12 @@ class RM_evaluation(RM_BASE):
 
         return True
 
-
-    def get_likert_scale(self,items):
+    def get_likert_scale(self, items):
+        """
+        Returns a list of answer option strings for a likert scale.
+        :param items: number of items
+        :return: list of answer option strings
+        """
 
         if items == 4:
             likert_scale_answers_4 = [
@@ -205,6 +209,8 @@ class RM_evaluation(RM_BASE):
     def get_scale_value(self, items):
         """
         transfer the value of likert scale from words into numbers
+        :param items: number of items
+        :return: list of answer option strings
         """
         if items == 4:
             scale_value_dic_4 = {
@@ -237,7 +243,6 @@ class RM_evaluation(RM_BASE):
         else:
             return "no scale for {}".format(items)
 
-
     def process_activity(self, activity):
         """
         :param activity:  activity
@@ -264,7 +269,6 @@ class RM_evaluation(RM_BASE):
                 n_item_val = activity.answers[0]
             else:
                 n_item_val = likert_scale_4_dic[activity.answers[0]]
-
 
         result_ux[activity.title] = n_item_val
         activity.goal.set_property(key="Result_UX", value=result_ux)

@@ -160,8 +160,8 @@ class RM_start(RM_BASE):
     def create_teaser_activity(self, goal):
         """
         This method is overridden without content. Reason: The Startpage is active by default.
-        :param goal:
-        :return:
+        :param goal: Goal object
+        :return: True
         """
         return True
 
@@ -206,6 +206,7 @@ class RM_start(RM_BASE):
     def get_default_goal(self, user):
         """
         Returns the default goal to fill it with initial activities
+        :param user: SiddataUser object
         :return: default goal
         """
         userrecommender = models.SiddataUserRecommender.objects.get(
@@ -239,7 +240,7 @@ class RM_start(RM_BASE):
     def get_or_create_announcements(self, user):
         """
         In this function announcements can be fed into the start recommender.
-        :return:
+        :param user: SiddataUser object
         """
         goal = self.get_default_goal(user)
         evaluation_activity, created = models.Activity.objects.get_or_create(

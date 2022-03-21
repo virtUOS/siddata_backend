@@ -92,6 +92,11 @@ class RM_learning_orga(RM_BASE):
                                "Ich ziehe zusätzlich Literatur heran, wenn meine Aufzeichnungen unvollständig sind."]
 
     def get_likert_scale(self, items):
+        """
+        Returns a list of answer option strings for a likert scale.
+        :param items: number of items
+        :return: list of answer option strings
+        """
 
         if items == 4:
             likert_scale_answers_4 = [
@@ -127,6 +132,8 @@ class RM_learning_orga(RM_BASE):
     def get_scale_value(self, items):
         """
         transfer the value of likert scale from words into numbers
+        :param items: number of items
+        :return: list of answer option strings
         """
         if items == 4:
             scale_value_dic_4 = {
@@ -733,11 +740,10 @@ class RM_learning_orga(RM_BASE):
             t.save()
             n_item += 1
 
-
     def initialize(self, user):
         """
         When a user logs in for the first time, initial activities are generated.
-        :param siddatauser_id: Id of the user who logged in for the first time.
+        :param user: SiddataUser object
         :return: True if successful
         """
         goal = self.activate_recommender_for_user_and_create_first_goal(user)
@@ -765,6 +771,11 @@ class RM_learning_orga(RM_BASE):
         return True
 
     def initialize_questionnaire(self, goal):
+        """
+        Initialize the questionnaire for the given goal.
+        :param goal: Goal object
+        :return : True
+        """
 
         n_item = 1
         for element in self.LIST_questions:
@@ -972,14 +983,6 @@ class RM_learning_orga(RM_BASE):
         :return: Activities with recommendations
         """
         logging.info("Generierte Empfehlungen für: {}".format(results_learningstr))
-
-        """
-        goal = models.Goal.objects.create(
-            title=self.get_name(),
-            userrecommender=activity.goal.userrecommender,
-        )
-        goal.save()
-        """
 
         description = "<p>Du hast mit dem Fragebogen deine Lernstrategien in vier Dimensionen evaluiert:" \
                       " <strong>Kognitive Strategien</strong>, <strong>Metakognitive " \

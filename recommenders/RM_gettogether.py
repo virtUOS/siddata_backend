@@ -41,7 +41,7 @@ SEMESTER_END = datetime.datetime(year=2022, month=3, day=31)
 
 class RM_gettogether(RM_BASE):
     """
-        RM for social recommendations, such as communities, matches, etc.
+    RM for social recommendations, such as communities, matches, etc.
     """
 
     def __init__(self):
@@ -472,7 +472,6 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in initialize()")
 
-
     def process_activity(self, activity):
         """
         This function processes the incoming activities which were processed by the user.
@@ -528,7 +527,6 @@ class RM_gettogether(RM_BASE):
 
         except Exception:
             logging.exception("Error in is_email()")
-
 
     def update_profile_form(self, goal):
         """
@@ -931,7 +929,6 @@ class RM_gettogether(RM_BASE):
         )
         return [c.course for c in coursememberships]
 
-
     def update_contactcard(self, data, target_goal, public_only=True):
         """Displays user data in a goal.
         :param data : Data to be displayed in dictionary form
@@ -945,7 +942,6 @@ class RM_gettogether(RM_BASE):
             # no user consent for visibility
             if public_only and (data["visible"]==False):
                 return False
-
 
             user = models.SiddataUser.objects.get(id=data["user_id"])
             person, created = models.Person.objects.get_or_create(user=user,
@@ -979,7 +975,6 @@ class RM_gettogether(RM_BASE):
             order = person_activity.order
 
             order += 1
-
 
             location_activity, created = models.Activity.objects.get_or_create(
                 title=title,
@@ -1115,13 +1110,3 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in create_public_contact_card()")
 
-    def get_users_courses(self, user):
-        """Retrieves all courses within the current semester, for which a user is enrolled."""
-        coursememberships = models.CourseMembership.filter(
-            user=user,
-            share_brain=True,
-            share_social=True,
-            course__starttime__gte=SEMESTER_START,
-            course__endtime__lte=SEMESTER_END,
-        )
-        return [c.course for c in coursememberships]
