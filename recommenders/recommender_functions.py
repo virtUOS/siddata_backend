@@ -12,17 +12,23 @@ from backend import models
 import settings
 from recommenders.RM_start import RM_start
 
+
 RMMODULE = "recommenders"
 
 RANDOMIMAGES = ["brainbulb.png", "idea.png", "formulas.png"]
 
+
 def check_for_RM_existence(rm_classname):
-    """Function to check if an RM module already exists in the Database. Workaround to avoid multiple RM modules being
-    instantiated."""
+    """
+    Function to check if an RM module already exists in the Database. Workaround to avoid multiple RM modules being
+    instantiated.
+    :para m rm_classname: class name of the recommender
+    """
     try:
         return models.Recommender.objects.filter(classname=rm_classname).exists()
     except Exception:
         logging.exception("Error in recommender_functions.check_for_RM_existence()")
+
 
 def create_initial_data_for_user(user):
     """
@@ -65,7 +71,7 @@ def create_initial_data_for_user(user):
 def create_recommender_by_classname(rm):
     """
     Create a class instance by constructor call in a string.
-    :param rm_call: module name, class name plus arguments in ()
+    :param rm: module class name, class name plus arguments in ()
     :return: an instance of the class specified.
     """
     try:
@@ -89,12 +95,11 @@ def create_recommender_by_classname(rm):
         return False
 
 
-
 def get_active_recommenders():
     """
     Returns a list of recommender instances which are activated.
     Searches the recommender directory for files and classes.
-    :return: list with rm class instances
+    :return: list with recommender class instances
     """
     try:
         # path with recommender modules
@@ -154,9 +159,9 @@ def get_random_image():
 
 def check_for_teaser_activity(activity):
     """
-    Checks if an activity is a teaser-activity. If so and if answer ist positive,
+    Checks if an activity is a teaser-activity. If so and if answer is positive,
     activates recommender.
-    :param activity:
+    :param activity: activity object to evaluate
     :return:
     """
     try:
@@ -194,113 +199,113 @@ def initialize_recommender_for_user(user, rm_name):
 
 
 def generate_comprehensive_recommender(user, include=True):
-        """
-        todo: complete or remove
-        Returns a recommender that is dynamically filled with all activities of a user to develop prioritization
-        functions.
-        :return: Recommender object
-        """
-        try:
-            rm_name = "Testgebiet Priorisierung"
-            #################### Goal ##############
+    """
+    todo: complete or remove
+    Returns a recommender that is dynamically filled with all activities of a user to develop prioritization
+    functions.
+    :return: Recommender object
+    """
+    try:
+        rm_name = "Testgebiet Priorisierung"
+        #################### Goal ##############
 
-            included = []
+        included = []
 
-            included_activities = []
+        included_activities = []
 
-            activity_dicts = []
-            activityset = models.Activity.objects.filter(goal__userrecommender__user=user).order_by("order")
+        activity_dicts = []
+        activityset = models.Activity.objects.filter(goal__userrecommender__user=user).order_by("order")
 
-            for activity in activityset:
-                activity_dicts.append({"id": activity.id, "type": "Activity"})
-                if include:
-                    a_ser = activity.serialize()
-                    for entry in a_ser["data"] + a_ser["included"]:
-                        if entry not in included_activities:
-                            included_activities.append(entry)
-
-            goal_json = {
-                "data": [{
-                    "type": "Goal",
-                    "id": 42,
-                    "attributes": {
-                        "title": "Alle Activities",
-                        "description": "In diesem Goal sind alle Activities des Users enthalten.",
-                        "makedate": datetime.datetime.now(),
-                        "user": user.pk,
-                        "recommender": rm_name,
-                        "order": 1001,
-                        "type": None,
-                        "visible": False,
-
-                    },
-                    "relationships": {
-                        "activities": {
-                            "data": activity_dicts
-                        },
-                        "goalproperties": {
-                            "data": {}
-                        },
-                        "students": {
-                            "data": [{
-                                "id": user.id,
-                                "type": "SiddataUser"
-                            }]
-                        }
-                    }
-                }],
-            }
-
-        ############################################ recommender ############
-            goal_dicts = []
-            included_goal = []
-
-            goal_dicts.append({"id": 42, "type": "Goal"})
+        for activity in activityset:
+            activity_dicts.append({"id": activity.id, "type": "Activity"})
             if include:
-                for entry in goal_json["data"] + goal_json["included"]:
-                    if entry not in included_goal:
-                        included_goal.append(entry)
+                a_ser = activity.serialize()
+                for entry in a_ser["data"] + a_ser["included"]:
+                    if entry not in included_activities:
+                        included_activities.append(entry)
 
-            response_data = {
-                "data": [{
-                    "type": "Recommender",
-                    "id": 42,
-                    "attributes": {
-                        "name": rm_name,
-                        "classname": rm_name,
-                        "description": "Hier werden Algorithmen entwickeln um einen Feed mit allen Activities in eine "
-                                       "sinnvolle Reihenfolge zu bringen.",
-                        "image": "{}{}".format(settings.IMAGE_URL, "professions.png"),
-                        "order": 1001,
-                        "enabled": True,
-                        "data_info": "Keine Daten benötigt",
+        goal_json = {
+            "data": [{
+                "type": "Goal",
+                "id": 42,
+                "attributes": {
+                    "title": "Alle Activities",
+                    "description": "In diesem Goal sind alle Activities des Users enthalten.",
+                    "makedate": datetime.datetime.now(),
+                    "user": user.pk,
+                    "recommender": rm_name,
+                    "order": 1001,
+                    "type": None,
+                    "visible": False,
+
+                },
+                "relationships": {
+                    "activities": {
+                        "data": activity_dicts
                     },
-                    "relationships": {
-                        "goals": {
-                            "data": goal_dicts
-                        },
-                        "activities": {
-                            "data": []
-                        },
-                        "students": {
-                            "data": [{
-                                "type": "SiddataUser",
-                                "id": user.id
-                            }]
-                        }
+                    "goalproperties": {
+                        "data": {}
+                    },
+                    "students": {
+                        "data": [{
+                            "id": user.id,
+                            "type": "SiddataUser"
+                        }]
                     }
-                }],
-            }
+                }
+            }],
+        }
 
-            if include:
-                u_ser = user.serialize(include=[])["data"][0]
-                if u_ser not in included:
-                    included.append(u_ser)
-                response_data['included'] = included
+    ############################################ recommender ############
+        goal_dicts = []
+        included_goal = []
 
-            return response_data
-        except Exception:
-            logging.exception("Error in recommender_functions.generate_comprehensive_recommender()")
+        goal_dicts.append({"id": 42, "type": "Goal"})
+        if include:
+            for entry in goal_json["data"] + goal_json["included"]:
+                if entry not in included_goal:
+                    included_goal.append(entry)
+
+        response_data = {
+            "data": [{
+                "type": "Recommender",
+                "id": 42,
+                "attributes": {
+                    "name": rm_name,
+                    "classname": rm_name,
+                    "description": "Hier werden Algorithmen entwickeln um einen Feed mit allen Activities in eine "
+                                   "sinnvolle Reihenfolge zu bringen.",
+                    "image": "{}{}".format(settings.IMAGE_URL, "professions.png"),
+                    "order": 1001,
+                    "enabled": True,
+                    "data_info": "Keine Daten benötigt",
+                },
+                "relationships": {
+                    "goals": {
+                        "data": goal_dicts
+                    },
+                    "activities": {
+                        "data": []
+                    },
+                    "students": {
+                        "data": [{
+                            "type": "SiddataUser",
+                            "id": user.id
+                        }]
+                    }
+                }
+            }],
+        }
+
+        if include:
+            u_ser = user.serialize(include=[])["data"][0]
+            if u_ser not in included:
+                included.append(u_ser)
+            response_data['included'] = included
+
+        return response_data
+    except Exception:
+        logging.exception("Error in recommender_functions.generate_comprehensive_recommender()")
 
 
 def refresh_all_recommenders():
@@ -321,9 +326,9 @@ def refresh_all_recommenders():
 
 def active_recommenders_for_user(user):
     """
-    returns a list of user_recommenders which are active for a user
-    :param user:
-    :return: list of user_recommenders
+    returns a list of SiddataUserRecommender objects which are already initialized for a given user
+    :param user: SiddataUser object
+    :return: django queryset of SiddataUserRecommender objects
     """
     try:
         return models.SiddataUserRecommender.objects.filter(user=user)
@@ -349,9 +354,9 @@ def active_recommender_classnames_for_user(user):
 def recommender_activated(user, rm_classname):
     """
     Check if a recommender is active for user
-    :param user: user
+    :param user: SiddataUser object
     :param rm_classname: name of the recommender
-    :return: Boolean
+    :return: bool
     """
     try:
         rm = models.SiddataUserRecommender.objects.get(
@@ -371,9 +376,9 @@ def recommender_activated(user, rm_classname):
 
 def generate_p2_user_info(user):
     """
-    Checks if a users origin_id is known from prior p2 usage and generates an info activity if so.
-    :param user: user to be ckecked
-    :return: Boolean True if user is known and activity was generated, else False.
+    Checks if a user's origin_id is known from prior p2 usage and generates an info activity if so.
+    :param user: user to be checked
+    :return: True, if user is known and activity was generated, False otherwise.
     """
     try:
         p2_users = pd.read_csv(filepath_or_buffer="{}/p2_data/p2_origin_ids.csv".format(settings.BASE_DIR),
