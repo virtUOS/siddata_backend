@@ -7,7 +7,7 @@ Refer to the frontend's documentation for setting it up.
 
 For setting up the backend follow these steps:
 1. Clone the repository.
-2. Create a virtual python environment with python version 3.6.
+2. Create a virtual python environment with python version 3.7.
 3. Install the packages from requirements.txt and requirements-dev.txt.
 4. Install [PostgreSQL](https://www.postgresql.org/download/) and get your PostgreSQL server running.
 5. In PostgreSQL, create a database called "siddata" and a user which has all privileges on that database. [This tutorial](https://www.postgresqltutorial.com/install-postgresql-linux/) might help.
