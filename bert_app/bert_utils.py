@@ -2,8 +2,9 @@ import logging
 import tensorflow as tf
 import transformers
 import pandas as pd
-from os.path import abspath, join, dirname, isfile, isdir
+from os.path import join
 import os
+from django.conf import settings
 
 
 class SidBERT:
@@ -19,8 +20,8 @@ class SidBERT:
         """
 
         #load models
-        self.base_path = abspath(join(dirname(__file__),'..','..'))
-        self.file_path = join(self.base_path,'data','Sidbert')
+        self.base_path = settings.BASE_DIR
+        self.file_path = join(self.base_path, 'data', 'SidBERT')
 
         self.logger = logging.getLogger(self.__class__.__name__)
         if "LOG_LEVEL" in os.environ:
