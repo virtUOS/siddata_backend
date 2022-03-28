@@ -16,7 +16,7 @@ import django
 import sphinx_pdj_theme
 sys.path.append(os.path.abspath('../..'))
 print(sys.path)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings_default'
 django.setup()
 
 
