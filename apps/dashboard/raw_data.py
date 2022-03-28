@@ -36,6 +36,7 @@ def get_raw_data():
         "goal__order",
         "order",
         "goal__userrecommender__recommender__name",
+        "goal__userrecommender__enabled",
         "goal__userrecommender__user__id",
         "goal__userrecommender__user__gender_brain",
         "goal__userrecommender__user__origin__name",
@@ -68,6 +69,7 @@ def get_raw_data():
         'goal__description': 'goal_description',
         'goal__order': 'goal_order',
         'goal__userrecommender__recommender__name': 'recommender',
+        'goal__userrecommender__enabled': 'recommender_enabled_by_user',
         'goal__userrecommender__user__origin__name': 'student_university',
         'template_ref__id': 'template_id',
         'template_ref__title': 'template_title'
@@ -138,7 +140,7 @@ def get_raw_data():
 
     data = df_activities.apply(extend_df, axis=1)
 
-    save_dir = os.path.join(settings.BASE_DIR, "..", "data_export")
+    save_dir = os.path.join(settings.DATA_EXPORT_DIR)
     os.makedirs(save_dir, exist_ok=True)
 
     data.to_csv(path_or_buf=os.path.join(save_dir, "activities_full.csv"), sep=';')

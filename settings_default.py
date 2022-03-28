@@ -52,6 +52,9 @@ STATIC_URL = '/static/'
 # Use manage.py collectstatic to copy all static files to this folder.
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_apache_static/')
 
+# Data export
+DATA_EXPORT_DIR = os.path.join(BASE_DIR, 'data_export')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
