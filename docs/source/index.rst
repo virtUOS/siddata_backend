@@ -10,7 +10,6 @@ Welcome to Siddata Backend's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   env_setup
    api_documenation
    bert_documentation
    recommender_documentation

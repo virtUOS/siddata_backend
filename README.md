@@ -29,9 +29,18 @@ For setting up the backend follow these steps:
     - [Optional] If you want to collect udemy courses, create a udemy client and fill the corresponding credentials in `MOOC_CLIENTS`.
     - [Optional] If you want the email service to work, fill the `EMAIL_` variables.
     - [Optional] Enter your name and email address to `ADMINS` if you want to receive admin reports as emails.
-8. Migrate the database: `python manage.py migrate`
-9. Run the server and check if everything works: `python manage.py runserver`
-10. Create a superuser in order to manage your database via the web interface: `python manage.py createsuperuser`
+8. Migrate the database: 
+    ```sh
+    python manage.py migrate
+    ```
+9. Run the server and check if everything works: 
+    ```sh
+    python manage.py runserver
+    ```
+10. Create a superuser in order to manage your database via the web interface: 
+    ```sh
+    python manage.py createsuperuser
+    ```
 
 ### Troubleshooting:
 - If you get an import error, check the content of your `settings.BASE_DIR` variable. The path has to be like `/path/to/your/project/siddata_backend`. It has to contain the project directory at the end. If this isn't the case, adjust the setting of `BASE_DIR` accordingly.
