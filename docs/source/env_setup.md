@@ -5,6 +5,7 @@ For developing in the backend, you will probably need some frontend to test the 
 The Stud.IP frontend can be found [here](https://github.com/virtUOS/siddata_studip_plugin). 
 Refer to the frontend's documentation for setting it up. 
 
+## Backend setup
 For setting up the backend follow these steps:
 1. Clone the repository.
 2. Create a virtual python environment with python version 3.7.
