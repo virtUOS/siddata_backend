@@ -51,4 +51,7 @@ the reST syntax used by Sphinx can be found here: https://thomas-cokelaer.info/t
 Sphinx documentation: https://sphinx-rtd-tutorial.readthedocs.io/en/latest/index.html
 
 For generating the HTML documentation with sphinx you first need to follow the steps in the 
-[Backend setup](#backend-setup) section. Then go to the docs directory and run `make html`.
+[Backend setup](#backend-setup) section. Then go to the docs directory and run: 
+```sh
+make html
+```
