@@ -33,8 +33,8 @@ For setting up the backend follow these steps:
 9. Run the server and check if everything works: `python manage.py runserver`
 10. Create a superuser in order to manage your database via the web interface: `python manage.py createsuperuser`
 
-## Troubleshooting:
-- If you get an import error, check your `settings.BASE_DIR` variable. The path has to be like `/path/to/your/project/siddata_backend`. It has to contain the project directory at the end. If this isn't the case, adjust the setting of `BASE_DIR` accordingly.
+### Troubleshooting:
+- If you get an import error, check the content of your `settings.BASE_DIR` variable. The path has to be like `/path/to/your/project/siddata_backend`. It has to contain the project directory at the end. If this isn't the case, adjust the setting of `BASE_DIR` accordingly.
 
 # Documentation
 Sphinx is used to generate the documentation based on docstrings in the code and .rst files under docs/source. Syntax of
