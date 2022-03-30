@@ -1,8 +1,9 @@
 from plotly.io import to_html
 import plotly.graph_objects as go
 
+
 def pichart_plot(labels, values, colors):
-    chart = go.Pie(labels=labels, values=values , hoverinfo='label+percent', textinfo='value',
+    chart = go.Pie(labels=labels, values=values, hoverinfo='label+percent', textinfo='value',
                    marker=dict(colors=colors))
     fig = go.Figure(data=[chart])
     fig.update_layout(autosize=True)
