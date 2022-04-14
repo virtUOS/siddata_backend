@@ -39,3 +39,8 @@ django-pandas
 sphinx
 sphinx_pdj_theme
 django-sphinxdoc
+
+#documentation
+sphinx
+sphinx_pdj_theme
+django-sphinxdoc
