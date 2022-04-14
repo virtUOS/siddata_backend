@@ -5,9 +5,9 @@ from scheduled_tasks.db_tasks import add_jobs
 
 from django.conf import settings
 
-##############################################################
 
 scheduler = BackgroundScheduler(settings.SCHEDULER_CONFIG, timezone=settings.TIME_ZONE)
+
 
 def start():
     """

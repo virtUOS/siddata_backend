@@ -7,7 +7,7 @@ from backend import models
 
 class RM_evaluation(RM_BASE):
     """
-        Generates different questionnaires.
+    Generates different questionnaires.
     """
 
     def __init__(self):
@@ -18,8 +18,10 @@ class RM_evaluation(RM_BASE):
         # The description text summarizes the functionality. It is shown in teaser activity and tile view,
         self.DESCRIPTION = "Evaluation - hier kannst du Feedback zum Siddata-Prototypen geben."
         # This text is displayed in Teaser Activities
-        self.TEASER_TEXT = "Danke, dass du dir die Zeit nimmst, den Siddata-Prototypen vorab zu testen. Bitte teile "\
-                            "deine Eindrücke und Erfahrungen mit uns.<br>Möchtest du den <b>Fragebogen</b> beantworten?"
+        self.TEASER_TEXT = "Danke, dass du dir die Zeit nimmst, den Siddata-Prototypen zu testen. Wir "\
+                           "freuen uns, wenn du deine Erfahrungen und Eindrücke "\
+                           "mit uns teilst. Dazu haben wir einen Evaluations-Fragebogen vorbereitet.<br><br>"\
+                           "Möchtest du die Funktion Evaluation nutzen?"
         # If set to False, the recommender will not appear in the GUI or the DB
         self.ACTIVE = True
         # Image is shown in teaser activity
@@ -102,11 +104,11 @@ class RM_evaluation(RM_BASE):
             }
         )
 
-    ### Start Survey activity
+        ### Start Survey activity
 
-        instruction_text_3 = ' Im Zuge einer wissenschaftlichen Arbeit wird gerade eine Begleitumfrage zu SIDDATA durchgeführt.' \
-                             ' Dort wollen wir untersuchen, wie deine Wahrnehmung der Nutzung von SIDDATA ist.' \
-                             ' Um an der Studie teilzunehmen klicke bitte hier: ' \
+        instruction_text_3 = ' Im Zuge einer wissenschaftlichen Arbeit wird gerade eine Begleitumfrage zu Siddata durchgeführt.' \
+                             ' Dort wollen wir untersuchen, wie deine Wahrnehmung der Nutzung von Siddata ist.' \
+                             ' Um an der Studie teilzunehmen, klicke bitte hier: ' \
                              '<a href="https://www.survey.uni-osnabrueck.de/limesurvey/index.php/286649?lang=de">Zur Studie</a>'
 
         models.ActivityTemplate.objects.update_or_create(
@@ -166,8 +168,12 @@ class RM_evaluation(RM_BASE):
 
         return True
 
-
-    def get_likert_scale(self,items):
+    def get_likert_scale(self, items):
+        """
+        Returns a list of answer option strings for a likert scale.
+        :param items: number of items
+        :return: list of answer option strings
+        """
 
         if items == 4:
             likert_scale_answers_4 = [
@@ -203,6 +209,8 @@ class RM_evaluation(RM_BASE):
     def get_scale_value(self, items):
         """
         transfer the value of likert scale from words into numbers
+        :param items: number of items
+        :return: list of answer option strings
         """
         if items == 4:
             scale_value_dic_4 = {
@@ -235,7 +243,6 @@ class RM_evaluation(RM_BASE):
         else:
             return "no scale for {}".format(items)
 
-
     def process_activity(self, activity):
         """
         :param activity:  activity
@@ -262,7 +269,6 @@ class RM_evaluation(RM_BASE):
                 n_item_val = activity.answers[0]
             else:
                 n_item_val = likert_scale_4_dic[activity.answers[0]]
-
 
         result_ux[activity.title] = n_item_val
         activity.goal.set_property(key="Result_UX", value=result_ux)

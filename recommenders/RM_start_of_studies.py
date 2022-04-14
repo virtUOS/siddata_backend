@@ -43,9 +43,9 @@ class RM_start_of_studies(RM_BASE):
 
         self.dirname = os.path.dirname(__file__)
 
-        self.filename = os.path.join(self.dirname, 'recommender_data/start_of_studies_data.xlsx')
+        self.filename = os.path.join(self.dirname, 'recommender_data/start_of_studies_data.csv')
 
-        self.course_df = pd.read_excel(self.filename, index_col=0)
+        self.course_df = pd.read_csv(self.filename, delimiter=',')
 
     def initialize_templates(self):
         """
@@ -165,7 +165,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Universitätsbibliothek",
                 "description": "Wenn du dir Literatur ausleihen möchtest, kann dir die Bibliothek deiner Universität"
-                "helfen. <a href='https://www.ub.uni-osnabrueck.de/startseite.html' target='_blank'>Hier geht es zur" 
+                "helfen. <a href='https://www.ub.uni-osnabrueck.de/startseite.html' target='_blank'>Hier geht es zur " 
                 "Website.</a>",
                 "type": "todo",
                 "status": "template",
@@ -182,7 +182,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Universitätsbibliothek",
                 "description": "Wenn du dir Literatur ausleihen möchtest, kann dir die Bibliothek deiner Universität" 
-                "helfen. <a href='https://www.suub.uni-bremen.de/' target='_blank'>Hier geht es zur"
+                "helfen. <a href='https://www.suub.uni-bremen.de/' target='_blank'>Hier geht es zur "
                 "Website.</a>",
                 "type": "todo",
                 "status": "template",
@@ -200,7 +200,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Universitätsbibliothek",
                 "description": "Wenn du dir Literatur ausleihen möchtest, kann dir die Bibliothek deiner Universität" 
-                "helfen. <a href='https://www.tib.eu/de/' target='_blank'>Hier geht es zur"
+                "helfen. <a href='https://www.tib.eu/de/' target='_blank'>Hier geht es zur "
                 "Website.</a>",
                 "type": "todo",
                 "status": "template",
@@ -217,7 +217,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Lern- und Gruppenarbeitsräume",
                 "description": "Wenn du einen ruhigen Platz zum Arbeiten suchst oder einen Ort für Gruppenarbeiten"
-                " benötigst, kannst du dir hier einen Raum buchen."
+                " benötigst, kannst du dir hier einen Raum buchen. "
                 "<a href='https://www.ub.uni-osnabrueck.de/startseite.html'"
                 "target='_blank'>Hier geht es zur "    
                 "Website.</a>",
@@ -236,7 +236,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Lern- und Gruppenarbeitsräume",
                 "description": "Wenn du einen ruhigen Platz zum Arbeiten suchst oder einen Ort für Gruppenarbeiten"
-                               " benötigst,kannst du dir hier einen Raum buchen."
+                               " benötigst,kannst du dir hier einen Raum buchen. "
                                "<a href='https://www.uni-bremen.de/universitaet/campus/lernraeume'"
                                "target='_blank'>Hier geht es zur "
                                "Website.</a>",
@@ -255,7 +255,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Lern- und Gruppenarbeitsräume",
                 "description": "Wenn du einen ruhigen Platz zum Arbeiten suchst oder einen Ort für Gruppenarbeiten"
-                               " benötigst,kannst du dir hier einen Raum buchen."
+                               " benötigst,kannst du dir hier einen Raum buchen. "
                                "<a href='https://www.zqs.uni-hannover.de/de/qs/lernraum/'"
                                "target='_blank'>Hier geht es zur "
                                "Website.</a>",
@@ -275,7 +275,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Wenn es mal nicht so läuft...",
                 "description": "Schwierige Phasen erlebt jeder einmal, im Studium und im Privaten."
                                " Nicht immer lassen sich diese Hindernisse schnell und aus eigener Kraft überwinden."
-                               " Wenn du in einer solchen Phase bist, scheue dich nicht Hilfe anzunehmen."
+                               " Wenn du in einer solchen Phase bist, scheue dich nicht Hilfe anzunehmen. "
                                "<a href='https://www.studentenwerk-osnabrueck.de/de/beratung/"
                                "psychologische-beratung.html' "
                                "target='_blank'>Hier geht es zur Website.</a>",
@@ -297,7 +297,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Wenn es mal nicht so läuft...",
                 "description": "Schwierige Phasen erlebt jeder einmal, im Studium und im Privaten."
                                " Nicht immer lassen sich diese Hindernisse schnell und aus eigener Kraft überwinden."
-                               " Wenn du in einer solchen Phase bist, scheue dich nicht Hilfe anzunehmen."
+                               " Wenn du in einer solchen Phase bist, scheue dich nicht Hilfe anzunehmen. "
                                "<a href='https://www.stw-bremen.de/de/beratung/psychologische-beratung'"
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -317,7 +317,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Wenn es mal nicht so läuft...",
                 "description": "Schwierige Phasen erlebt jeder einmal, im Studium und im Privaten."
                                " Nicht immer lassen sich diese Hindernisse schnell und aus eigener Kraft überwinden."
-                               " Wenn du in einer solchen Phase bist, scheue dich nicht Hilfe anzunehmen."
+                               " Wenn du in einer solchen Phase bist, scheue dich nicht Hilfe anzunehmen. "
                                "<a href='https://www.ptb.uni-hannover.de/'"
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -336,7 +336,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Sprachen lernen",
                 "description": "Möchtest du eine neue Fremdsprache lernen oder deine Kenntnisse auffrischen?"
-                               " Das Fremdsprachenangebot an Grund-, Aufbau- und Vertiefungskursen findest du hier:"
+                               " Das Fremdsprachenangebot an Grund-, Aufbau- und Vertiefungskursen findest du hier: "
                                "<a href='https://www.uni-osnabrueck.de/universitaet/organisation/"
                                "zentrale-einrichtungen/sprachenzentrum/'"
                 "target='_blank'>Hier geht es zur Website.</a>",
@@ -355,7 +355,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Sprachen lernen",
                 "description": "Möchtest du eine neue Fremdsprache lernen oder deine Kenntnisse auffrischen?"
-                               " Das Fremdsprachenangebot an Grund-, Aufbau- und Vertiefungskursen findest du hier:"
+                               " Das Fremdsprachenangebot an Grund-, Aufbau- und Vertiefungskursen findest du hier: "
                                "<a href='https://www.fremdsprachenzentrum-bremen.de/'"
                                "target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
@@ -373,7 +373,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Sprachen lernen",
                 "description": "Möchtest du eine neue Fremdsprache lernen oder deine Kenntnisse auffrischen?"
-                               " Das Fremdsprachenangebot an Grund-, Aufbau- und Vertiefungskursen findest du hier:"
+                               " Das Fremdsprachenangebot an Grund-, Aufbau- und Vertiefungskursen findest du hier: "
                                "<a href='https://www.llc.uni-hannover.de/'"
                                "target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
@@ -391,7 +391,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Sportangebote",
                 "description": "Jedes Semester stehen dir zahlreiche Sportangebote im Rahmen des Hochschulsports zur "
-                               "Verfügung.<a href='https://www.zfh.uni-osnabrueck.de/startseite.html'"
+                               "Verfügung. <a href='https://www.zfh.uni-osnabrueck.de/startseite.html'"
                                "target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
                 "status": "template",
@@ -408,7 +408,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Sportangebote",
                 "description": "Jedes Semester stehen dir zahlreiche Sportangebote im Rahmen des Hochschulsports zur "
-                               "Verfügung.<a href='https://www.uni-bremen.de/hospo'"
+                               "Verfügung. <a href='https://www.uni-bremen.de/hospo'"
                                "target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
                 "status": "template",
@@ -425,7 +425,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Sportangebote",
                 "description": "Jedes Semester stehen dir zahlreiche Sportangebote im Rahmen des Hochschulsports zur "
-                               "Verfügung.<a href='https://www.hochschulsport-hannover.de/'"
+                               "Verfügung. <a href='https://www.hochschulsport-hannover.de/'"
                                "target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
                 "status": "template",
@@ -442,7 +442,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "International Office",
                 "description": "Wenn du dich für einen Studienaufenthalt im Ausland interessiert, erhältst du hier "
-                               "Informationen und Unterstützung bei der Planung."
+                               "Informationen und Unterstützung bei der Planung. "
                                "<a href='https://www.uni-osnabrueck.de/universitaet/organisation/studentisches/"
                                "international-office/' target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
@@ -460,7 +460,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "International Office",
                 "description": "Wenn du dich für einen Studienaufenthalt im Ausland interessiert, erhältst du hier "
-                               "Informationen und Unterstützung bei der Planung."
+                               "Informationen und Unterstützung bei der Planung. "
                                "<a href='https://www.uni-bremen.de/universitaet/profil/international/"
                                "international-office' target='_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
@@ -478,7 +478,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "International Office",
                 "description": "Wenn du dich für einen Studienaufenthalt im Ausland interessiert, erhältst du hier "
-                               "Informationen und Unterstützung bei der Planung."
+                               "Informationen und Unterstützung bei der Planung. "
                                "<a href='https://www.uni-hannover.de/de/universitaet/internationales/'"
                                "_blank'>Hier geht es zur Website.</a>",
                 "type": "todo",
@@ -498,9 +498,10 @@ class RM_start_of_studies(RM_BASE):
                 "description": "Bei technischen Fragen (z.B. zu deinem Uni-Account, zum WLAN) findest du hier "
                                "Informationen und Hilfestellungen."
                                "<ul> <li><a href='https://www.rz.uni-osnabrueck.de/' target='_blank'>"
-                               "Hier geht es zur Website.</a></li>"
+                               "Hier geht es zur Website des Rechenzentrums.</a></li>"
                                "<li><a href='https://www.rz.uni-osnabrueck.de/dienste/leitfaden/"
-                               "leitfaden_studierende.html' target='_blank'>Hier geht es zur Website.</a></li></ul>",
+                               "leitfaden_studierende.html' target='_blank'>Hier geht es zu einem Leitfaden für "
+                               "Erstsemester</a></li></ul>",
 
                 "type": "todo",
                 "status": "template",
@@ -517,7 +518,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Rechenzentrum",
                 "description": "Bei technischen Fragen (z.B. zu deinem Uni-Account, zum WLAN) findest du hier "
-                               "Informationen und Hilfestellungen."
+                               "Informationen und Hilfestellungen. "
                                "<a href='https://www.uni-bremen.de/zfn' target='_blank'>"
                                "Hier geht es zur Website.</a>",
 
@@ -536,7 +537,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Rechenzentrum",
                 "description": "Bei technischen Fragen (z.B. zu deinem Uni-Account, zum WLAN) findest du hier "
-                               "Informationen und Hilfestellungen."
+                               "Informationen und Hilfestellungen. "
                                "<a href='https://www.luis.uni-hannover.de/' target='_blank'>"
                                "Hier geht es zur Website.</a>",
 
@@ -581,7 +582,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Studierendensekretariat",
                 "description": "Das Studierendensekretariat ist zuständig für die den Studierendenstatus betreffenden "
                                "administrativen Vorgänge während der gesamten Studienzeit z.B. der Rückmeldung, der "
-                               "Campuscard oder der Beurlaubung."
+                               "Campuscard oder der Beurlaubung. "
                                "<a href='https://www.uni-bremen.de/sfs' target='_blank'> Hier geht es zur Website.",
                 "type": "todo",
                 "status": "template",
@@ -599,7 +600,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Studierendensekretariat",
                 "description": "Das Studierendensekretariat ist zuständig für die den Studierendenstatus betreffenden "
                                "administrativen Vorgänge während der gesamten Studienzeit z.B. der Rückmeldung, der "
-                               "Campuscard oder der Beurlaubung."
+                               "Campuscard oder der Beurlaubung. "
                                "<a href='https://www.uni-hannover.de/de/studium/beratung-und-hilfe/servicecenter/'"
                                " target='_blank'> Hier geht es zur Website.",
 
@@ -717,7 +718,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Finanzierung und Förderung",
                 "description": "Hier findest du Informationen rund um die Finanzierung deines Studiums z.B. "
-                               "zum BAföG oder zu Stipendienprogrammen:"
+                               "zum BAföG oder zu Stipendienprogrammen: "
                                "<a href='https://www.uni-hannover.de/de/studium/finanzierung-foerderung/'"
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -736,10 +737,9 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Digitalisierung von Studium und Lehre",
                 "description": "Bei Fragen rund um das Thema digitale Medien in Studium und Lehre (z.B. zu Stud.IP) "
-                               "findest du hier Informationen und Hilfestellungen:"
-                               "<a href='https://www.virtuos.uni-osnabrueck.de"
-                               "zentrum_fuer_digitale_lehre_campus_management_"
-                               "und_hochschuldidaktik.html' target='_blank'>Hier geht es zur Website.</a>",
+                               "findest du hier Informationen und Hilfestellungen: "
+                               "<a href='https://www.virtuos.uni-osnabrueck.de/zentrum_fuer_digitale_lehre_campus_"
+                               "management_und_hochschuldidaktik.html' target='_blank'>Hier geht es zur Website.</a>",
 
                 "type": "todo",
                 "status": "template",
@@ -756,7 +756,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Digitalisierung von Studium und Lehre",
                 "description": "Bei Fragen rund um das Thema digitale Medien in Studium und Lehre (z.B. zu Stud.IP) "
-                               "findest du hier Informationen und Hilfestellungen:"
+                               "findest du hier Informationen und Hilfestellungen: "
                                "<a href='https://www.uni-bremen.de/zmml' target='_blank'>Hier geht es zur Website.</a>",
 
                 "type": "todo",
@@ -774,7 +774,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Digitalisierung von Studium und Lehre",
                 "description": "Bei Fragen rund um das Thema digitale Medien in Studium und Lehre (z.B. zu Stud.IP) "
-                               "findest du hier Informationen und Hilfestellungen:"
+                               "findest du hier Informationen und Hilfestellungen: "
                                "<a href='https://www.zqs.uni-hannover.de/de/elsa/'"
                                " target='_blank'>Hier geht es zur Website.</a>",
 
@@ -793,7 +793,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Studieren mit Familie",
                 "description": "Alle Informationen rund um das Thema Studieren mit Familie (z.B. Kinderbetreuung, "
-                               "Pflege von Angehörigen) findest du hier:"
+                               "Pflege von Angehörigen) findest du hier: "
                                "<a href='https://www.uni-osnabrueck.de/universitaet/organisation/familien-service/'"
                                " target='_blank'>Hier geht es zur Website.</a>",
 
@@ -812,7 +812,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Studieren mit Familie",
                 "description": "Alle Informationen rund um das Thema Studieren mit Familie (z.B. Kinderbetreuung, "
-                               "Pflege von Angehörigen) findest du hier:"
+                               "Pflege von Angehörigen) findest du hier: "
                                "<a href='https://www.uni-bremen.de/familie/studierende'"
                                " target='_blank'>Hier geht es zur Website.</a>",
 
@@ -831,7 +831,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Studieren mit Familie",
                 "description": "Alle Informationen rund um das Thema Studieren mit Familie (z.B. Kinderbetreuung, "
-                               "Pflege von Angehörigen) findest du hier:"
+                               "Pflege von Angehörigen) findest du hier: "
                                "<a href='https://www.chancenvielfalt.uni-hannover.de/"
                                "de/angebote/angebote-fuer-familien/'"
                                " target='_blank'>Hier geht es zur Website.</a>",
@@ -852,7 +852,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Allgemeiner Studierendenausschuss (AStA)",
                 "description": "Allgemeiner Studierendenausschuss (AStA)"
                                " ist die universitätsweite Interessenvertretung der Studierenden und informiert euch"
-                               " über Themen wie Bafög, Semesterticket etc."
+                               " über Themen wie Bafög, Semesterticket etc. "
                                "<a href='https://www.asta.uni-osnabrueck.de/' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -872,7 +872,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Allgemeiner Studierendenausschuss (AStA)",
                 "description": "Allgemeiner Studierendenausschuss (AStA)"
                                " ist die universitätsweite Interessenvertretung der Studierenden und informiert euch"
-                               " über Themen wie Bafög, Semesterticket etc."
+                               " über Themen wie Bafög, Semesterticket etc. "
                                "<a href='https://www.asta.uni-bremen.de/' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -892,7 +892,7 @@ class RM_start_of_studies(RM_BASE):
                 "title": "Allgemeiner Studierendenausschuss (AStA)",
                 "description": "Allgemeiner Studierendenausschuss (AStA)"
                                " ist die universitätsweite Interessenvertretung der Studierenden und informiert euch"
-                               " über Themen wie Bafög, Semesterticket etc."
+                               " über Themen wie Bafög, Semesterticket etc. "
                                "<a href='https://www.asta-hannover.de/' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -910,7 +910,7 @@ class RM_start_of_studies(RM_BASE):
             template_id=self.get_template_id("cantine_OS"),
             defaults={
                 "title": "Mensa",
-                "description": "Das Studentenwerk bietet dir in seinen Mensen ein vielfältiges Essensangebot."
+                "description": "Das Studentenwerk bietet dir in seinen Mensen ein vielfältiges Essensangebot. "
                                "<a href='https://www.studentenwerk-osnabrueck.de/de/essen/speiseplaene.html' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -928,7 +928,7 @@ class RM_start_of_studies(RM_BASE):
             template_id=self.get_template_id("cantine_UB"),
             defaults={
                 "title": "Mensa",
-                "description": "Das Studentenwerk bietet dir in seinen Mensen ein vielfältiges Essensangebot."
+                "description": "Das Studentenwerk bietet dir in seinen Mensen ein vielfältiges Essensangebot. "
                                "<a href='https://www.stw-bremen.de/de/mensa/uni-mensa' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -946,7 +946,7 @@ class RM_start_of_studies(RM_BASE):
             template_id=self.get_template_id("cantine_LUH"),
             defaults={
                 "title": "Mensa",
-                "description": "Das Studentenwerk bietet dir in seinen Mensen ein vielfältiges Essensangebot."
+                "description": "Das Studentenwerk bietet dir in seinen Mensen ein vielfältiges Essensangebot. "
                                "<a href='https://www.studentenwerk-hannover.de/essen/speiseplaene/alle-mensen-heute/' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -965,7 +965,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Wohnungsangebote",
                 "description": "Guten und preiswerten Wohnraum zu finden ist nicht immer leicht. Hier findest du "
-                               "Informationen und Hilfestellungen:"
+                               "Informationen und Hilfestellungen: "
                                "<a href='https://www.studentenwerk-osnabrueck.de/de/wohnen.html' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -984,7 +984,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Wohnungsangebote",
                 "description": "Guten und preiswerten Wohnraum zu finden ist nicht immer leicht. Hier findest du "
-                               "Informationen und Hilfestellungen:"
+                               "Informationen und Hilfestellungen: "
                                "<a href='https://www.uni-bremen.de/universitaet/campus/wohnen' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -1003,7 +1003,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Wohnungsangebote",
                 "description": "Guten und preiswerten Wohnraum zu finden ist nicht immer leicht. Hier findest du "
-                               "Informationen und Hilfestellungen:"
+                               "Informationen und Hilfestellungen: "
                                "<a href='https://www.uni-hannover.de/de/universitaet/campus-und-stadt/wohnen/' "
                                "target='_blank'>Hier geht es zur Website.</a>",
 
@@ -1022,7 +1022,7 @@ class RM_start_of_studies(RM_BASE):
             defaults={
                 "title": "Zentrales Prüfungsamt",
                 "description": "Das zentrale Prüfungsamt ist zuständig bei Fragen und Problemen rund um "
-                               "Prüfungsangelegenheiten."
+                               "Prüfungsangelegenheiten. "
                                "<a href='https://www.uni-hannover.de/de/universitaet/"
                                "organisation/dezernate/dezernat-6/pruefungsamt/'"
                                "target='_blank'>Hier geht es zur Website.</a>",
@@ -1046,7 +1046,7 @@ class RM_start_of_studies(RM_BASE):
                                "fachübergreifenden Bereichs (Kerncurriculum Lehrerbildung"
                                ", allgemeine Schlüsselkompetenzen) "
                                "und für die Erstellung von übergreifenden Bescheinigungen, Leistungsübersichten sowie "
-                               "Abschlusszeugnissen in den Mehrfächer-Studiengängen."
+                               "Abschlusszeugnissen in den Mehrfächer-Studiengängen. "
                                "<a href='https://www.uni-osnabrueck.de/universitaet/organisation/zentrale-verwaltung/"
                                "studentische-angelegenheiten/mehrfaecher-pruefungsamt-patmos/' "
                                "target='_blank'>Hier geht es zur Website.</a>",
@@ -1080,7 +1080,6 @@ class RM_start_of_studies(RM_BASE):
         )
 
         return True
-
 
     def process_activity(self, activity):
         """

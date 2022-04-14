@@ -17,7 +17,7 @@ def setup_django_dry(logger_name=None):
     django this even returns the settings-file to be used. If logger_name is not None, will also return a set-up logger."""
     if not os.environ.get("DJANGO_SETTINGS_MODULE"):
         sys.path.append(os.path.dirname(__file__))
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siddata_backend.settings")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
         os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true" #needed such that django can display in notebooks
         os.environ["DJANGO_DRYRUN"] = "true"
         import django

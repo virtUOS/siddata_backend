@@ -82,8 +82,8 @@ class RM_learning_orga(RM_BASE):
                                "Ich gestalte meine Umgebung so, dass ich möglichst wenig vom Lernen abgelenkt werde.",
                                "Zum Lernen sitze ich immer am selben Platz.",
                                "Mein Arbeitsplatz ist so gestaltet, dass ich alles schnell finden kann.",
-                               "Ich bearbeite Texte oder Aufgaben zusammen mit meinen Studienkolleg*innen.",
-                               "Ich nehme mir Zeit, um mit Studienkolleg*innen über den Stoff zu diskutieren.",
+                               "Ich bearbeite Texte oder Aufgaben zusammen mit meinen Mitstudierenden.",
+                               "Ich nehme mir Zeit, um mit Mitstudierenden über den Stoff zu diskutieren.",
                                "Wenn mir etwas nicht klar ist, so frage ich einen Studienkollegen um Rat.",
                                "Ich suche nach weiterführender Literatur, wenn mir bestimmte Inhalte noch nicht ganz "
                                "klar sind.",
@@ -92,6 +92,11 @@ class RM_learning_orga(RM_BASE):
                                "Ich ziehe zusätzlich Literatur heran, wenn meine Aufzeichnungen unvollständig sind."]
 
     def get_likert_scale(self, items):
+        """
+        Returns a list of answer option strings for a likert scale.
+        :param items: number of items
+        :return: list of answer option strings
+        """
 
         if items == 4:
             likert_scale_answers_4 = [
@@ -127,6 +132,8 @@ class RM_learning_orga(RM_BASE):
     def get_scale_value(self, items):
         """
         transfer the value of likert scale from words into numbers
+        :param items: number of items
+        :return: list of answer option strings
         """
         if items == 4:
             scale_value_dic_4 = {
@@ -490,7 +497,7 @@ class RM_learning_orga(RM_BASE):
             feedback = "<p>Kurze Wiederholung: <strong>Externe Ressourcen</strong>, bezeichnen " \
                        "günstige Rahmenbedingungen, die du dir für dein Lernen schaffst, " \
                        "insbesondere, deine <strong>Lernumgebung</strong>, <strong>Lernen mit " \
-                       "Studienkolleg*innen</strong> und <strong>Literaturrecherche</strong>.</p>" \
+                       "Mitstudierenden</strong> und <strong>Literaturrecherche</strong>.</p>" \
                        "<p><strong>1. Lernumgebung</strong><br>" \
                        "Deine Lernumgebung ermöglicht dir noch nicht, konzentriert und effektiv zu arbeiten.</p>"
             return feedback
@@ -499,7 +506,7 @@ class RM_learning_orga(RM_BASE):
             feedback = "<p>Kurze Wiederholung: <strong>Externe Ressourcen</strong>, bezeichnen " \
                        "günstige Rahmenbedingungen, die du dir für dein Lernen schaffst, " \
                        "insbesondere, deine <strong>Lernumgebung</strong>, <strong>Lernen mit " \
-                       "Studienkolleg*innen</strong> und <strong>Literaturrecherche</strong>.</p>" \
+                       "Mitstudierenden</strong> und <strong>Literaturrecherche</strong>.</p>" \
                        "<p><strong>1. Lernumgebung</strong><br>" \
                        "Du kannst deine Lernumgebung noch verbessern, um konzentriert und effektiv zu arbeiten.</p>"
             return feedback
@@ -508,7 +515,7 @@ class RM_learning_orga(RM_BASE):
             feedback = "<p>Kurze Wiederholung: <strong>Externe Ressourcen</strong>, bezeichnen " \
                        "günstige Rahmenbedingungen, die du dir für dein Lernen schaffst, " \
                        "insbesondere, deine <strong>Lernumgebung</strong>, <strong>Lernen mit " \
-                       "Studienkolleg*innen</strong> und <strong>Literaturrecherche</strong>.</p>" \
+                       "Mitstudierenden</strong> und <strong>Literaturrecherche</strong>.</p>" \
                        "<p><strong>1. Lernumgebung</strong><br>" \
                        "Prima! Du schaffst dir eine äußere Lernumgebung die dir ein konzentriertes und " \
                        "effektives Arbeiten ermöglicht.</p>"
@@ -520,23 +527,23 @@ class RM_learning_orga(RM_BASE):
         :return: return a corresponding feedback to the specific strategy
         """
         if value <= 7.5:
-            feedback = "<p><strong>2. Lernen mit Studienkolleg*innen</strong><br>" \
-                       "Du arbeitest wenig mit deinen Studienkolleg*innen zusammen. " \
-                       "Wenn du dich mit deinen Studienkolleg*innen mehr vernetzen würdest, " \
+            feedback = "<p><strong>2. Lernen mit Mitstudierenden</strong><br>" \
+                       "Du arbeitest wenig mit deinen Mitstudierenden zusammen. " \
+                       "Wenn du dich mit deinen Mitstudierenden mehr vernetzen würdest, " \
                        "könntest du darüber in deinem Studium noch mehr Unterstützung erfahren.<br>" \
                        "Dazu kannst du auch die Funktion „get together“ nutzen.</p>"
             return feedback
 
         elif 7.5 < value < 12:
-            feedback = "<p><strong>2. Lernen mit Studienkolleg*innen</strong><br>" \
-                       "Du könntest dich noch mehr mit deinen Studienkolleg*innen vernetzen und darüber " \
+            feedback = "<p><strong>2. Lernen mit Mitstudierenden</strong><br>" \
+                       "Du könntest dich noch mehr mit deinen Mitstudierenden vernetzen und darüber " \
                        "noch mehr Unterstützung in deinem Studium erfahren.<br>" \
                        "Dazu kannst du auch die Funktion „get together“ nutzen.</p>"
             return feedback
 
         elif value >= 12:
-            feedback = "<p><strong>2. Lernen mit Studienkolleg*innen</strong><br>" \
-                       "Prima! Du arbeitest mit deinen Studienkolleg*innen zusammen und erfährst damit " \
+            feedback = "<p><strong>2. Lernen mit Mitstudierenden</strong><br>" \
+                       "Prima! Du arbeitest mit deinen Mitstudierenden zusammen und erfährst damit " \
                        "Unterstützung in deinem Studium.<br>" \
                        "Falls du darüber hinaus noch an weiteren Kontakten interessiert bist, " \
                        "kannst du auch die Funktion „get together“ nutzen.</p>"
@@ -733,11 +740,10 @@ class RM_learning_orga(RM_BASE):
             t.save()
             n_item += 1
 
-
     def initialize(self, user):
         """
         When a user logs in for the first time, initial activities are generated.
-        :param siddatauser_id: Id of the user who logged in for the first time.
+        :param user: SiddataUser object
         :return: True if successful
         """
         goal = self.activate_recommender_for_user_and_create_first_goal(user)
@@ -765,6 +771,11 @@ class RM_learning_orga(RM_BASE):
         return True
 
     def initialize_questionnaire(self, goal):
+        """
+        Initialize the questionnaire for the given goal.
+        :param goal: Goal object
+        :return : True
+        """
 
         n_item = 1
         for element in self.LIST_questions:
@@ -973,14 +984,6 @@ class RM_learning_orga(RM_BASE):
         """
         logging.info("Generierte Empfehlungen für: {}".format(results_learningstr))
 
-        """
-        goal = models.Goal.objects.create(
-            title=self.get_name(),
-            userrecommender=activity.goal.userrecommender,
-        )
-        goal.save()
-        """
-
         description = "<p>Du hast mit dem Fragebogen deine Lernstrategien in vier Dimensionen evaluiert:" \
                       " <strong>Kognitive Strategien</strong>, <strong>Metakognitive " \
                       "Strategien</strong>, " \
@@ -1005,7 +1008,7 @@ class RM_learning_orga(RM_BASE):
                       "bezeichnen günstige Rahmenbedingungen, " \
                       "die du dir für dein Lernen schaffst, " \
                       "insbesondere, deine <strong>Lernumgebung</strong>, " \
-                      "<strong>Lernen mit Studienkolleg*innen</strong> und " \
+                      "<strong>Lernen mit Mitstudierenden</strong> und " \
                       "<strong>Literaturrecherche</strong>.</p> " \
                       "<p>Im folgenden siehst du, wie du deinen Einsatz dieser Strategien " \
                       "selbst eingeschätzt hast. Außerdem findest Empfehlungen für den künftigen Einsatz " \

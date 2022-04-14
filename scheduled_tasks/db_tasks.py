@@ -47,6 +47,9 @@ def delete_old_job_executions(max_age=604_800):
 
 
 def add_jobs(scheduler):
+    """
+    Here new tasks can be added for scheduled execution.
+    """
     today = datetime.now().date()
     tomorrow = today + timedelta(days=1)
 
@@ -60,13 +63,13 @@ def add_jobs(scheduler):
     scheduler.add_job(task_classify_new_resources_bert, 'cron', start_date=today, hour=20, id="classify_new_resources_bert", replace_existing=True)
     scheduler.add_job(task_execute_recommender_cron_functions,'interval',hours=6, id="execute_recommender_cron_functions", replace_existing=True)
     scheduler.add_job(task_initialize_templates, id="initialize_templates", replace_existing=True)
-    scheduler.add_job(task_collect_educational_resources, 'cron', start_date=today, hour=20)
+    scheduler.add_job(task_collect_educational_resources, 'cron', start_date=today, hour=20, replace_existing=True)
 
     scheduler.add_job(task_create_rawdataexportcsv, 'cron', start_date=today, hour=23, id="create_rawdataexportcsv", replace_existing=True)
     scheduler.add_job(task_create_rawdataexportcsv, next_run_time=datetime.now() + timedelta(minutes=1), id="create_rawdataexportcsv", replace_existing=True)
 
     scheduler.add_job(task_send_admin_report, 'cron', start_date=tomorrow, hour=0, id="send_admin_report", replace_existing=True)
-########################################################################################################################
+
 
 def task_dummy():
     """
@@ -155,6 +158,7 @@ def task_add_backend_resources():
 
         logger.debug("moving file to old dir")
         os.rename(file, str(data_dir / 'old' / Path(file).stem) + datetime.now().strftime("%d%m%Y%H%M%S") + ".csv")
+
 
 def task_classify_new_resources_bert():
     """

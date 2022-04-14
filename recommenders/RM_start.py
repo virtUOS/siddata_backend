@@ -90,14 +90,16 @@ class RM_start(RM_BASE):
 
         order += 1
 
-        instruction_text_1 = "Informationen und Empfehlungen werden dir in Siddata in Boxen wie dieser dargestellt.<br>" \
-                             "Du kannst diese entweder abschließen, pausieren oder verwerfen.<br>" \
-                             "Über die entsprechenden Ansichten (links unter der Navigation) kannst du die Boxen " \
-                             "bei Bedarf wieder aufnehmen.<br>" \
-                             "So lange eine Box nicht von dir bearbeitet wurde, ist sie offen.<br>" \
-                             "Über die Buttons unten in jeder Box kannst du diese als abgeschlossen markieren.<br>" \
-                             'Möchtest du eine Box später bearbeiten, kannst du sie über das Icon "Pausieren" zurückstellen.<br>' \
-                             "Wenn du den Inhalt einer Box nicht sinnvoll findest, kannst du sie über das Icon Verwerfen aussortieren."
+        instruction_text_1 = "Informationen und Empfehlungen werden dir in Siddata in Boxen wie "\
+                             "dieser dargestellt. Du kannst diese entweder "\
+                             "abschließen, pausieren oder verwerfen. Über die "\
+                             "entsprechenden Ansichten (links unter der Navigation) kannst du die "\
+                             "Boxen bei Bedarf wieder aufnehmen.<br>"\
+                             "So lange eine Box nicht von dir bearbeitet wurde, ist sie offen.<br>"\
+                             "Über die Buttons unten in jeder Box kannst du diese als abgeschlossen "\
+                             "markieren. Möchtest du eine Box später bearbeiten, kannst du sie über das "\
+                             "Icon \"Pausieren\" zurückstellen. Wenn du den Inhalt einer Box nicht sinnvoll "\
+                             "findest, kannst du sie über das Icon \"Verwerfen\" aussortieren."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("instructions_1"),
@@ -114,12 +116,14 @@ class RM_start(RM_BASE):
 
         order += 1
 
-        instruction_text_2 = "Mit Siddata kannst du dich zum Beispiel mit anderen Studierenden vernetzen, mehr über " \
-                             "dein Lernverhalten erfahren und Veranstaltungen an anderen Universitäten besuchen. " \
-                             "Dazu kannst du verschiedene Funktionen/Tools aktivieren.<br><br>Im Folgenden werden " \
-                             "dir alle Funktionen kurz beschrieben. Bitte entscheide dich zunächst, welche " \
-                             "Funktionen du ausprobieren möchtest. Wenn du deine Meinung änderst, kannst du in " \
-                             "den Einstellungen jederzeit Funktionen aktivieren oder deaktivieren."
+        instruction_text_2 = "Mit Siddata kannst du dich zum Beispiel mit anderen Studierenden "\
+                             "vernetzen, mehr über dein Lernverhalten erfahren und Veranstaltungen "\
+                             "an anderen Universitäten besuchen. Dazu kannst du verschiedene "\
+                             "Funktionen aktivieren.<br><br>"\
+                             "Im Folgenden werden dir alle Funktionen kurz beschrieben. Bitte "\
+                             "entscheide dich zunächst, welche Funktionen du ausprobieren "\
+                             "möchtest. Wenn du deine Meinung änderst, kannst du in den "\
+                             "Einstellungen jederzeit Funktionen aktivieren oder deaktivieren."
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id("instructions_2"),
@@ -156,8 +160,8 @@ class RM_start(RM_BASE):
     def create_teaser_activity(self, goal):
         """
         This method is overridden without content. Reason: The Startpage is active by default.
-        :param goal:
-        :return:
+        :param goal: Goal object
+        :return: True
         """
         return True
 
@@ -202,6 +206,7 @@ class RM_start(RM_BASE):
     def get_default_goal(self, user):
         """
         Returns the default goal to fill it with initial activities
+        :param user: SiddataUser object
         :return: default goal
         """
         userrecommender = models.SiddataUserRecommender.objects.get(
@@ -235,21 +240,17 @@ class RM_start(RM_BASE):
     def get_or_create_announcements(self, user):
         """
         In this function announcements can be fed into the start recommender.
-        Deactivation or deletion after announcements are not relevant anymore, can also happen here.
-        :return:
+        :param user: SiddataUser object
         """
-        pass
         goal = self.get_default_goal(user)
-        try:
-            evaluation_activity = models.Activity.objects.get(
-                goal=goal,
-                title="Evaluation-Workshop: Du bist herzlich eingeladen!",
-                description="Aktuell sucht das Siddata-Team Teilnehmende für einen virtuellen Evaluations-Workshop. Dort lernst du am Beispiel von Siddata verschiedene Evaluationsperspektiven und Methoden kennen, probierst diese selber aus und hilfst, mit deinen Ideen Siddata weiterzuentwickeln und zu verbessern. Melde dich bei Interesse bitte bei Funda Seyfeli (seyfeli@his-he.de) für unsere Evaluationsreihe an, lerne andere Studierende auch von anderen Hochschulen kennen und erlebe einen dreistündigen, anregenden und abwechslungsreichen Online-Workshop im Januar 2022 (KW 02-04).",
-                color_theme="green",
-                type="todo",
-                image="sid.png",
-                feedback_size=0,
-            )
-            evaluation_activity.delete()
-        except:
-            pass
+        evaluation_activity, created = models.Activity.objects.get_or_create(
+            goal=goal,
+            title="Evaluation-Workshop: Du bist herzlich eingeladen!",
+            description="Aktuell sucht das Siddata-Team Teilnehmende für einen virtuellen Evaluations-Workshop. Dort lernst du am Beispiel von Siddata verschiedene Evaluationsperspektiven und Methoden kennen, probierst diese selber aus und hilfst, mit deinen Ideen Siddata weiterzuentwickeln und zu verbessern. Melde dich bei Interesse bitte bei Funda Seyfeli (seyfeli@his-he.de) für unsere Evaluationsreihe an, lerne andere Studierende auch von anderen Hochschulen kennen und erlebe einen dreistündigen, anregenden und abwechslungsreichen Online-Workshop im Januar 2022 (KW 02-04).",
+            color_theme="green",
+            type="todo",
+            image="sid.png",
+            feedback_size=0,
+        )
+        evaluation_activity.order = goal.get_max_order() + 1
+        evaluation_activity.save()

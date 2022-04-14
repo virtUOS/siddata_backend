@@ -1,6 +1,7 @@
 from backend import models
 from recommenders.RM_BASE import RM_BASE
 
+
 class RM_data_ethics(RM_BASE):
     """
     Recommender with data ethics content.
@@ -35,7 +36,6 @@ class RM_data_ethics(RM_BASE):
             data_info=self.DATA_INFO,
         )[0]
 
-
     def initialize_templates(self):
         """
         Creates and updates all templates of this recommender
@@ -65,7 +65,6 @@ class RM_data_ethics(RM_BASE):
             }
         )
 
-
     def initialize(self, user):
         """
         When a user logs in for the first time, initial activities are generated.
@@ -80,7 +79,6 @@ class RM_data_ethics(RM_BASE):
         )
 
         return True
-
 
     def process_activity(self, activity):
         """

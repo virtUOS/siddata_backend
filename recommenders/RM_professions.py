@@ -5,7 +5,7 @@ from backend import models
 from recommenders.RM_BASE import RM_BASE
 from bert_app.recommender_backbone import ProfessionsRecommenderBackbone
 
-COURSE_MAX = 15
+COURSE_MAX = 15 # maximum number of resources to be generated as recommendations
 
 RESOURCE_TYPES = {
     'local_course': 'Stud.IP-Veranstaltungen meiner Universität',
@@ -13,12 +13,12 @@ RESOURCE_TYPES = {
     'Event': 'Einzelnes Event in einer Veranstaltung',
     'MOOC': 'Massive Open Online Courses (MOOCs)',
     'OER': 'Open Educational Resources (OERs)',
-     # Initially removed due to political reasons >:(
 }
 
 
 class RM_professions(RM_BASE):
-    """ Generates DDC-codes for strings and recommends courses and sessions with similar DDC-codes
+    """ This recommender generates matching educational resources based on an input string in natural langauge.
+    It also provides functions to reflect upon one's own professional interests.
     """
 
     def __init__(self, functional_only = False):
@@ -30,7 +30,7 @@ class RM_professions(RM_BASE):
         self.DESCRIPTION = "Veranstaltungen und Angebote finden, die zu dir passen."
         # This text is displayed in Teaser Activities
         self.TEASER_TEXT = "Deinen Regelstudienplan kennst du. Darüber hinaus gibt es eine Menge an interessanten " \
-                           "Veranstaltungen und Angeboten, von denen du vielleicht noch gar nichts weißt. SIDDATA kann " \
+                           "Veranstaltungen und Angeboten, von denen du vielleicht noch gar nichts weißt. Siddata kann " \
                            "diese für dich finden, wenn du etwas über deine Interessen - auch über dein Studium hinaus" \
                            " - eingibst."
         # If set to False, the recommender will not appear in the GUI or the DB
@@ -60,9 +60,10 @@ class RM_professions(RM_BASE):
             logging.info("instantiation of Recommender Object in RM_professions failed.")
         try:
             self.backbone = ProfessionsRecommenderBackbone(max_courses = COURSE_MAX)
-        except (ChildProcessError, AttributeError):
+        except (ModuleNotFoundError, AttributeError):
             logging.info("Error when loading RM_professions recommender backbone! "
-                         "Ignore this Error when it occurs immediately at start.")
+                         "Bert App may not be loaded yet. Ignore this error when it occurs immediately at start")
+            self.initialize_templates()
 
     def initialize_templates(self):
         """
@@ -75,7 +76,7 @@ class RM_professions(RM_BASE):
 
         # This Question will be modified during the chat process.
         input_text_question = models.Question.objects.get_or_create(
-            question_text='Gebe hier ein einzelnes deiner fachliches Interessen (z.B. "Chemie") ein',
+            question_text='Hier kannst du eines deiner fachlichen Interessen eingeben (z.B. „Chemie“)',
             answer_type="text",
         )[0]
 
@@ -143,7 +144,7 @@ class RM_professions(RM_BASE):
         e_mail_request_text = 'Möchtest du E-mail Benachrichtigungen erhalten,' \
                               ' wenn ich neue Resourcen zu deinem Interesse gefunden habe? <br> ' \
                               'WARNUNG: Wenn du deine E-mail Adresse angibst,' \
-                              ' bist du für SIDDATA nicht mehr annonym!<br>' \
+                              ' bist du für Siddata nicht mehr annonym!<br>' \
                               'Du kannst deine E-mail Adresse jederzeit wieder löschen.'
         e_mail_request_question = models.Question.objects.get_or_create(
             question_text=e_mail_request_text,
@@ -216,7 +217,7 @@ class RM_professions(RM_BASE):
             defaults={
                 "description": 'Zur Zeit gibt es leider keine Bildungsressourcen,'
                                ' die deinem Interesse entsprechen.'
-                               ' SIDDATA wird dich an einem späteren Zeitpunkt noch einmal informieren,'
+                               ' Siddata wird dich an einem späteren Zeitpunkt noch einmal informieren,'
                                ' sobald neue Ressourcen für dich gefunden wurden.',
                 "type": 'todo',
                 "status": 'template',
@@ -248,17 +249,18 @@ class RM_professions(RM_BASE):
         # Information on why professional interests are usefull to know
         rm_professions_info_text = "<strong>Was ist der Unterschied zwischen meinem Studienfach und meinen" \
                                    " fachlichen Interessen? </strong> <br>" \
-                                   "Deine fachlichen Interessen sollten im Idealfall der Grund sein, warum Du das Fach," \
-                                   " was Du studierst, gewählt hast. Persönliche fachliche Interessen machen in der" \
-                                   " Regel aber nur ein Teilgebiet Deines Studienfaches aus und gehen im Idealfall" \
-                                   " darüber hinaus. SIDDATA hilft Dir, Veranstaltungen zu finden, die stärker" \
-                                   " Deinen persönlichen fachlichen Interessen entsprechen. <br> <br>" \
-                                   " <strong> Warum ist es wichtig, sich über seine fachlichen Interessen im Klaren zu sein? </strong>" \
-                                   "In vielen Kontexten - z.B. in Bewerbungsgesprächen, auf Parties, beim Kennenlernen" \
-                                   " - ist es hilfreich wenn Du Deine eigenen Interessen klar und knapp" \
-                                   " kommunizieren kannst. Zudem hilft es Dir das Thema deiner Abschlussarbeit," \
-                                   " ein Nebenfach oder eine Vertiefungsrichtung zu wählen. Auch für die Wahl" \
-                                   " von geeigneten Praktika oder Auslandsaufenthalten kann es hilfreich sein."
+                                   "Deine fachlichen Interessen sollten im Idealfall der Grund sein, warum du das Fach," \
+                                   " was du studierst, gewählt hast. Persönliche fachliche Interessen machen in der" \
+                                   " Regel aber nur ein Teilgebiet deines Studienfaches aus und gehen im Idealfall" \
+                                   " darüber hinaus. Siddata hilft dir Veranstaltungen zu finden, die stärker" \
+                                   "deinen persönlichen fachlichen Interessen entsprechen. <br> <br>" \
+                                   " <strong> Warum ist es wichtig, sich über seine fachlichen Interessen im Klaren " \
+                                   "zu sein? </strong>" \
+                                   "In vielen Kontexten, z.B. in Bewerbungsgesprächen, ist es hilfreich, wenn du " \
+                                   "deine eigenen Interessen klar kommunizieren kannst. Auch bei der Wahl deines " \
+                                   "Abschlussarbeitsthemas, eines Nebenfachs, einer Vertiefungsrichtung oder auch " \
+                                   "bei der Suche nach geeigneten Praktika und Auslandsaufenthalten, kann es dir " \
+                                   "helfen, deinen fachlichen Interessen bewusst zu sein. "
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id('help_info_text'),
@@ -273,19 +275,19 @@ class RM_professions(RM_BASE):
         )
 
         # training activity to formulate professional interests
-        rm_professions_train_text = "Wenn Du Probleme hast, Deine fachlichen Interessen zu formulieren," \
-                                    " hilft Dir eine kleine Übung. Hier kannst du dir folgende Fragen beantworten:<br>" \
+        rm_professions_train_text = "Wenn du Probleme hast, deine fachlichen Interessen zu formulieren," \
+                                    " hilft dir eine kleine Übung. Hier kannst du dir folgende Fragen beantworten:<br>" \
                                     "<ul>" \
-                                    " <li>Wenn Du an die letzten Klausuren denkst," \
-                                    " bei welchen Themen fiel Dir das Lernen besonders leicht?</li>" \
-                                    " <li>Wenn Du an Deine letzten Veranstaltungen denkst," \
+                                    " <li>Wenn du an die letzten Klausuren denkst," \
+                                    " bei welchen Themen fiel dir das Lernen besonders leicht?</li>" \
+                                    " <li>Wenn du an deine letzten Veranstaltungen denkst," \
                                     " welche Themen haben Dich besonders interessiert?</li>" \
-                                    " <li>Welches Buch hast Du Dir ausgeliehen ohne dass" \
+                                    " <li>Welches Buch hast du Dir ausgeliehen ohne dass" \
                                     " es auf einer Leseliste stand?</li>" \
-                                    " <li>Was hast Du Deinen" \
+                                    " <li>Was hast du deinen" \
                                     " Freunden von Deinem Studium inhaltlich erzählt?</li>"  \
-                                    " <li>Über welches Thema hast Du noch nachgedacht," \
-                                    " obwohl Du schon längst etwas anderes gemacht hast?</li>" \
+                                    " <li>Über welches Thema hast du noch nachgedacht," \
+                                    " obwohl du schon längst etwas anderes gemacht hast?</li>" \
                                     "</ul>"
 
         train_text_question = models.Question.objects.get_or_create(
@@ -315,8 +317,13 @@ class RM_professions(RM_BASE):
             }
         )
 
-
     def build_resource_description(self, resource, type):
+        """
+        Creates resource description depending on resource type
+        :param resource: WebResource object
+        :param type: type of resource
+        :return: activity description, image
+        """
         if type == 'mooc':
             images = [re.split('image_', key)[1] for key in resource.creator[0].keys() if key.startswith('image_')]
             if len(images) == 0:
@@ -391,6 +398,12 @@ class RM_professions(RM_BASE):
         :param user: SiddataUser object
         :return: True if successful
         """
+        try:
+            self.backbone
+        except AttributeError:
+            logging.error('RM_professions was initialized without a running SidBERT model from apps.BertAppConfig. '
+                          'This occurs when model files are not present in their corresponding directory. '
+                          'Please deactivate RM_professions or download model files.')
 
         ### Initalization for a searching for educational resources
         ur, _ = models.SiddataUserRecommender.objects.get_or_create(
@@ -435,16 +448,19 @@ class RM_professions(RM_BASE):
 
     def process_activity(self, activity):
         """
-        :param activity:  activity
+        Umbrella function that is called every time the recommender is queried via API.
+        based on the type of incoming activity object, the function calls seperate sub-functions that handel
+        different functionalities.
+        :param activity: Activity object
         :return: True if successful
         """
         standard_answer = 'Hier kann eine Antwort eingetragen werden (Zum Beispiel: Chemie)'
-        if activity.has_template(self.get_template_id("new_input_text")):
+        if activity.has_template(self.get_template_id("new_input_text")): # executes when new prof. interest is entered
             if activity.answers[0] == standard_answer or activity.answers[0] == '' or activity.answers[0].isspace():
                 # if no interest is entered or the standard query is entered, no resources are generated
                 return True
             else:
-                activity.goal.set_property(key='input_text',value=activity.answers[0])
+                activity.goal.set_property(key='input_text',value=activity.answers[0]) # store interest in goal property
             if activity.goal.get_property(key='filters') is not None:
                 self.handle_type_filter(activity, re_filter=False, call_from_input_text=True)
             activity.answers = [standard_answer]
@@ -454,17 +470,19 @@ class RM_professions(RM_BASE):
             # activity to generate new recommendations, slaves input_text activities. Always stays active.
             get_input_text = activity.goal.get_property(key='input_text')
             if get_input_text is not None:
-                # If input text was None either the User tried to delete the interest activity or the front end did not send an input_text yet.
+                # If input text was None either the User tried to delete the interest activity
+                # or the plugin did not send an input_text yet and will do so with the next
+                # activity sent to the recommender.
                 if get_input_text == standard_answer or get_input_text == '':
                     # This case occurs if the user tries to delete an empty activity
                     return True
                 else:
                     self.handle_type_filter(activity)
-                    activity.goal.set_property(key='input_text', value=None)
+                    activity.goal.set_property(key='input_text', value=None) # reset value to receive new request
             elif activity.answers == []:
                 return True
             else:
-                activity.goal.set_property(key='filters',value=activity.answers)
+                activity.goal.set_property(key='filters',value=activity.answers) # store filter setting for next query
             activity.save()
         elif activity.has_template(self.get_template_id('my_topic_filter')):
             # activity to change filters for interests already submitted.
@@ -489,7 +507,7 @@ class RM_professions(RM_BASE):
             activity.answers = []
             activity.save()
 
-    ### filter and new interests preprocessing
+    ### Filter and new interests preprocessing
 
     def handle_type_filter(self, activity, re_filter=False, call_from_input_text = False):
         if re_filter:
@@ -545,7 +563,6 @@ class RM_professions(RM_BASE):
             self.generate_e_mail_request(my_topic_activity)
         self.generate_new_recommendations(activity=my_topic_activity, filtered_tags=self.get_filter_tags(
             frontend_feedback=activity.answers))
-        #self.generate_e_mail_request(my_topic_activity)
         activity.goal.set_property(key='filters', value=None)
         activity.goal.set_property(key='input_text', value=None)
         return new_goal
@@ -691,6 +708,10 @@ class RM_professions(RM_BASE):
 
 
     def generate_empty_feedback(self, activity):
+        """
+        This function generates a notification activity informing the user about resources in the requested knowledge
+        domain not being available at the moment.
+        """
         models.Activity.create_activity_from_template(
             template_id=self.get_template_id("no_recommendations"),
             title='Momentan sind keine Empfehlungen verfügbar für ' + activity.answers[0],
@@ -704,6 +725,9 @@ class RM_professions(RM_BASE):
 
     ### Cron functions
     def check_for_new(self, activity):
+        """
+        This activity checks if there are new resources that match to requests that previously yielded no results.
+        """
         successfully_generated = False
         if self.generate_new_recommendations(activity=activity):
             successfully_generated = True
@@ -711,14 +735,15 @@ class RM_professions(RM_BASE):
             # Sends mail if users provided their address for this interest.
             if models.Activity.objects.filter(goal=goal, title__startswith='E-mail gespeichert!')\
                     .exclude(status='done').exists():
+                # if the user has left an e-mail address, they are notified about new resources being available
                 requested_interest = activity.answers[0]
 
-                mail_text = 'SIDDATA hat neue Bildungsressourcen für dein Interesse '+str(requested_interest)+\
+                mail_text = 'Siddata hat neue Bildungsressourcen für dein Interesse '+str(requested_interest)+\
                             " gefunden!\n" \
-                            " Besuche das Recommender Modul 'Fachliche Interessen' im Stud.IP SIDDATA" \
+                            " Besuche das Recommender Modul 'Fachliche Interessen' im Stud.IP Siddata" \
                             " Studierendenassistenten um diese Ressourcen anzusehen.\n" \
                             " Herzliche Grüße" \
-                            " \n dein SIDDATA Studienassistent"
+                            " \n dein Siddata Studienassistent"
 
                 mail_activity = models.Activity.objects.filter(goal=goal, title__startswith='E-mail gespeichert!')\
                     .exclude(status='done')
