@@ -4,6 +4,7 @@ from typing import Any
 import pandas as pd
 import plotly.express as px
 from plotly.io import to_html
+from django_pandas.io import read_frame
 
 from django.db.models import Count
 from dashboard import plotly_plots
@@ -32,7 +33,9 @@ def create():
     # only import on-demand, because we cannot import before the setup happened either by manage.py or our dirty way in main()
     import backend.models as models
     return (
+            data_donation_pichart(models),
             recommenderusage_hbars(models),
+            gender_pichart(models),
             standort_piechart(models),
             activity_averageresponse_per_recommender(models),
             degree_course_sunburst(models),
@@ -69,17 +72,52 @@ def standort_piechart(models):
         places = [i for i in models.SiddataUser.objects.filter(data_donation=True).values('origin__name').annotate(total=Count('origin'))]
     else:
         places = [i for i in models.SiddataUser.objects.values('origin__name').annotate(total=Count('origin'))]
-    places = {uni_name(i['origin__name']): i['total'] for i in places if uni_name(i['origin__name']) != False} #remove localhost-users from statistic
+    value_map = {uni_name(i['origin__name']): i['total'] for i in places if uni_name(i['origin__name']) != False} #remove localhost-users from statistic
+    color_map = {'Hannover': 'rgb(0, 50, 109)', 'Bremen': 'rgb(0,81,158)', 'Osnabrück': 'rgb(159,5,48)'}
 
-    index_sort = lambda yourlist, indices: [i[1] for i in sorted(enumerate(yourlist), key=lambda x: indices[x[0]], reverse=True)]
-    colors = ['rgb(0, 50, 109)', 'rgb(0,81,158', 'rgb(159,5,48)'] #alphabetically by uni-name
-    #TODO plotly is native for pandas-dataframes, is there a nice native way for django-db-objects?
-    uni_names = list(places.keys())
-    sorted_indices = sorted(range(len(uni_names)), key=lambda k: uni_names[k]) #we need to sort keys & values
-    html = plotly_plots.pichart_plot(index_sort(uni_names, sorted_indices), index_sort(places.values(), sorted_indices), colors)
+    # sort by name
+    locations = sorted(list(value_map.keys()))
+    colors = [color_map[loc] for loc in locations]
+    values = [value_map[loc] for loc in locations]
 
-    places = pd.DataFrame.from_dict(places, orient='index', columns=['n'])
+    html = plotly_plots.pichart_plot(locations, values, colors)
+
+    places = pd.DataFrame.from_dict(value_map, orient='index', columns=['n'])
     return Chart(html, places, 'Benutzer pro Standort', 500, 500)
+
+
+def data_donation_pichart(models):
+    data_donation = read_frame(models.SiddataUser.objects.all(), fieldnames=['data_donation'])
+    data_donation['data_donation'] = data_donation['data_donation'].apply(lambda x: 'Ja' if x else 'Nein')
+    data_donation = pd.DataFrame({'n': data_donation['data_donation'].value_counts()})
+    answers = list(data_donation.index)
+    html = plotly_plots.pichart_plot(
+        answers,
+        [v[0] for v in data_donation.values],
+        [(lambda x: 'rgba(0, 255, 0, 0.5)' if x == 'Ja' else 'rgba(255, 0, 0, 0.5)')(x) for x in answers]
+    )
+    return Chart(html, data_donation, 'Datenfreigabe der Nutzenden', 500, 500)
+
+
+def gender_pichart(models):
+    genders = read_frame(models.SiddataUser.objects.filter(data_donation=True), fieldnames=['gender_brain'])
+    genders['gender_brain'] = genders['gender_brain'].astype(str)
+    genders['gender_brain'] = genders['gender_brain'].replace({
+        'True': 'unbekannt', 'False': 'nicht angegeben', 'None': 'nicht angegeben'
+    })
+    genders = pd.DataFrame({'n': genders['gender_brain'].value_counts()})
+    html = plotly_plots.pichart_plot(
+        list(genders.index),
+        [n[0] for n in genders.values],
+        [
+            'rgba(255, 0, 0, .5)',
+            'rgba(0, 255, 0, .5)',
+            'rgba(0, 0, 255, .5)',
+            'rgba(0, 255, 255, .5)',
+            'rgba(255, 255, 0, .5)'
+        ]
+    )
+    return Chart(html, genders, 'Gender der Nutzenden', 500, 500)
 
 
 def recommenderusage_hbars(models):

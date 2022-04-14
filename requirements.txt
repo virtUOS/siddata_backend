@@ -27,6 +27,7 @@ matplotlib
 pydot
 sickle
 vobject
+django-pandas
 
 #documentation
 #sphinx
