@@ -3,7 +3,7 @@ import re
 
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from apps.bert_app.recommender_backbone import ProfessionsRecommenderBackbone
+from bert_app.recommender_backbone import ProfessionsRecommenderBackbone
 
 COURSE_MAX = 15 # maximum number of resources to be generated as recommendations
 
@@ -30,7 +30,7 @@ class RM_professions(RM_BASE):
         self.DESCRIPTION = "Veranstaltungen und Angebote finden, die zu dir passen."
         # This text is displayed in Teaser Activities
         self.TEASER_TEXT = "Deinen Regelstudienplan kennst du. Darüber hinaus gibt es eine Menge an interessanten " \
-                           "Veranstaltungen und Angeboten, von denen du vielleicht noch gar nichts weißt. SIDDATA kann " \
+                           "Veranstaltungen und Angeboten, von denen du vielleicht noch gar nichts weißt. Siddata kann " \
                            "diese für dich finden, wenn du etwas über deine Interessen - auch über dein Studium hinaus" \
                            " - eingibst."
         # If set to False, the recommender will not appear in the GUI or the DB
@@ -76,7 +76,7 @@ class RM_professions(RM_BASE):
 
         # This Question will be modified during the chat process.
         input_text_question = models.Question.objects.get_or_create(
-            question_text='Gebe hier ein einzelnes deiner fachliches Interessen (z.B. "Chemie") ein',
+            question_text='Hier kannst du eines deiner fachlichen Interessen eingeben (z.B. „Chemie“)',
             answer_type="text",
         )[0]
 
@@ -144,7 +144,7 @@ class RM_professions(RM_BASE):
         e_mail_request_text = 'Möchtest du E-mail Benachrichtigungen erhalten,' \
                               ' wenn ich neue Resourcen zu deinem Interesse gefunden habe? <br> ' \
                               'WARNUNG: Wenn du deine E-mail Adresse angibst,' \
-                              ' bist du für SIDDATA nicht mehr annonym!<br>' \
+                              ' bist du für Siddata nicht mehr annonym!<br>' \
                               'Du kannst deine E-mail Adresse jederzeit wieder löschen.'
         e_mail_request_question = models.Question.objects.get_or_create(
             question_text=e_mail_request_text,
@@ -217,7 +217,7 @@ class RM_professions(RM_BASE):
             defaults={
                 "description": 'Zur Zeit gibt es leider keine Bildungsressourcen,'
                                ' die deinem Interesse entsprechen.'
-                               ' SIDDATA wird dich an einem späteren Zeitpunkt noch einmal informieren,'
+                               ' Siddata wird dich an einem späteren Zeitpunkt noch einmal informieren,'
                                ' sobald neue Ressourcen für dich gefunden wurden.',
                 "type": 'todo',
                 "status": 'template',
@@ -249,17 +249,18 @@ class RM_professions(RM_BASE):
         # Information on why professional interests are usefull to know
         rm_professions_info_text = "<strong>Was ist der Unterschied zwischen meinem Studienfach und meinen" \
                                    " fachlichen Interessen? </strong> <br>" \
-                                   "Deine fachlichen Interessen sollten im Idealfall der Grund sein, warum Du das Fach," \
-                                   " was Du studierst, gewählt hast. Persönliche fachliche Interessen machen in der" \
-                                   " Regel aber nur ein Teilgebiet Deines Studienfaches aus und gehen im Idealfall" \
-                                   " darüber hinaus. SIDDATA hilft Dir, Veranstaltungen zu finden, die stärker" \
-                                   " Deinen persönlichen fachlichen Interessen entsprechen. <br> <br>" \
-                                   " <strong> Warum ist es wichtig, sich über seine fachlichen Interessen im Klaren zu sein? </strong>" \
-                                   "In vielen Kontexten - z.B. in Bewerbungsgesprächen, auf Parties, beim Kennenlernen" \
-                                   " - ist es hilfreich wenn Du Deine eigenen Interessen klar und knapp" \
-                                   " kommunizieren kannst. Zudem hilft es Dir das Thema deiner Abschlussarbeit," \
-                                   " ein Nebenfach oder eine Vertiefungsrichtung zu wählen. Auch für die Wahl" \
-                                   " von geeigneten Praktika oder Auslandsaufenthalten kann es hilfreich sein."
+                                   "Deine fachlichen Interessen sollten im Idealfall der Grund sein, warum du das Fach," \
+                                   " was du studierst, gewählt hast. Persönliche fachliche Interessen machen in der" \
+                                   " Regel aber nur ein Teilgebiet deines Studienfaches aus und gehen im Idealfall" \
+                                   " darüber hinaus. Siddata hilft dir Veranstaltungen zu finden, die stärker" \
+                                   "deinen persönlichen fachlichen Interessen entsprechen. <br> <br>" \
+                                   " <strong> Warum ist es wichtig, sich über seine fachlichen Interessen im Klaren " \
+                                   "zu sein? </strong>" \
+                                   "In vielen Kontexten, z.B. in Bewerbungsgesprächen, ist es hilfreich, wenn du " \
+                                   "deine eigenen Interessen klar kommunizieren kannst. Auch bei der Wahl deines " \
+                                   "Abschlussarbeitsthemas, eines Nebenfachs, einer Vertiefungsrichtung oder auch " \
+                                   "bei der Suche nach geeigneten Praktika und Auslandsaufenthalten, kann es dir " \
+                                   "helfen, deinen fachlichen Interessen bewusst zu sein. "
 
         models.ActivityTemplate.objects.update_or_create(
             template_id=self.get_template_id('help_info_text'),
@@ -274,19 +275,19 @@ class RM_professions(RM_BASE):
         )
 
         # training activity to formulate professional interests
-        rm_professions_train_text = "Wenn Du Probleme hast, Deine fachlichen Interessen zu formulieren," \
-                                    " hilft Dir eine kleine Übung. Hier kannst du dir folgende Fragen beantworten:<br>" \
+        rm_professions_train_text = "Wenn du Probleme hast, deine fachlichen Interessen zu formulieren," \
+                                    " hilft dir eine kleine Übung. Hier kannst du dir folgende Fragen beantworten:<br>" \
                                     "<ul>" \
-                                    " <li>Wenn Du an die letzten Klausuren denkst," \
-                                    " bei welchen Themen fiel Dir das Lernen besonders leicht?</li>" \
-                                    " <li>Wenn Du an Deine letzten Veranstaltungen denkst," \
+                                    " <li>Wenn du an die letzten Klausuren denkst," \
+                                    " bei welchen Themen fiel dir das Lernen besonders leicht?</li>" \
+                                    " <li>Wenn du an deine letzten Veranstaltungen denkst," \
                                     " welche Themen haben Dich besonders interessiert?</li>" \
-                                    " <li>Welches Buch hast Du Dir ausgeliehen ohne dass" \
+                                    " <li>Welches Buch hast du Dir ausgeliehen ohne dass" \
                                     " es auf einer Leseliste stand?</li>" \
-                                    " <li>Was hast Du Deinen" \
+                                    " <li>Was hast du deinen" \
                                     " Freunden von Deinem Studium inhaltlich erzählt?</li>"  \
-                                    " <li>Über welches Thema hast Du noch nachgedacht," \
-                                    " obwohl Du schon längst etwas anderes gemacht hast?</li>" \
+                                    " <li>Über welches Thema hast du noch nachgedacht," \
+                                    " obwohl du schon längst etwas anderes gemacht hast?</li>" \
                                     "</ul>"
 
         train_text_question = models.Question.objects.get_or_create(
@@ -316,10 +317,12 @@ class RM_professions(RM_BASE):
             }
         )
 
-
     def build_resource_description(self, resource, type):
         """
         Creates resource description depending on resource type
+        :param resource: WebResource object
+        :param type: type of resource
+        :return: activity description, image
         """
         if type == 'mooc':
             images = [re.split('image_', key)[1] for key in resource.creator[0].keys() if key.startswith('image_')]
@@ -448,6 +451,8 @@ class RM_professions(RM_BASE):
         Umbrella function that is called every time the recommender is queried via API.
         based on the type of incoming activity object, the function calls seperate sub-functions that handel
         different functionalities.
+        :param activity: Activity object
+        :return: True if successful
         """
         standard_answer = 'Hier kann eine Antwort eingetragen werden (Zum Beispiel: Chemie)'
         if activity.has_template(self.get_template_id("new_input_text")): # executes when new prof. interest is entered
@@ -733,12 +738,12 @@ class RM_professions(RM_BASE):
                 # if the user has left an e-mail address, they are notified about new resources being available
                 requested_interest = activity.answers[0]
 
-                mail_text = 'SIDDATA hat neue Bildungsressourcen für dein Interesse '+str(requested_interest)+\
+                mail_text = 'Siddata hat neue Bildungsressourcen für dein Interesse '+str(requested_interest)+\
                             " gefunden!\n" \
-                            " Besuche das Recommender Modul 'Fachliche Interessen' im Stud.IP SIDDATA" \
+                            " Besuche das Recommender Modul 'Fachliche Interessen' im Stud.IP Siddata" \
                             " Studierendenassistenten um diese Ressourcen anzusehen.\n" \
                             " Herzliche Grüße" \
-                            " \n dein SIDDATA Studienassistent"
+                            " \n dein Siddata Studienassistent"
 
                 mail_activity = models.Activity.objects.filter(goal=goal, title__startswith='E-mail gespeichert!')\
                     .exclude(status='done')

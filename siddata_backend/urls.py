@@ -23,6 +23,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='backend/home')),  # entry is backend/home
     path('admin/', admin.site.urls),
     path('backend/', include("backend.urls")),
+    #path(r'^docs/', include('sphinxdoc.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -20,7 +20,7 @@ from django.http import HttpResponse
 import logging
 import recommenders.RM_abroad as RM_abroad
 
-FORM_TITLE = "Meine Visitenkarte"
+FORM_TITLE = "Deine Visitenkarte"
 ALL_CONTACTS_TITLE = "Öffentliche Visitenkarten"
 MY_CONTACTS_TITLE = "Persönliche Kontaktvorschläge des Matching Algorithmus"
 FORM_SUBMIT_BUTTON_TEXT = "Profil und Kontaktvorschläge aktualisieren"
@@ -31,9 +31,8 @@ ABROAD_OPTIONS = ["Ich möchte Kontaktvorschläge zu anderen Studis, die sich in
 VISIBILITY_TEXT = "Ich möchte, dass meine Visitenkarte auch für Studis ohne konkrete Übereinstimmungen sichtbar ist."
 NOTIFICATION_TEXT = "Ich möchte per E-Mail benachrichtigt werden Siddata neue Kontaktvorschläge für mich gefunden hat."
 FEEDBACK_TEXT = "Kontaktvorschläge wurden aktualisiert."
-SUBMIT_TEXT = "Ein Klick auf den Button löst eine Aktualisierung anhand der aktuellen Daten aus. Dies " \
-                          "aktualisiert sowohl die Empfehlungen als auf das Formular selbst, beispielweise wenn du neue " \
-                          "Funktionen genutzt oder neue Eingaben vorgenommen hast."
+SUBMIT_TEXT = "Ein Klick auf den Button aktualisiert deine persönlichen Angaben und es werden neue Kontaktvorschläge " \
+              "generiert."
 
 
 SEMESTER_START = datetime.datetime(year=2021, month=10, day=1)
@@ -42,7 +41,7 @@ SEMESTER_END = datetime.datetime(year=2022, month=3, day=31)
 
 class RM_gettogether(RM_BASE):
     """
-        RM for social recommendations, such as communities, matches, etc.
+    RM for social recommendations, such as communities, matches, etc.
     """
 
     def __init__(self):
@@ -473,7 +472,6 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in initialize()")
 
-
     def process_activity(self, activity):
         """
         This function processes the incoming activities which were processed by the user.
@@ -529,7 +527,6 @@ class RM_gettogether(RM_BASE):
 
         except Exception:
             logging.exception("Error in is_email()")
-
 
     def update_profile_form(self, goal):
         """
@@ -812,13 +809,11 @@ class RM_gettogether(RM_BASE):
 
             name = data["name"]
 
-            url = goal.userrecommender.user.origin.api_endpoint
-
-            title = "Neuer Kontaktvorschlag im SIDDATA Studienassistenten"
-            content = "Guten Tag {},<br>" \
-                      "der Siddata Studienassistent hat einen neuen Kontaktvorschlag mit Übereinstimmungen für dich gefunden!<br>" \
-                      "Besuche das Recommender Modul 'Get Together' im Stud.IP SIDDATA" \
-                      " Studierendenassistenten um diese Kontaktvorschläge anzusehen.{}".format(name, url)
+            title = "Neuer Kontaktvorschlag im Siddata Studienassistenten"
+            content = "Guten Tag. \n" \
+                      "Der Siddata Studienassistent hat einen neuen Kontaktvorschlag mit Übereinstimmungen für dich gefunden! \n" \
+                      "Besuche das Recommender Modul 'Get Together' im Stud.IP Siddata" \
+                      " Studierendenassistenten um deine Kontaktvorschläge anzusehen."
 
             self.send_push_email(address, title, content)
         except Exception:
@@ -932,7 +927,6 @@ class RM_gettogether(RM_BASE):
         )
         return [c.course for c in coursememberships]
 
-
     def update_contactcard(self, data, target_goal, public_only=True):
         """Displays user data in a goal.
         :param data : Data to be displayed in dictionary form
@@ -946,7 +940,6 @@ class RM_gettogether(RM_BASE):
             # no user consent for visibility
             if public_only and (data["visible"]==False):
                 return False
-
 
             user = models.SiddataUser.objects.get(id=data["user_id"])
             person, created = models.Person.objects.get_or_create(user=user,
@@ -980,7 +973,6 @@ class RM_gettogether(RM_BASE):
             order = person_activity.order
 
             order += 1
-
 
             location_activity, created = models.Activity.objects.get_or_create(
                 title=title,
@@ -1116,13 +1108,3 @@ class RM_gettogether(RM_BASE):
         except Exception:
             logging.exception("Error in create_public_contact_card()")
 
-    def get_users_courses(self, user):
-        """Retrieves all courses within the current semester, for which a user is enrolled."""
-        coursememberships = models.CourseMembership.filter(
-            user=user,
-            share_brain=True,
-            share_social=True,
-            course__starttime__gte=SEMESTER_START,
-            course__endtime__lte=SEMESTER_END,
-        )
-        return [c.course for c in coursememberships]

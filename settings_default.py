@@ -12,14 +12,32 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import logging
+import sys
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+sys.path.append(os.path.join(BASE_DIR, 'docs/source'))
+sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
+
+ROOT_URLCONF = 'backend.urls'
 
 # Server base URL
 BASE_URL = "http://localhost:8000"
+
+# Base url to serve media files
+MEDIA_URL = "media/"
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'siddata_backend/media')
+
+# Path to static image files
+IMAGE_FILE_DIR = "%s/backend/images" % BASE_DIR
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
+IMAGE_URL = "{}/static/images/".format(BASE_URL)
 
 # Django serves static files from each app's static directory
 # In STATICFILES_DIRS you can configure where to look for static files.
@@ -30,58 +48,42 @@ STATICFILES_DIRS = [
 # URL for static files (will be handled by apache in production)
 STATIC_URL = '/static/'
 
-# Base url to serve media files
-MEDIA_URL = 'media/'
-
-# Path where media is stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'siddata_backend/media')
-
-IMAGE_FILE_DIR = os.path.join(BASE_DIR, '/backend/images')
-IMAGE_URL = "{}/static/images/".format(BASE_URL)
-
-
-
 # Directory where apache will look for static files.
 # Use manage.py collectstatic to copy all static files to this folder.
-STATIC_ROOT = '/opt/siddata_backend/collected_apache_static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_apache_static/')
 
+# Data export
+DATA_EXPORT_DIR = os.path.join(BASE_DIR, 'data_export')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'enter_secret_key_here'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Admins receive notification emails in case of relevant events.
 ADMINS = [
-    #('Max', 'mmuster@example.de')
+    # ('Max', 'mmuster@example.de')
 ]
 
-EMAIL_HOST = 'your_smtp_server.eu'  # enter SMTP server here
-EMAIL_HOST_USER = '' # enter SMTP server's user here
-EMAIL_HOST_PASSWORD = '' # enter SMTP server's user's password here
+EMAIL_HOST = ''             # enter SMTP server here
+EMAIL_HOST_USER = ''        # enter SMTP server's user here
+EMAIL_HOST_PASSWORD = ''    # enter SMTP server's user's password here
 EMAIL_USE_TLS = True
-EMAIL_PORT = 4711
+EMAIL_PORT = 587
 
-
-ALLOWED_HOSTS = ["localhost",
-                 "127.0.0.1",
-                 "172.17.0.1",
-                 "172.18.0.1",
-                 "192.168.99.1",
-                 ]
+ALLOWED_HOSTS = []
 
 # List of URLs that are allowed to make cross-site HTTP requests
 # https://pypi.org/project/django-cors-headers/
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://172.17.0.1:8000"
-]
+CORS_ALLOWED_ORIGINS = []
+
+# SECURITY WARNING: don't run with debug turned on in production!
 
 # Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -94,9 +96,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'backend.apps.BackendConfig',
-    'bert_app.apps.BertAppConfig',
+    'apps.bert_app.apps.BertAppConfig',
+    'haystack',
     'django_apscheduler',
+    'sphinxdoc',
 ]
+
+MIGRATION_MODULES = {'bert_app':None}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -108,8 +114,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-ROOT_URLCONF = 'siddata_backend.urls'
 
 TEMPLATES = [
     {
@@ -129,16 +133,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'siddata_backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
     'default': {
         #postgressql
         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'siddata', # or custom database name
-         'USER': 'siddata', # or custom user name
-         'PASSWORD': 'enter password here',
+         'NAME': 'siddata',
+         'USER': 'siddata',
+         'PASSWORD': '',
          'HOST': 'localhost',
          #'PORT': '',
     }
@@ -164,16 +167,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # MOOC Repositories
 """
-To download MOOCs from Udemy, apply for an account at udemy.com and enter your credentials here.
+How to get the udemy client credentials: 
+    1. Go to udemy.com and log in.
+    2. Go to profile (hover over profile image in the upper right corner) > account settings > API-Client.
+    3. Copy the Client-ID to 'USER' and the Client-Password to 'PASSWORD'
 """
 MOOC_CLIENTS = {
     'UDEMY': {
         'BASE_URL': 'https://www.udemy.com/',
         'API_URL': 'https://www.udemy.com/api-2.0/',
         # enter udemy client id
-        'USER': 'your_username',
+        'USER': '',
         # enter udemy client password
-        'PASSWORD': 'your_password'
+        'PASSWORD': ''
     }
 }
 
@@ -183,7 +189,6 @@ OER_REPOS = {
         'BASE_URL': 'https://www.twillo.de'
     }
 }
-
 # auth urls
 LOGIN_URL = 'login'  # refers to name of route in backend/urls.py
 LOGOUT_URL = 'logout'
@@ -192,7 +197,6 @@ LOGOUT_REDIRECT_URL = 'home'
 
 # enable server to receive a larger amount of studip data
 DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -206,7 +210,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 LOGGING = {
     'version': 1,
@@ -270,42 +273,38 @@ if DEBUG:
     # make all loggers use the console.
     for logger in LOGGING['loggers']:
         LOGGING['loggers'][logger]['handlers'] = ['console']
+        LOGGING['loggers'][logger]['propagate'] = True
 
 # settings for ERM visualization by graph_models
 # see https://wadewilliams.com/technology-software/generating-erd-for-django-applications/
 # and https://django-extensions.readthedocs.io/en/latest/graph_models.html
 GRAPH_MODELS = {
-  'all_applications': True,
-  'group_models': True,
+    'all_applications': True,
+    'group_models': True,
 }
 
-
-
-
-#custom settings
-
-#TODO makedirs(relative(basename('/opt/siddata_backend/log/siddata_app.log')), exist_ok=True) for logs
-
-#seafile-model-downloader
+# seafile-model-downloader
 SIDDATA_SEAFILE_SERVER = 'https://myshare.uni-osnabrueck.de'
-SIDDATA_SEAFILE_REPOID = 'secret' #for modelupdown v2
-# SIDDATA_SEAFILE_REPOID = 'secret' #for modelupdown v1
-SIDDATA_SEAFILE_REPOWRITE_ACC = 'secret'
-SIDDATA_SEAFILE_REPOREAD_ACC = 'secret'
-#SIDDATA_SEAFILE_REPOWRITE_PASSWORD = '...'
-#SIDDATA_SEAFILE_REPOREAD_PASSWORD = '...'
-#see https://git.siddata.de/uos/siddata_backend/src/branch/f_model_downloader/doc/model_updownloader.md on how to get the passwords!
-#alternatively you can also use your own rz-login and password (but you may want to save them as environment-variables and only load these here using `os.getenv(varname)`!
+SIDDATA_SEAFILE_REPOID = '0b3948a7-9483-4e26-a7bb-a123496ddfcf' #for modelupdown v2
+# SIDDATA_SEAFILE_REPOID = 'b20a34c4-69cf-4e7c-a3f2-8f597095cea5' #for modelupdown v1
+SIDDATA_SEAFILE_REPOWRITE_ACC = ''
+SIDDATA_SEAFILE_REPOREAD_ACC = ''
+SIDDATA_SEAFILE_REPOREAD_PASSWORD = ''
+
+# see https://git.siddata.de/uos/siddata_backend/src/branch/f_model_downloader/doc/model_updownloader.md on how to
+# get the passwords!
+# alternatively you can also use your own rz-login and password (but you may want to save them as environment-variables
+# and only load these here using `os.getenv(varname)`!
 SIDDATA_SEAFILE_REPO_BASEPATH = "backend_synced_models"
 SIDDATA_SEAFILE_MODEL_VERSIONS = {"Sidbert": 1, "Other": 1}
 
 SERVERSTART_IGNORE_MODELUPDOWN_ERRORS = True
 
-DEFAULT_LOG_LEVEL = "INFO"
+DEFAULT_LOG_LEVEL = "DEBUG"
 assert DEFAULT_LOG_LEVEL in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 QUIET_SCHEDULER = True
 
-#https://medium.com/@mrgrantanderson/replacing-cron-and-running-background-tasks-in-django-using-apscheduler-and-django-apscheduler-d562646c062e
+# https://medium.com/@mrgrantanderson/replacing-cron-and-running-background-tasks-in-django-using-apscheduler-and-django-apscheduler-d562646c062e
 # This scheduler config will:
 # - Store jobs in the project database
 # - Execute jobs in threads inside the application process
@@ -318,3 +317,9 @@ SCHEDULER_CONFIG = {
     },
 }
 SCHEDULER_AUTOSTART = True
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
