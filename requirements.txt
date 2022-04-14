@@ -37,10 +37,8 @@ django-pandas
 
 #documentation
 sphinx
-sphinx_pdj_theme
-django-sphinxdoc
+m2r2
+django-sphinx-autodoc
 
-#documentation
-sphinx
-sphinx_pdj_theme
-django-sphinxdoc
+#search function
+#haystack

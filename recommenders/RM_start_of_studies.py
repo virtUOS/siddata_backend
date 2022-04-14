@@ -1081,7 +1081,6 @@ class RM_start_of_studies(RM_BASE):
 
         return True
 
-
     def process_activity(self, activity):
         """
         :param activity:  models.Activity instance modified by Stud.IP plugin
