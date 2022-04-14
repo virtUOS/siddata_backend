@@ -60,7 +60,7 @@ class RM_study_goals(RM_BASE):
     def initialize(self, user):
         """
         When a user logs in for the first time, initial activities are generated.
-        :param siddatauser_id: Id of the user who logged in for the first time.
+        :param user: SidataUser object
         :return: True if successful
         """
         goal = self.activate_recommender_for_user_and_create_first_goal(user)

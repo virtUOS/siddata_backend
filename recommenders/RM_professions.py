@@ -3,7 +3,7 @@ import re
 
 from backend import models
 from recommenders.RM_BASE import RM_BASE
-from apps.bert_app.recommender_backbone import ProfessionsRecommenderBackbone
+from bert_app.recommender_backbone import ProfessionsRecommenderBackbone
 
 COURSE_MAX = 15 # maximum number of resources to be generated as recommendations
 
@@ -317,10 +317,12 @@ class RM_professions(RM_BASE):
             }
         )
 
-
     def build_resource_description(self, resource, type):
         """
         Creates resource description depending on resource type
+        :param resource: WebResource object
+        :param type: type of resource
+        :return: activity description, image
         """
         if type == 'mooc':
             images = [re.split('image_', key)[1] for key in resource.creator[0].keys() if key.startswith('image_')]
@@ -449,6 +451,8 @@ class RM_professions(RM_BASE):
         Umbrella function that is called every time the recommender is queried via API.
         based on the type of incoming activity object, the function calls seperate sub-functions that handel
         different functionalities.
+        :param activity: Activity object
+        :return: True if successful
         """
         standard_answer = 'Hier kann eine Antwort eingetragen werden (Zum Beispiel: Chemie)'
         if activity.has_template(self.get_template_id("new_input_text")): # executes when new prof. interest is entered

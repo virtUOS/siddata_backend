@@ -10,7 +10,7 @@ from recommenders.RM_BASE import RM_BASE
 
 class RM_personality(RM_BASE):
     """
-        Generates different questionnaires.
+    Generates different questionnaires.
     """
 
     def __init__(self):
@@ -746,9 +746,6 @@ class RM_personality(RM_BASE):
             }
         )
 
-
-
-
     def initialize(self, user):
         """
         When a user logs in for the first time, initial activities are generated.
@@ -793,6 +790,11 @@ class RM_personality(RM_BASE):
         )
 
     def initialize_questionnaire(self, goal):
+        """
+        Initialize the questionnaire for the given goal.
+        :param goal: Goal object
+        :return : True
+        """
 
         n_item = 1
         for element in self.questions_personality:
@@ -808,6 +810,8 @@ class RM_personality(RM_BASE):
     def get_scale_value(self, items):
         """
         transfer the value of likert scale from words into numbers
+        :param items: number of items
+        :return: list of answer option strings
         """
         if items == 4:
             scale_value_dic_4 = {
@@ -841,6 +845,11 @@ class RM_personality(RM_BASE):
             return "no scale for {}".format(items)
 
     def get_likert_scale(self, items):
+        """
+        Returns a list of answer option strings for a likert scale.
+        :param items: number of items
+        :return: list of answer option strings
+        """
 
         if items == 4:
             likert_scale_answers_4 = [
@@ -1280,8 +1289,7 @@ class RM_personality(RM_BASE):
     def compare_test_results(self, goal):
         """
         Tests if both measurements have been completed and provides feedback on coherence.
-        :param goal:
-        :return:
+        :param goal: Goal object
         """
 
         questionnaire_goal = models.Goal.objects.get(

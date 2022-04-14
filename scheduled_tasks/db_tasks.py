@@ -47,6 +47,9 @@ def delete_old_job_executions(max_age=604_800):
 
 
 def add_jobs(scheduler):
+    """
+    Here new tasks can be added for scheduled execution.
+    """
     today = datetime.now().date()
     tomorrow = today + timedelta(days=1)
 
@@ -66,7 +69,7 @@ def add_jobs(scheduler):
     scheduler.add_job(task_create_rawdataexportcsv, next_run_time=datetime.now() + timedelta(minutes=1), id="create_rawdataexportcsv", replace_existing=True)
 
     scheduler.add_job(task_send_admin_report, 'cron', start_date=tomorrow, hour=0, id="send_admin_report", replace_existing=True)
-########################################################################################################################
+
 
 def task_dummy():
     """
@@ -155,6 +158,7 @@ def task_add_backend_resources():
 
         logger.debug("moving file to old dir")
         os.rename(file, str(data_dir / 'old' / Path(file).stem) + datetime.now().strftime("%d%m%Y%H%M%S") + ".csv")
+
 
 def task_classify_new_resources_bert():
     """

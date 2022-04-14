@@ -1,15 +1,17 @@
-# Configuration of Siddata Django Servers
+# Server Administration
 
-## Productive System
+## Configuration of Siddata Django Servers
+
+### Productive System
 brain.siddata.de / vm561.rz.uos.de
 
-## Test System
+### Test System
 pinky.siddata.de / vm635.rz.uos.de
 
 Operating System: Ubuntu 18.04 LTS
 Apache Web Server 2.4
 
-# Login via ssh
+## Login via ssh
 Im Terminal
 
     ssh username@pinky.siddata.de
@@ -20,11 +22,11 @@ Add user to sudoer group:
     sudo usermod -a -G vmusers Username
 
 
-## Install Anaconda & Django Code
+### Install Anaconda & Django Code
 Follow instructions at Seafile
 /siddata/Technik/siddata_entwicklungsumgebung/DOKU_backend_entwicklungsumgebung_einrichtung_(wip)_v1_ubuntu_linux_EN.md
 
-# Uncomplicated Firewall (UFW)
+## Uncomplicated Firewall (UFW)
 Install UFW
     
     sudo apt-get install ufw
@@ -51,16 +53,16 @@ Show ufw status
     sudo ufw status verbose
 
 
-## SSL Certificates
+### SSL Certificates
 To get SSL certificate from Rechenzentrum, follow tutorial at
 https://www.rz.uni-osnabrueck.de/Dienste/UNIOS-CA/index.htm 
 
-### Apache2 Webserver
+#### Apache2 Webserver
 Install apache packages
 
     sudo apt-get install apache2 libapache2-mod-wsgi-py3 
 
-### Configure mod-wsgi with Anaconda
+#### Configure mod-wsgi with Anaconda
 Follow tutorial at: https://medium.com/@gevezex/ubuntu-anaconda-env-django-apache-mod-wsgi-howto-in-10-steps-c9008e1d8bfe
 1. Activate conda environment
     
@@ -86,7 +88,7 @@ Copy the output of the command into the file /etc/apache2/mods-available/wsgi.lo
 6. Restart apache
     > sudo service apache2 restart
 
-### Configure path to Django project
+#### Configure path to Django project
 The file /etc/apache2/mods-available/wsgi.conf should look as follows:
     
     <IfModule mod_wsgi.c>
@@ -241,13 +243,13 @@ The file /etc/apache2/mods-available/wsgi.conf should look as follows:
   
 
 
-## Encryption with SSL
+### Encryption with SSL
 Path to private key, certificate and certificate chain
     SSLCertificateFile      /etc/ssl/certs/brain-certificate.pem
     SSLCertificateKeyFile   /etc/ssl/private/brain-certificate.key
     SSLCertificateChainFile /etc/ssl/certs/CA_UOS_chain.pem
 
-### Webserver Gateway Interface (WSGI)
+#### Webserver Gateway Interface (WSGI)
 The following file /etc/apache2/sites-available/brain.conf should look like this:
 
     <VirtualHost *:80>
@@ -272,13 +274,12 @@ The following file /etc/apache2/sites-available/brain.conf should look like this
     </VirtualHost>
 
 
-## Copy static files
+### Copy static files
 For the apache to find the static files of the django project call:
     > python manage.py collectstatic
 The directories are configured in settings.py
 
-## Useful logs 
+### Useful logs 
 systemctl -xe
 less /var/log/apache2/siddata_backend_error.log
 less /var/log/apache2/error.log
-
